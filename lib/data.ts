@@ -7,7 +7,7 @@ export type Zone = {
   id: string;
   name: string;
   floor: string;
-  kind: "session" | "meal" | "expo" | "lounge" | "hallway" | "quiet";
+  kind: "session" | "meal" | "expo" | "lounge" | "hallway" | "quiet" | "meeting" | "facility";
   rect: [number, number, number, number];
   roomIds: number[];
   parent?: string;
