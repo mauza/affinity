@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api, count, type Interest, type Profile } from "./client";
 import s from "./attendee.module.css";
+import p from "./planning.module.css";
 type Alert = {
   id: string;
   topic: string;
@@ -25,8 +26,10 @@ type Notification = {
 };
 export default function Tables({
   alertsOnly = false,
+  profileRevision = 0,
 }: {
   alertsOnly?: boolean;
+  profileRevision?: number;
 }) {
   const [tables, setTables] = useState<Table[]>([]),
     [alerts, setAlerts] = useState<Alert[]>([]),
@@ -37,6 +40,8 @@ export default function Tables({
     [topic, setTopic] = useState(""),
     [zone, setZone] = useState(""),
     [min, setMin] = useState(3),
+    [filter, setFilter] = useState(""),
+    [success, setSuccess] = useState(""),
     [small, setSmall] = useState(false),
     [live, setLive] = useState(false),
     [error, setError] = useState(""),
@@ -64,7 +69,7 @@ export default function Tables({
       })
       .catch((e) => setError(e.message));
     refresh().catch((e) => setError(e.message));
-  }, []);
+  }, [profileRevision]);
   useEffect(() => {
     if (alertsOnly) return;
     let active = true;
@@ -88,83 +93,26 @@ export default function Tables({
   }, [live, alertsOnly]);
   const label = (id: string) => interests.find((i) => i.id === id)?.label || id;
   const place = (id: string) => zones.find((z) => z.id === id)?.name || id;
-  async function action(fn: () => Promise<unknown>) {
+  async function action(fn: () => Promise<unknown>, message: string) {
     setBusy(true);
     setError("");
+    setSuccess("");
     try {
       await fn();
       await refresh();
+      setSuccess(message);
     } catch (e) {
       setError((e as Error).message);
     } finally {
       setBusy(false);
     }
   }
-  return (
-    <>
-      {!alertsOnly && (
-        <>
-          <div className={s.eyebrow}>A SHARED INTEREST. AN OPEN SEAT.</div>
-          <h1>Pull up a chair.</h1>
-          <p className={s.lead}>
-            Pop-up tables are open to everyone. No invitation needed.
-          </p>
-          <label className={s.check}>
-            <input
-              type="checkbox"
-              checked={small}
-              onChange={(e) => setSmall(e.target.checked)}
-            />{" "}
-            Find a smaller gathering
-          </label>
-          <label className={s.check}>
-            <input
-              type="checkbox"
-              checked={live}
-              onChange={(e) => setLive(e.target.checked)}
-            />{" "}
-            Live attendees only
-          </label>
-          <p className={s.muted}>
-            {live
-              ? "Live attendees only"
-              : "Includes simulated attendees · demo data"}{" "}
-            · Refreshes every 30 seconds
-          </p>
-          {!loaded && <p role="status">Loading tables…</p>}
-          {loaded && !tables.length && (
-            <section className={s.card}>
-              <h2>No tables just yet</h2>
-              <p>
-                Check in on the map and open a topic, or set an alert below.
-              </p>
-              <Link href="/map">Explore the map →</Link>
-            </section>
-          )}
-          {[...tables]
-            .sort((a, b) => (small ? a.count - b.count : 0))
-            .map((t) => (
-              <article className={s.card} key={t.id}>
-                <h2>{label(t.topic)}</h2>
-                <p>
-                  {count(t.count)} people · {place(t.zone)}
-                </p>
-                {t.newcomer_count > 0 && (
-                  <span className={s.badge}>Newcomers welcome</span>
-                )}
-                {t.source === "sim" && (
-                  <span className={s.badge}>Simulated</span>
-                )}
-                <p>{t.hint || "Look for others open to connect."}</p>
-                <Link href={"/map?zone=" + encodeURIComponent(t.zone)}>
-                  Find this zone →
-                </Link>
-              </article>
-            ))}
-        </>
-      )}
-      <section className={s.card}>
-        <h2>My gathering alerts</h2>
+  const visibleTables = tables
+    .filter((t) => !filter || t.topic === filter)
+    .sort((a, b) => Number(own.includes(b.topic)) - Number(own.includes(a.topic)) || (small ? a.count - b.count : 0));
+  const alertPanel = (
+    <details className={`${s.card} ${p.alertEntry}`} open={alertsOnly || undefined}>
+        <summary>Gathering alerts · {alerts.length} saved <span className={p.summaryHint}>Create or manage an alert</span></summary>
         <p className={s.muted}>
           We’ll notify you here when people open to your topic gather.
         </p>
@@ -179,6 +127,7 @@ export default function Tables({
               onClick={() =>
                 action(() =>
                   api("/api/alerts?id=" + encodeURIComponent(a.id), "DELETE"),
+                  "Alert deleted.",
                 )
               }
             >
@@ -196,6 +145,7 @@ export default function Tables({
                 zone: zone || null,
                 minCount: min,
               }),
+              "Alert created. Notifications will appear here when it matches.",
             );
           }}
         >
@@ -244,16 +194,93 @@ export default function Tables({
             </select>
           </label>
           <button className={s.primary} disabled={busy || !topic}>
-            Create alert
+            {busy ? "Saving…" : "Create alert"}
           </button>
         </form>
-      </section>
+      </details>
+  );
+  return (
+    <>
+      {alertsOnly && alertPanel}
+      <div aria-live="polite">{busy ? <p role="status">Saving changes…</p> : success && <p className={p.success} role="status">{success}</p>}</div>
+      {error && <p role="alert" className={s.error}>{error}</p>}
+      {!alertsOnly && (
+        <>
+          <div className={s.eyebrow}>A SHARED INTEREST. AN OPEN SEAT.</div>
+          <h1>Pull up a chair.</h1>
+          <p className={s.lead}>
+            Shared areas for people open to connect. Everyone is welcome; tables are not reserved or claimed.
+          </p>
+          <details className={p.tableFilters}><summary>Filter gatherings · {filter ? label(filter) : "All topics"}{live ? " · live only" : ""}</summary>
+          <label className={s.field}>
+            Filter by topic
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="">All topics</option>
+              {interests.map((i) => <option key={i.id} value={i.id}>{i.label}</option>)}
+            </select>
+          </label>
+          <label className={s.check}>
+            <input
+              type="checkbox"
+              checked={small}
+              onChange={(e) => setSmall(e.target.checked)}
+            />{" "}
+            Find a smaller gathering
+          </label>
+          <label className={s.check}>
+            <input
+              type="checkbox"
+              checked={live}
+              onChange={(e) => setLive(e.target.checked)}
+            />{" "}
+            Live attendees only
+          </label>
+          </details>
+          <p className={s.muted}>
+            {live
+              ? "Live attendees only"
+              : "Includes simulated attendees · demo data"}{" "}
+            · Refreshes every 30 seconds
+          </p>
+          {loaded && <p role="status" className={s.muted}>{visibleTables.length} {visibleTables.length === 1 ? "gathering" : "gatherings"}{filter ? ` for ${label(filter)}` : ""} · Your interests appear first</p>}
+          {!loaded && <p role="status">Loading tables…</p>}
+          {loaded && !visibleTables.length && (
+            <section className={s.card}>
+              <h2>{filter ? "No gatherings for this topic yet" : "No tables just yet"}</h2>
+              <p>
+                Check in on the map and open a topic, or create a gathering alert below.
+              </p>
+              <Link href="/map">Explore the map →</Link>
+            </section>
+          )}
+          {visibleTables.map((t) => (
+              <article className={s.card} key={t.id}>
+                <h2>{label(t.topic)}</h2>
+                {own.includes(t.topic) && <span className={p.match}>Matches you</span>}
+                <p>
+                  {count(t.count)} people · {place(t.zone)}
+                </p>
+                {t.newcomer_count > 0 && (
+                  <span className={s.badge}>Newcomers welcome</span>
+                )}
+                {t.source === "sim" && (
+                  <span className={s.badge}>Simulated</span>
+                )}
+                <p>{t.hint || "Look for others open to connect."}</p>
+                <Link href={"/map?zone=" + encodeURIComponent(t.zone)}>
+                  Find this zone →
+                </Link>
+              </article>
+            ))}
+          {alertPanel}
+        </>
+      )}
       {!alertsOnly && (
         <section id="notifications" className={s.card}>
           <h2>Notifications</h2>
           <button
             disabled={busy || !notifications.some((n) => !n.read)}
-            onClick={() => action(() => api("/api/notifications", "POST"))}
+            onClick={() => action(() => api("/api/notifications", "POST"), "Notifications marked as read.")}
           >
             Mark all read
           </button>
@@ -279,9 +306,6 @@ export default function Tables({
           ))}
         </section>
       )}
-      <p role="alert" className={s.error}>
-        {error}
-      </p>
     </>
   );
 }

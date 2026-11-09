@@ -1,81 +1,106 @@
 {
- "source": "Traced schematic of the official KubeCon NA 2026 venue map (https://events.linuxfoundation.org/kcna26-venue-map). Not to scale.",
+ "source": "Official KubeCon + CloudNativeCon NA 2026 venue artwork, \u00a9 The Linux Foundation (https://events.linuxfoundation.org/kcna26-venue-map). Activity touchpoints calibrated to the PDF; shared areas are approximate.",
  "floors": [
   {
    "id": "sp1",
    "name": "Salt Palace L1",
    "venue": "Salt Palace",
    "viewBox": [
-    0,
-    0,
-    760,
-    640
-   ]
+    420,
+    165,
+    750,
+    690
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "440,430 790,430 790,165 1090,165 1090,620 950,620 950,815 440,815"
+   }
   },
   {
    "id": "sp2",
    "name": "Salt Palace L2",
    "venue": "Salt Palace",
    "viewBox": [
-    0,
-    0,
-    760,
-    520
-   ]
+    1025,
+    385,
+    370,
+    415
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "1025,650 1180,650 1180,385 1395,385 1395,650 1250,650 1250,800 1025,800"
+   }
   },
   {
    "id": "hy2",
    "name": "Hyatt L2",
    "venue": "Hyatt Regency",
    "viewBox": [
-    0,
-    0,
-    400,
-    260
-   ]
+    70,
+    705,
+    240,
+    183
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "140,709 305,709 305,868 230,868 205,886 170,886 160,868 95,868 72,850 72,831 95,820 114,820 114,741 140,741"
+   }
   },
   {
    "id": "hy4",
    "name": "Hyatt L4",
    "venue": "Hyatt Regency",
    "viewBox": [
-    0,
-    0,
+    75,
     400,
-    260
-   ]
+    235,
+    164
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "143,401 308,401 308,557 105,557 77,546 77,518 96,511 117,511 117,433 143,433"
+   }
   }
  ],
  "zones": [
   {
    "id": "cosmic-canyon",
-   "name": "Cosmic Canyon · Project Pavilion",
+   "name": "Cosmic Canyon \u00b7 Project Pavilion",
    "floor": "sp1",
    "kind": "expo",
    "rect": [
-    450,
-    20,
+    878,
+    185,
     190,
-    140
+    158
    ],
    "roomIds": [
     90363,
     90682
    ],
-   "note": "Halls 1–5"
+   "note": "Halls 1\u20135"
   },
   {
    "id": "halls-15",
-   "name": "Halls 1–5 · Solutions Showcase",
+   "name": "Halls 1\u20135 \u00b7 Solutions Showcase",
    "floor": "sp1",
    "kind": "expo",
    "rect": [
-    450,
-    160,
+    878,
+    343,
     190,
-    70
+    64
    ],
-   "roomIds": []
+   "roomIds": [],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "honeycomb-hub",
@@ -83,23 +108,23 @@
    "floor": "sp1",
    "kind": "lounge",
    "rect": [
-    490,
-    230,
-    150,
-    80
+    923,
+    408,
+    87,
+    90
    ],
    "roomIds": []
   },
   {
    "id": "alpine-overlook",
-   "name": "Alpine Overlook · Demo Theater",
+   "name": "Alpine Overlook \u00b7 Demo Theater",
    "floor": "sp1",
    "kind": "expo",
    "rect": [
-    490,
-    310,
-    150,
-    90
+    923,
+    499,
+    145,
+    86
    ],
    "roomIds": [
     91537,
@@ -109,14 +134,14 @@
   },
   {
    "id": "hall-de",
-   "name": "Hall DE · Keynote",
+   "name": "Hall DE \u00b7 Keynote",
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    40,
-    400,
-    220,
-    150
+    498,
+    530,
+    204,
+    141
    ],
    "roomIds": [
     82947
@@ -124,14 +149,14 @@
   },
   {
    "id": "halls-ac",
-   "name": "Halls A–C · Showcase & meals",
+   "name": "Halls A\u2013C \u00b7 Showcase & meals",
    "floor": "sp1",
    "kind": "meal",
    "rect": [
-    260,
-    400,
-    230,
-    150
+    702,
+    530,
+    221,
+    141
    ],
    "roomIds": [
     87451
@@ -144,30 +169,32 @@
    "floor": "sp1",
    "kind": "expo",
    "rect": [
-    264,
-    404,
-    90,
-    56
+    708,
+    548,
+    49,
+    34
    ],
    "roomIds": [
     92096
    ],
-   "parent": "halls-ac"
+   "parent": "halls-ac",
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "main-entrance",
-   "name": "200 S Entrance · Badges",
+   "name": "200 S Entrance \u00b7 Badges",
    "floor": "sp1",
    "kind": "hallway",
    "rect": [
-    0,
-    550,
-    90,
-    50
+    459,
+    664,
+    118,
+    35
    ],
    "roomIds": [
     87690
-   ]
+   ],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "lower-concourse",
@@ -175,12 +202,13 @@
    "floor": "sp1",
    "kind": "hallway",
    "rect": [
-    90,
-    550,
-    400,
-    26
+    576,
+    672,
+    349,
+    25
    ],
-   "roomIds": []
+   "roomIds": [],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "gb-j",
@@ -188,10 +216,10 @@
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    150,
-    580,
-    40,
-    30
+    631,
+    698,
+    24,
+    35
    ],
    "roomIds": [
     90387
@@ -203,10 +231,10 @@
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    190,
-    580,
-    60,
-    30
+    657,
+    698,
+    25,
+    35
    ],
    "roomIds": [
     82950
@@ -218,10 +246,10 @@
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    250,
-    580,
-    90,
-    30
+    683,
+    698,
+    77,
+    35
    ],
    "roomIds": [
     82949
@@ -233,10 +261,10 @@
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    150,
-    610,
-    80,
-    30
+    631,
+    747,
+    51,
+    33
    ],
    "roomIds": [
     82951
@@ -248,10 +276,10 @@
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    230,
-    610,
-    110,
-    30
+    683,
+    747,
+    77,
+    33
    ],
    "roomIds": [
     82948
@@ -263,14 +291,15 @@
    "floor": "sp1",
    "kind": "hallway",
    "rect": [
-    340,
-    580,
-    60,
-    60
+    762,
+    722,
+    43,
+    58
    ],
    "roomIds": [
     92007
-   ]
+   ],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "room-151",
@@ -278,10 +307,10 @@
    "floor": "sp1",
    "kind": "session",
    "rect": [
-    400,
-    580,
-    90,
-    60
+    875,
+    695,
+    49,
+    35
    ],
    "roomIds": [
     82952
@@ -293,23 +322,24 @@
    "floor": "sp2",
    "kind": "hallway",
    "rect": [
-    40,
-    380,
-    400,
-    40
+    1066,
+    670,
+    180,
+    25
    ],
-   "roomIds": []
+   "roomIds": [],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "room-250ac",
-   "name": "250 A–C",
+   "name": "250 A\u2013C",
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    40,
-    420,
-    100,
-    70
+    1095,
+    696,
+    23,
+    42
    ],
    "roomIds": [
     87421
@@ -317,14 +347,14 @@
   },
   {
    "id": "room-250df",
-   "name": "250 D–F",
+   "name": "250 D\u2013F",
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    140,
-    420,
-    100,
-    70
+    1120,
+    696,
+    23,
+    42
    ],
    "roomIds": [
     87422
@@ -332,14 +362,14 @@
   },
   {
    "id": "room-251ac",
-   "name": "251 A–C",
+   "name": "251 A\u2013C",
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    240,
-    420,
-    100,
-    70
+    1154,
+    696,
+    22,
+    42
    ],
    "roomIds": [
     87423
@@ -347,14 +377,14 @@
   },
   {
    "id": "room-251df",
-   "name": "251 D–F",
+   "name": "251 D\u2013F",
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    340,
-    420,
-    100,
-    70
+    1178,
+    696,
+    23,
+    42
    ],
    "roomIds": [
     87424
@@ -366,14 +396,15 @@
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    450,
-    300,
-    90,
-    70
+    1197,
+    581,
+    54,
+    59
    ],
    "roomIds": [
     87425
-   ]
+   ],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "room-255a",
@@ -381,10 +412,10 @@
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    560,
-    250,
-    70,
-    60
+    1311,
+    557,
+    22,
+    34
    ],
    "roomIds": [
     87426
@@ -396,10 +427,10 @@
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    630,
-    250,
-    110,
-    60
+    1335,
+    557,
+    44,
+    34
    ],
    "roomIds": [
     82953
@@ -411,10 +442,10 @@
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    560,
-    160,
-    70,
-    60
+    1311,
+    506,
+    22,
+    30
    ],
    "roomIds": [
     87427
@@ -426,10 +457,10 @@
    "floor": "sp2",
    "kind": "session",
    "rect": [
-    630,
-    160,
-    110,
-    60
+    1335,
+    506,
+    44,
+    35
    ],
    "roomIds": [
     82954
@@ -437,18 +468,19 @@
   },
   {
    "id": "east-registration",
-   "name": "East Registration",
+   "name": "East re-entry \u00b7 check signage",
    "floor": "sp2",
    "kind": "hallway",
    "rect": [
-    560,
-    330,
-    180,
-    40
+    1089,
+    752,
+    59,
+    33
    ],
    "roomIds": [
     87691
-   ]
+   ],
+   "note": "Approximate re-entry area. Registration is not confirmed here; check venue signage."
   },
   {
    "id": "upper-mezzanine",
@@ -456,25 +488,26 @@
    "floor": "sp2",
    "kind": "hallway",
    "rect": [
-    470,
-    20,
-    60,
-    230
+    1274,
+    395,
+    17,
+    196
    ],
    "roomIds": [
     90804
-   ]
+   ],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "quiet-rooms",
-   "name": "Quiet Rooms · 260 A/B",
+   "name": "Quiet Rooms \u00b7 260 A/B",
    "floor": "sp2",
    "kind": "quiet",
    "rect": [
-    380,
-    100,
-    80,
-    60
+    1231,
+    408,
+    29,
+    12
    ],
    "roomIds": [],
    "note": "Quiet rooms"
@@ -485,10 +518,10 @@
    "floor": "hy2",
    "kind": "session",
    "rect": [
-    150,
-    50,
-    100,
-    130
+    185,
+    740,
+    42,
+    65
    ],
    "roomIds": [
     82955
@@ -500,10 +533,10 @@
    "floor": "hy2",
    "kind": "session",
    "rect": [
-    250,
-    50,
-    110,
-    130
+    228,
+    740,
+    42,
+    65
    ],
    "roomIds": [
     82956
@@ -515,12 +548,13 @@
    "floor": "hy2",
    "kind": "hallway",
    "rect": [
-    40,
-    180,
-    320,
-    40
+    184,
+    806,
+    88,
+    45
    ],
-   "roomIds": []
+   "roomIds": [],
+   "note": "Approximate shared area on the official map; check venue signage."
   },
   {
    "id": "regency-a",
@@ -528,10 +562,10 @@
    "floor": "hy4",
    "kind": "session",
    "rect": [
-    40,
-    50,
-    100,
-    130
+    117,
+    432,
+    53,
+    81
    ],
    "roomIds": [
     82958
@@ -539,21 +573,21 @@
   },
   {
    "id": "regency-bd",
-   "name": "Regency Ballroom B–D",
+   "name": "Regency Ballroom B\u2013D",
    "floor": "hy4",
    "kind": "session",
    "rect": [
-    140,
-    50,
-    220,
-    130
+    171,
+    429,
+    98,
+    84
    ],
    "roomIds": [
     82957,
     92180,
     92181
    ],
-   "note": "B and CD combine as B–D"
+   "note": "B and CD combine as B\u2013D"
   },
   {
    "id": "regency-foyer",
@@ -561,12 +595,13 @@
    "floor": "hy4",
    "kind": "hallway",
    "rect": [
-    40,
-    180,
-    320,
-    40
+    117,
+    514,
+    126,
+    42
    ],
-   "roomIds": []
+   "roomIds": [],
+   "note": "Approximate shared area on the official map; check venue signage."
   }
  ],
  "facilities": [
@@ -585,7 +620,7 @@
   },
   {
    "name": "Meal pick-up",
-   "where": "Salt Palace L1, Halls A–C and Halls 1–5",
+   "where": "Salt Palace L1, Halls A\u2013C and Halls 1\u20135",
    "zone": "halls-ac"
   },
   {
@@ -614,6 +649,7 @@
   }
  ],
  "excludedRoomIds": [
+  87503,
   88756,
   88637,
   92005,

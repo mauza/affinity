@@ -1,102 +1,77 @@
 "use client";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { Icon } from "../ui/icon";
 import { clock, countLabel, FloorMap, get, Legend, type Meta, type Zone, type Series, type TopicTable, type Insight } from "./shared";
 import s from "./map.module.css";
-
-const modes = { now: "Here now", open: "Open to connect", planned: "Planned", murmuration: "Murmuration" };
-type Mode = keyof typeof modes;
-type Profile = { interests: string[]; interestLabels: Record<string, string> };
-type Stint = { zone: string; active: { lt: string } };
-export default function MapApp() {
-  const [meta, setMeta] = useState<Meta>(), [profile, setProfile] = useState<Profile | null>(null);
-  const [mode, setMode] = useState<Mode>("now"), [floor, setFloor] = useState("sp1"), [list, setList] = useState(false);
-  const [live, setLive] = useState(false), [filters, setFilters] = useState<string[]>([]), [day, setDay] = useState(""), [replayDay, setReplayDay] = useState("2026-11-10");
-  const [minute, setMinute] = useState(720), [bucket, setBucket] = useState(0), [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(200);
-  const [counts, setCounts] = useState<Record<string, number>>({}), [series, setSeries] = useState<Series>();
-  const [selected, setSelected] = useState<Zone>(), [tables, setTables] = useState<TopicTable[]>([]), [insights, setInsights] = useState<Insight[]>([]), [labels, setLabels] = useState<Record<string, string>>({});
-  const [topics, setTopics] = useState<string[]>([]), [hint, setHint] = useState(""), [stint, setStint] = useState<Stint | null>(null);
-  const [updated, setUpdated] = useState(0), [now, setNow] = useState(Date.now()), [revision, refresh] = useState(0), [error, setError] = useState(""), [detailError, setDetailError] = useState(""), [busy, setBusy] = useState(false), [notice, setNotice] = useState("");
-  useEffect(() => {
-    const c = new AbortController();
-    get<Meta>("/api/meta", c.signal).then(m => { setMeta(m); setDay(m.today); setMinute(Number(clock(m.now).slice(0, 2)) * 60 + Number(clock(m.now).slice(3))); }).catch(e => { if (!c.signal.aborted) setError(e.message); });
-    get<{ profile: Profile | null }>("/api/me", c.signal).then(r => setProfile(r.profile)).catch(() => {});
-    get<{ interests: { id: string; label: string }[] }>("/api/interests/all", c.signal).then(r => setLabels(Object.fromEntries(r.interests.map(i => [i.id, i.label])))).catch(() => {});
-    const timer = setInterval(() => setNow(Date.now()), 1000);
-    return () => { c.abort(); clearInterval(timer); };
-  }, []);
-  useEffect(() => {
-    if (!day) return;
-    const c = new AbortController();
-    const load = async () => {
-      try {
-        const q = new URLSearchParams({ ...(live ? { live: "1" } : {}), interests: filters.join(",") });
-        if (mode === "murmuration") {
-          q.set("day", replayDay); q.set("kind", "presence");
-          setSeries(await get<Series>("/api/murmuration?" + q, c.signal));
-        } else {
-          q.set("mode", mode);
-          if (mode === "planned") q.set("at", `${day}T${String(Math.floor(minute / 60)).padStart(2, "0")}:${String(minute % 60).padStart(2, "0")}:00-07:00`);
-          const r = await get<{ counts: Record<string, number> }>("/api/map?" + q, c.signal);
-          setCounts(r.counts);
-        }
-        setUpdated(Date.now()); setError("");
-      } catch (e) { if (!c.signal.aborted) setError((e as Error).message); }
-    };
-    setCounts({}); setSeries(undefined); setUpdated(0); void load();
-    const timer = setInterval(load, 15000);
-    return () => { c.abort(); clearInterval(timer); };
-  }, [mode, day, replayDay, minute, live, filters, revision]);
-  useEffect(() => {
-    if (!playing || mode !== "murmuration" || !series?.times.length) return;
-    const timer = setInterval(() => setBucket(b => (b + 1) % series.times.length), speed);
-    return () => clearInterval(timer);
-  }, [playing, mode, series, speed]);
-  useEffect(() => {
-    const c = new AbortController();
-    setTables([]); setInsights([]); setDetailError("");
-    get<{ stint: Stint | null }>("/api/presence", c.signal).then(r => setStint(r.stint)).catch(() => {});
-    if (selected) Promise.all([
-      get<{ tables: TopicTable[] }>(`/api/tables?zone=${selected.id}${live ? "&live=1" : ""}`, c.signal),
-      get<{ insights: Insight[] }>(`/api/insights?kind=zone&zone=${selected.id}${live ? "&live=1" : ""}`, c.signal)
-    ]).then(([t, i]) => { setTables(t.tables); setInsights(i.insights); }).catch(e => { if (!c.signal.aborted) setDetailError(e.message); });
-    return () => c.abort();
-  }, [selected, live, revision]);
-  async function action(action: "checkin" | "renew" | "leave", open = false) {
-    setBusy(true); setNotice("");
-    try {
-      const r = await fetch("/api/presence", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action, ...(action === "checkin" ? { zone: selected?.id, openTopics: open ? topics : [], hint: open ? hint : "" } : {}) }) });
-      const body = await r.json(); if (!r.ok) throw new Error(body.error || "Could not update presence");
-      setStint(body.stint); refresh(v => v + 1); setNotice(action === "leave" ? "You have left." : "Presence updated for 30 minutes.");
-    } catch (e) { setNotice((e as Error).message); } finally { setBusy(false); }
-  }
-  const shown = mode === "murmuration" ? Object.fromEntries(Object.entries(series?.zones ?? {}).map(([id, values]) => [id, values[bucket] ?? 0])) : counts;
-  const toggle = (id: string, values: string[], setter: (v: string[]) => void) => setter(values.includes(id) ? values.filter(v => v !== id) : values.length < 3 ? [...values, id] : values);
+const modes={now:"Here now",open:"Open to connect",planned:"Planned",murmuration:"Day replay"};
+type Mode=keyof typeof modes;
+type Profile={interests:string[];interestLabels:Record<string,string>};
+type Stint={zone:string;active:{lt:string}};
+const descriptions:Record<Mode,string>={now:"An anonymous view of who’s checked in. Choose a room to find your next conversation.",open:"Find people who’ve said they’re open to a conversation about shared interests.",planned:"See where people plan to go. This is attendance intent, not live presence.",murmuration:"The murmuration. Watch shared interests move through the conference, five minutes at a time."};
+export default function MapApp(){
+  const [meta,setMeta]=useState<Meta>(),[profile,setProfile]=useState<Profile|null>(null);
+  const [mode,setMode]=useState<Mode>("now"),[floor,setFloor]=useState("sp1"),[list,setList]=useState(false),[zoom,setZoom]=useState(1);
+  const [live,setLive]=useState(false),[filters,setFilters]=useState<string[]>([]),[day,setDay]=useState(""),[replayDay,setReplayDay]=useState("2026-11-10");
+  const [minute,setMinute]=useState(720),[bucket,setBucket]=useState(108),[playing,setPlaying]=useState(false),[speed,setSpeed]=useState(300);
+  const [counts,setCounts]=useState<Record<string,number>>({}),[series,setSeries]=useState<Series>();
+  const [selected,setSelected]=useState<Zone>(),[tables,setTables]=useState<TopicTable[]>([]),[insights,setInsights]=useState<Insight[]>([]),[labels,setLabels]=useState<Record<string,string>>({});
+  const [topics,setTopics]=useState<string[]>([]),[hint,setHint]=useState(""),[stint,setStint]=useState<Stint|null>(null);
+  const [updated,setUpdated]=useState(0),[now,setNow]=useState(0),[revision,refresh]=useState(0),[error,setError]=useState(""),[detailError,setDetailError]=useState(""),[busy,setBusy]=useState(false),[notice,setNotice]=useState("");
+  const dialog=useRef<HTMLDialogElement>(null), panel=useRef<HTMLElement>(null), roomPicker=useRef<HTMLSelectElement>(null), returnFocus=useRef<HTMLElement|null>(null);
+  function chooseZone(zone:Zone,trigger?:HTMLElement){returnFocus.current=trigger??roomPicker.current;setSelected(zone);setNotice("");}
+  function closeDetails(){setSelected(undefined);setNotice("");dialog.current?.close();(returnFocus.current??roomPicker.current)?.focus();}
+  useEffect(()=>{
+    const c=new AbortController();setNow(Date.now());
+    get<Meta>("/api/meta",c.signal).then(m=>{setMeta(m);setDay(m.today);setMinute(Number(clock(m.now).slice(0,2))*60+Number(clock(m.now).slice(3)));const q=new URLSearchParams(window.location.search);const z=m.zones.find(z=>z.id===q.get("zone"));if(z){setSelected(z);setFloor(z.floor);}const requested=q.get("mode");if(requested&&Object.hasOwn(modes,requested))setMode(requested as Mode);}).catch(e=>{if(!c.signal.aborted)setError(e.message);});
+    get<{profile:Profile|null}>("/api/me",c.signal).then(r=>setProfile(r.profile)).catch(()=>{});
+    get<{interests:{id:string;label:string}[]}>("/api/interests/all",c.signal).then(r=>setLabels(Object.fromEntries(r.interests.map(i=>[i.id,i.label])))).catch(()=>{});
+    const timer=setInterval(()=>setNow(Date.now()),1000);return()=>{c.abort();clearInterval(timer);};
+  },[]);
+  useEffect(()=>{
+    if(!day)return;const c=new AbortController();
+    const load=async()=>{try{const q=new URLSearchParams({...live?{live:"1"}:{},interests:filters.join(",")});if(mode==="murmuration"){q.set("day",replayDay);q.set("kind","presence");setSeries(await get<Series>("/api/murmuration?"+q,c.signal));}else{q.set("mode",mode);if(mode==="planned")q.set("at",`${day}T${String(Math.floor(minute/60)).padStart(2,"0")}:${String(minute%60).padStart(2,"0")}:00-07:00`);setCounts((await get<{counts:Record<string,number>}>("/api/map?"+q,c.signal)).counts);}setUpdated(Date.now());setError("");}catch(e){if(!c.signal.aborted)setError((e as Error).message);}};
+    setCounts({});setSeries(undefined);setUpdated(0);void load();const timer=setInterval(load,15000);return()=>{c.abort();clearInterval(timer);};
+  },[mode,day,replayDay,minute,live,filters,revision]);
+  useEffect(()=>{if(!playing||mode!=="murmuration"||!series?.times.length)return;const timer=setInterval(()=>setBucket(b=>b>=227?96:b+1),speed);return()=>clearInterval(timer);},[playing,mode,series,speed]);
+  useEffect(()=>{
+    const c=new AbortController();setTables([]);setInsights([]);setDetailError("");
+    get<{stint:Stint|null}>("/api/presence",c.signal).then(r=>setStint(r.stint)).catch(()=>{});
+    if(selected)Promise.all([get<{tables:TopicTable[]}>(`/api/tables?zone=${selected.id}${live?"&live=1":""}`,c.signal),get<{insights:Insight[]}>(`/api/insights?kind=zone&zone=${selected.id}${live?"&live=1":""}`,c.signal)]).then(([t,i])=>{setTables(t.tables);setInsights(i.insights);}).catch(e=>{if(!c.signal.aborted)setDetailError(e.message);});
+    return()=>c.abort();
+  },[selected,live,revision]);
+  useEffect(()=>{const d=dialog.current;if(selected&&window.matchMedia("(max-width: 1000px)").matches){if(!d?.open){returnFocus.current??=roomPicker.current;d?.showModal();}}else if(d?.open)d.close();
+    if(selected&&!window.matchMedia("(max-width: 1000px)").matches)panel.current?.focus();
+  },[selected]);
+  async function action(action:"checkin"|"renew"|"leave",open=false){setBusy(true);setNotice("");try{const r=await fetch("/api/presence",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action,...action==="checkin"?{zone:selected?.id,openTopics:open?topics:[],hint:open?hint:""}:{}})});const body=await r.json();if(!r.ok)throw new Error(body.error||"Could not update presence");setStint(body.stint);refresh(v=>v+1);setNotice(action==="leave"?"You’ve left this space.":"You’re checked in for 30 minutes.");}catch(e){setNotice((e as Error).message);}finally{setBusy(false);}}
+  const shown=mode==="murmuration"?Object.fromEntries(Object.entries(series?.zones??{}).map(([id,values])=>[id,values[bucket]??0])):counts;
+  const toggle=(id:string,values:string[],setter:(v:string[])=>void)=>setter(values.includes(id)?values.filter(v=>v!==id):values.length<3?[...values,id]:values);
+  const activeFloor=meta?.floors.find(f=>f.id===floor);
+  const visibleZones=meta?.zones.filter(z=>z.floor===floor)??[];
+  const ranked=[...visibleZones].sort((a,b)=>(shown[b.id]??0)-(shown[a.id]??0));
+  const timeLabel=mode==="planned"?`${String(Math.floor(minute/60)).padStart(2,"0")}:${String(minute%60).padStart(2,"0")}`:series?.times[bucket]?clock(series.times[bucket]):"09:00";
+  const peak=mode==="murmuration"?Math.max(3,series?.peak??30):30;
+  const details=<>{selected&&<><button className={s.close} aria-label="Close zone details" onClick={closeDetails}><Icon name="close" size={17}/></button><p className={s.eyebrow}>{meta?.floors.find(f=>f.id===selected.floor)?.name}</p><h2>{selected.name}</h2><div className={s.roomCount}>{updated?countLabel(shown[selected.id]??0):"—"}<span>{modes[mode].toLowerCase()}{mode==="murmuration"?` · ${timeLabel} MST`:""}</span></div>{selected.note&&<p className={s.muted}>{selected.note}</p>}
+    <h3>Open conversations · now</h3>{detailError&&<p role="alert" className={s.error}>{detailError}</p>}{!tables.length&&<p className={s.muted}>No topic tables yet. You could start the next conversation.</p>}{tables.map(t=><article key={t.id} className={s.card}><strong>{labels[t.topic]||t.topic}</strong><span>{countLabel(t.count)} open to connect</span><p>{t.hint||"Everyone is welcome."}</p></article>)}
+    {updated&&(shown[selected.id]??0)>=3&&insights.length>0&&<><h3>Shared curiosity · now</h3>{insights.map(i=><p key={i.interest} className={s.muted}>{labels[i.interest]||i.interest} · {i.ratio.toFixed(1)}× more popular</p>)}</>}
+    <div className={s.joinSpace}>{stint?.zone===selected.id?<p className={s.muted}>You’re checked in here. Extend your stay or leave below.</p>:profile?<><h3>Make room for a hello.</h3><p className={s.muted}>Checking in shares an anonymous signal for 30 minutes. This action is for right now.</p><button className={s.primary} disabled={busy} onClick={()=>void action("checkin")}>Check in here <Icon name="pin" size={15}/></button><details className={s.connect}><summary>Open to a conversation?</summary><p className={s.muted}>Choose up to 3 topics you’d like to talk about.</p><div className={s.tabs}>{profile.interests.map(id=><button key={id} disabled={!topics.includes(id)&&topics.length===3} aria-pressed={topics.includes(id)} onClick={()=>toggle(id,topics,setTopics)}>{profile.interestLabels[id]||id}</button>)}</div><label>Where can people find you?<input className={s.hint} maxLength={80} value={hint} placeholder="By the coffee station" onChange={e=>setHint(e.target.value)}/></label><button className={s.primary} disabled={busy||!topics.length} onClick={()=>void action("checkin",true)}>Open to connect here</button></details></>:<><h3>Your next hello starts here.</h3><p className={s.muted}>Choose a few interests to check in and find people who share them.</p><Link className={s.primary} href="/">Choose my interests <Icon name="arrow" size={16}/></Link></>}</div></>}{stint&&<div className={s.stint}><strong><span className={s.dot}/>You’re checked in</strong><p>{meta?.zones.find(z=>z.id===stint.zone)?.name||stint.zone}</p><small>Until {clock(stint.active.lt)} MST</small><div className={s.tabs}><button disabled={busy} onClick={()=>void action("renew")}>Stay another 30 min</button><button disabled={busy} onClick={()=>void action("leave")}>Leave</button></div></div>}{notice&&<p role="status" className={s.notice}>{notice}</p>}</>;
   return <div className={s.app}>
-    <header className={s.heading}><div><p className={s.eyebrow}>KUBECON NORTH AMERICA · SALT LAKE CITY</p><h1>Find your people.</h1><p className={s.muted}>Follow the flow. Make a connection. Find your pod.</p></div><span className={s.badge}>{live ? "Live attendees only" : "Includes simulated attendees"}</span></header>
-    <div className={s.toolbar}><div className={s.tabs} aria-label="Map mode">{Object.entries(modes).map(([id, label]) => <button key={id} aria-pressed={mode === id} onClick={() => { setMode(id as Mode); setPlaying(false); }}>{label}</button>)}</div><label><input type="checkbox" checked={live} onChange={e => setLive(e.target.checked)}/> Live only</label><button aria-pressed={list} onClick={() => setList(!list)}>{list ? "Map view" : "List view"}</button></div>
-    <section className={s.filters}><span className={s.muted}>Your interests · choose up to 3 · matches any</span><div className={s.tabs}>{profile?.interests.map(id => <button key={id} disabled={!filters.includes(id) && filters.length === 3} aria-pressed={filters.includes(id)} onClick={() => toggle(id, filters, setFilters)}>{profile.interestLabels[id] || id}</button>)}{!profile && <a href="/">Set your interests →</a>}</div></section>
-    {(mode === "planned" || mode === "murmuration") && <section className={s.player}>
-      <label>Day <input type="date" value={mode === "planned" ? day : replayDay} onChange={e => { if (!e.target.value) return; mode === "planned" ? setDay(e.target.value) : setReplayDay(e.target.value); setBucket(0); }}/></label>
-      {mode === "murmuration" && <><button disabled={!series} onClick={() => setPlaying(!playing)}>{playing ? "Pause" : "Play"} flow</button><label>Speed <select value={speed} onChange={e => setSpeed(Number(e.target.value))}><option value={600}>Slow</option><option value={200}>Normal</option><option value={70}>Fast</option></select></label></>}
-      <input aria-label={mode === "planned" ? "Planned time" : "Replay time"} className={s.scrub} type="range" min="0" max={mode === "planned" ? 1435 : Math.max(0, (series?.times.length ?? 1) - 1)} step={mode === "planned" ? 5 : 1} value={mode === "planned" ? minute : bucket} onChange={e => mode === "planned" ? setMinute(Number(e.target.value)) : setBucket(Number(e.target.value))}/>
-      <strong>{mode === "planned" ? `${String(Math.floor(minute / 60)).padStart(2, "0")}:${String(minute % 60).padStart(2, "0")}` : series?.times[bucket] ? clock(series.times[bucket]) : "00:00"} MST</strong>
-    </section>}
-    <div className={s.status}><strong>{modes[mode]}{mode === "murmuration" ? " · presence replay" : ""}</strong><span>{updated ? `Updated ${Math.max(0, Math.floor((now - updated) / 1000))}s ago` : "Loading…"}</span></div>
-    {error && <p role="alert" className={s.error}>Map unavailable: {error}. Retrying every 15 seconds.</p>}
-    <div className={s.workspace}><div className={s.canvas}>
-      {mode !== "murmuration" && <div className={s.tabs} aria-label="Floor">{meta?.floors.map(f => <button key={f.id} aria-pressed={floor === f.id} onClick={() => setFloor(f.id)}>{f.name}</button>)}</div>}
-      {list ? <table className={s.table}><caption>{modes[mode]} · all floors</caption><thead><tr><th>Zone</th><th>Floor</th><th>{modes[mode]}</th></tr></thead><tbody>{meta?.zones.map(z => <tr key={z.id}><td><button onClick={() => setSelected(z)}>{z.name}</button></td><td>{meta.floors.find(f => f.id === z.floor)?.name}</td><td>{countLabel(shown[z.id] ?? 0)}</td></tr>)}</tbody></table> : <div className={mode === "murmuration" ? s.grid : undefined}>{meta?.floors.filter(f => mode === "murmuration" || f.id === floor).map(f => <FloorMap key={f.id} floor={f} zones={meta.zones} counts={shown} mode={modes[mode]} peak={mode === "murmuration" ? Math.max(3, series?.peak ?? 30) : 30} selected={selected?.id} onSelect={setSelected}/>)}</div>}
-      <Legend peak={mode === "murmuration" ? Math.max(3, series?.peak ?? 30) : 30}/>
-      <p className={s.credit}>Schematic · not to scale · <a href="https://events.linuxfoundation.org/kcna26-venue-map">official venue map</a></p>
-      <details><summary>Quiet spaces & facilities</summary>{meta?.facilities.map((f, i) => <p key={i}><strong>{f.name}</strong> · {f.where}</p>)}</details>
-    </div>
-    <aside className={s.panel}>{selected ? <>
-      <button className={s.close} aria-label="Close zone details" onClick={() => setSelected(undefined)}>×</button><p className={s.eyebrow}>{meta?.floors.find(f => f.id === selected.floor)?.name}</p><h2>{selected.name}</h2><p className={s.big}>{countLabel(shown[selected.id] ?? 0)} <small>{modes[mode].toLowerCase()}</small></p>{selected.note && <p>{selected.note}</p>}
-      <h3>Active tables · now</h3>{detailError && <p role="alert">{detailError}</p>}{!tables.length && <p className={s.muted}>No active tables here yet.</p>}{tables.map(t => <article key={t.id} className={s.card}><strong>{labels[t.topic] || t.topic}</strong> · {countLabel(t.count)}<p>{t.hint || "Everyone is welcome."}</p></article>)}
-      <h3>Unusually popular here · now</h3>{insights.length ? insights.map(i => <p key={i.interest}>{labels[i.interest] || i.interest} · {i.ratio.toFixed(1)}× more popular · {countLabel(i.count)}</p>) : <p className={s.muted}>More shared interests will reveal patterns.</p>}
-      <hr/>{profile ? <><h3>Join this space · now</h3><p className={s.muted}>Check-ins last 30 minutes. Renew to stay visible.</p><button disabled={busy} onClick={() => action("checkin")}>Check in here</button><p>Open to connect about <small>(up to 3)</small></p><div className={s.tabs}>{profile.interests.map(id => <button key={id} disabled={!topics.includes(id) && topics.length === 3} aria-pressed={topics.includes(id)} onClick={() => toggle(id, topics, setTopics)}>{profile.interestLabels[id] || id}</button>)}</div><label>Meetup hint<input className={s.hint} maxLength={80} value={hint} placeholder="By the coffee station" onChange={e => setHint(e.target.value)}/></label><button disabled={busy || !topics.length} onClick={() => action("checkin", true)}>Open to connect here</button></> : <a href="/">Set interests to check in →</a>}
-    </> : <><p className={s.eyebrow}>A LITTLE CURIOSITY GOES A LONG WAY</p><h2>Where will you land?</h2><p className={s.muted}>Choose a space to discover shared interests, find a table, or check in.</p><p>Try <strong>Murmuration</strong> to watch the conference come together.</p></>}
-    {stint && <div className={s.card}><strong>You're checked in</strong><p>{meta?.zones.find(z => z.id === stint.zone)?.name || stint.zone} · until {clock(stint.active.lt)} MST</p><button disabled={busy} onClick={() => action("renew")}>Renew</button> <button disabled={busy} onClick={() => action("leave")}>Leave</button></div>}<p role="status">{notice}</p>
-    </aside></div>
+    <header className={s.heading}><div><p className={s.eyebrow}>FIND WHERE YOU BELONG</p><h1><span className={s.desktopTitle}>Your people, mapped.</span><span className={s.mobileTitle}>Interest map</span></h1><p className={s.muted}>A shared curiosity. A place to meet. A reason to say hello.</p></div><span className={s.badge}><span className={s.dot}/>{live?"Live attendees only":"Demo + live attendees"}</span></header>
+    <div className={s.toolbar}><div className={s.modeTabs} aria-label="Map mode">{Object.entries(modes).map(([id,label])=><button key={id} aria-pressed={mode===id} onClick={()=>{setMode(id as Mode);setPlaying(false);}}>{label}{id==="murmuration"&&<Icon name="play" size={12}/>}</button>)}</div>
+    <details className={s.mapOptions}><summary>Interests & live data <span>{filters.length?`${filters.length} filters`:live?"Live only":"Demo included"}</span></summary><p className={s.modeHelp}>{descriptions[mode]}</p><label className={s.toggle}><input type="checkbox" checked={live} onChange={e=>setLive(e.target.checked)}/>Live attendees only · exclude simulated attendees</label><div className={s.filterBar}><div className={s.tabs}><span className={s.filterLabel}>MATCH ANY · UP TO 3</span>{profile?.interests.length?profile.interests.map(id=><button key={id} disabled={!filters.includes(id)&&filters.length===3} aria-pressed={filters.includes(id)} onClick={()=>toggle(id,filters,setFilters)}>{profile.interestLabels[id]||id}</button>):<Link href="/">Personalize your map <Icon name="arrow" size={13}/></Link>}{filters.length>0&&<button onClick={()=>setFilters([])}>Clear filters</button>}</div></div></details></div>
+    {(mode==="planned"||mode==="murmuration")&&<section className={s.player} aria-label="Timeline controls"><label>Day<input type="date" min="2026-11-08" max="2026-11-12" value={mode==="planned"?day:replayDay} onChange={e=>{if(!e.target.value)return;mode==="planned"?setDay(e.target.value):setReplayDay(e.target.value);setBucket(108);}}/></label>{mode==="murmuration"&&<><button className={s.primary} disabled={!series} onClick={()=>setPlaying(!playing)}>{playing?"Pause":"Play"} flow</button><label className={s.speed}>Speed<select value={speed} onChange={e=>setSpeed(Number(e.target.value))}><option value={650}>Slow</option><option value={300}>Normal</option><option value={100}>Fast</option></select></label></>}<input aria-label={mode==="planned"?"Planned time":"Replay time"} className={s.scrub} type="range" min={mode==="planned"?0:96} max={mode==="planned"?1435:227} step={mode==="planned"?5:1} value={mode==="planned"?minute:bucket} onChange={e=>mode==="planned"?setMinute(Number(e.target.value)):setBucket(Number(e.target.value))}/><strong>{timeLabel}<small>MST</small></strong></section>}
+    {error&&<p role="alert" className={s.error}>Map unavailable. {error} · Retrying every 15 seconds.</p>}
+    <div className={s.workspace}><section className={s.canvas} aria-label="Conference interest map"><div className={s.canvasTop}><label className={s.floorSelect}>Floor<select value={floor} onChange={e=>{setFloor(e.target.value);setZoom(1);}}>{meta?.floors.map(f=><option key={f.id} value={f.id}>{f.name}</option>)}</select></label><div className={s.floorTabs} aria-label="Floor">{meta?.floors.map(f=><button key={f.id} aria-pressed={floor===f.id} onClick={()=>{setFloor(f.id);setZoom(1);}}>{f.name}</button>)}</div><button className={s.viewButton} aria-pressed={list} onClick={()=>setList(!list)}>{list?"Map view":"Room list"}</button></div>
+    <div className={s.mapMeta}><label className={s.quickRoom}><span>Choose a room</span><select ref={roomPicker} aria-label="Jump to a room" value={selected?.floor===floor?selected.id:""} onChange={e=>{const z=visibleZones.find(z=>z.id===e.target.value);if(z)chooseZone(z,e.currentTarget);}}><option value="">Jump to a room or shared space</option>{visibleZones.map(z=><option key={z.id} value={z.id}>{z.name} · {countLabel(shown[z.id]??0)}</option>)}</select></label>{!list&&<div className={s.zoom}><button disabled={zoom===1} aria-label="Zoom out" onClick={()=>setZoom(Math.max(1,zoom-.5))}>−</button><span>{Math.round(zoom*100)}%</span><button disabled={zoom>=3} aria-label="Zoom in" onClick={()=>setZoom(Math.min(3,zoom+.5))}>+</button></div>}</div>
+    {!updated&&!error&&<div className={s.loading} role="status">Finding the flow of the conference…</div>}
+    {list?<div className={s.roomList}>{ranked.map(z=><button key={z.id} aria-pressed={selected?.id===z.id} onClick={e=>chooseZone(z,e.currentTarget)}><span><span className={s.roomKind}>{z.kind}</span><strong>{z.name}</strong></span><span className={s.roomNumber}>{updated?countLabel(shown[z.id]??0):"—"}<Icon name="arrow" size={14}/></span></button>)}</div>:<div className={s.mapScroll} tabIndex={0} aria-label="Venue map · zoom in for room labels, then scroll to explore"><div style={{width:`min(${zoom*100}%, ${550*(activeFloor?activeFloor.viewBox[2]/activeFloor.viewBox[3]:1)*zoom}px)`,marginInline:"auto"}}>{meta?.floors.filter(f=>f.id===floor).map(f=><FloorMap key={f.id} floor={f} zones={meta.zones} counts={shown} mode={modes[mode]} peak={peak} selected={selected?.id} onSelect={z=>chooseZone(z)}/>)}</div></div>}
+    <div className={s.mapFooter}><Legend peak={peak}/><span>Zoom for room labels · scroll to explore<br/>{updated?`Updated ${Math.max(0,Math.floor((now-updated)/1000))}s ago`:"Connecting…"}</span><span>Official venue artwork · activity areas approximate<a href="https://events.linuxfoundation.org/kcna26-venue-map" target="_blank" rel="noreferrer">© The Linux Foundation · View PDF ↗</a></span></div>
+    </section><aside ref={panel} tabIndex={-1} className={s.panel} aria-label={selected?`Details for ${selected.name}`:"Conference context"}>{selected?details:<>{!ranked.some(z=>(shown[z.id]??0)>0)&&<div className={s.panelSymbol}><Icon name={mode==="murmuration"?"play":"people"} size={28}/></div>}<p className={s.eyebrow}>{mode==="murmuration"?"THE MURMURATION":"MAKE A LITTLE ROOM"}</p><h2>{ranked.some(z=>(shown[z.id]??0)>0)?"Gathering here.":mode==="murmuration"?"A day, in motion.":"Your next conversation is here."}</h2>{!ranked.some(z=>(shown[z.id]??0)>0)&&<p className={s.muted}>{mode==="murmuration"?"Follow the morning talks into lunch, then see new conversations take shape. Choose a floor or scrub to another moment.":"Choose a room on the map to see shared interests and open conversations. Everyone starts with a hello."}</p>}<h3>{mode==="murmuration"?`At ${timeLabel} MST`:`On this floor · ${modes[mode].toLowerCase()}`}</h3><div className={s.hotspots}>{ranked.filter(z=>(shown[z.id]??0)>0).slice(0,3).map(z=><button key={z.id} onClick={e=>chooseZone(z,e.currentTarget)}><span>{z.name.split(" · ")[0]}</span><strong>{countLabel(shown[z.id]??0)}<Icon name="arrow" size={13}/></strong></button>)}</div>{!ranked.some(z=>(shown[z.id]??0)>0)&&<p className={s.muted}>No activity on this floor at this time. Choose another floor or move the timeline.</p>}<details className={s.facilities}><summary>Quiet spaces & facilities</summary>{meta?.facilities.map((f,i)=><p key={i}><strong>{f.name}</strong><br/>{f.where}</p>)}</details>{stint&&details}</>}</aside></div>
+    <dialog ref={dialog} className={s.sheet} aria-label={selected?.name??"Zone details"} aria-modal="true" onCancel={e=>{e.preventDefault();closeDetails();}} onKeyDown={e=>{
+      if(e.key!=="Tab")return;
+      const controls=Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),summary')).filter(el=>el.getClientRects().length>0);
+      const first=controls[0],last=controls[controls.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}
+    }} onClick={e=>{if(e.target===e.currentTarget)closeDetails();}}>{details}</dialog>
   </div>;
 }
