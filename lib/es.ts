@@ -12,15 +12,19 @@ export function es(): Client {
   return client;
 }
 
+// A separate namespace lets local replay rehearsals share the ES service
+// without replacing the live event's profiles or check-in history.
+const prefix = process.env.ES_INDEX_PREFIX ?? "";
+if (prefix && !/^[a-z][a-z0-9-]{0,48}-$/.test(prefix)) throw new Error("invalid ES_INDEX_PREFIX");
 export const INDEX = {
-  interests: "interests",
-  sessions: "sessions",
-  zones: "zones",
-  attendees: "attendees",
-  plans: "plans",
-  stints: "stints",
-  tables: "tables",
-  alerts: "alerts",
-  notifications: "notifications",
-  meta: "affinity-meta",
+  interests: `${prefix}interests`,
+  sessions: `${prefix}sessions`,
+  zones: `${prefix}zones`,
+  attendees: `${prefix}attendees`,
+  plans: `${prefix}plans`,
+  stints: `${prefix}stints`,
+  tables: `${prefix}tables`,
+  alerts: `${prefix}alerts`,
+  notifications: `${prefix}notifications`,
+  meta: `${prefix}affinity-meta`,
 } as const;
