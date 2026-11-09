@@ -13,7 +13,7 @@ export type Zone = {
   parent?: string;
   note?: string;
 };
-export type Floor = { id: string; name: string; venue: string; viewBox: [number, number, number, number] };
+export type Floor = { id: string; name: string; venue: string; viewBox: [number, number, number, number]; background?: { href: string; width: number; height: number; clip?: string } };
 export type Venue = {
   source: string;
   floors: Floor[];
@@ -48,6 +48,8 @@ let venue: Venue | undefined;
 let schedule: Schedule | undefined;
 
 export function loadVenue(): Venue {
+  // Calibration changes should be visible without restarting the dev server.
+  if (process.env.NODE_ENV === "development") return JSON.parse(readFileSync(path.join(dataDir(), "zones.json"), "utf8"));
   venue ??= JSON.parse(readFileSync(path.join(dataDir(), "zones.json"), "utf8"));
   return venue!;
 }

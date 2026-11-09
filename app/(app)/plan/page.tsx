@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { api, time } from "@/components/ui/client";
+import Link from "next/link";
+import p from "@/components/ui/planning.module.css";
+import { api, time, type Profile } from "@/components/ui/client";
 import s from "@/components/ui/attendee.module.css";
 type Session = {
   id: string;
@@ -26,10 +28,20 @@ export default function Plan() {
     [mine, setMine] = useState<Session[]>([]),
     [results, setResults] = useState<Session[]>([]),
     [q, setQ] = useState(""),
-    [busy, setBusy] = useState(false),
+    [operation, setOperation] = useState<"generate" | "save" | "remove" | "search" | null>(null),
+    [hasInterests, setHasInterests] = useState(true),
+    [savingIds, setSavingIds] = useState<string[]>([]),
+    [searched, setSearched] = useState(false),
+    [searchError, setSearchError] = useState(""),
+    [success, setSuccess] = useState(""),
+    [agendaLoading, setAgendaLoading] = useState(true),
     [error, setError] = useState(""),
     [summary, setSummary] = useState("");
+  const busy = operation !== null;
   useEffect(() => {
+    api<{ profile: Profile | null }>("/api/me")
+      .then((v) => setHasInterests(Boolean(v.profile?.interests.length)))
+      .catch(() => {});
     api<{ today: string }>("/api/meta")
       .then((v) => setDay(days.find((d) => d >= v.today) || days[2]))
       .catch(() => {});
@@ -40,28 +52,38 @@ export default function Plan() {
     );
   useEffect(() => {
     let active = true;
+    setMine([]);
+    setAgendaLoading(true);
+    setSearched(false);
+    setSearchError("");
+    setSuccess("");
+    setError("");
     setItems([]);
     setResults([]);
     setSummary("");
     api<{ sessions: Session[] }>("/api/plans?day=" + day)
       .then((v) => {
-        if (active) setMine(v.sessions);
+        if (active) { setMine(v.sessions); setAgendaLoading(false); }
       })
-      .catch((e) => setError(e.message));
+      .catch((e) => { if (active) { setError(e.message); setAgendaLoading(false); } });
     return () => {
       active = false;
     };
   }, [day]);
   async function accept(ids: string[]) {
-    setBusy(true);
+    setOperation("save");
+    setSavingIds(ids);
+    setError("");
+    setSuccess("");
     try {
       await api("/api/plans", "POST", { sessionIds: ids });
       await load();
+      setSuccess("Added to your agenda");
       setItems((v) => v.filter((x) => !ids.includes(x.id)));
     } catch (e) {
       setError((e as Error).message);
     } finally {
-      setBusy(false);
+      setOperation(null);
     }
   }
   function cards(list: Session[], mode: "suggest" | "mine" | "search") {
@@ -89,14 +111,16 @@ export default function Plan() {
             <button
               disabled={busy}
               onClick={async () => {
-                setBusy(true);
+                setOperation("remove");
+                setError("");
+                setSuccess("");
                 try {
                   await api("/api/plans?session=" + item.id, "DELETE");
                   await load();
                 } catch (e) {
                   setError((e as Error).message);
                 } finally {
-                  setBusy(false);
+                  setOperation(null);
                 }
               }}
             >
@@ -109,16 +133,17 @@ export default function Plan() {
                 onClick={() => accept([item.id])}
               >
                 {mine.some((x) => x.id === item.id)
-                  ? "In your plan"
-                  : "Accept session"}
+                  ? "In your agenda"
+                  : operation === "save" && savingIds.includes(item.id) ? "Adding…" : "Add to agenda"}
               </button>
               {mode === "suggest" && (
                 <button
+                  disabled={busy}
                   onClick={() =>
                     setItems(items.filter((x) => x.id !== item.id))
                   }
                 >
-                  Swap / remove
+                  Dismiss suggestion
                 </button>
               )}
             </>
@@ -132,9 +157,8 @@ export default function Plan() {
       <div className={s.eyebrow}>LEAVE ROOM FOR A CONVERSATION</div>
       <h1>A day that fits you.</h1>
       <span className={s.badge}>Crowd signals include simulated attendees</span>
-      <p className={s.lead}>
-        Find a session. Meet someone new. Keep lunch free.
-      </p>
+      <p className={s.muted}>Find sessions that fit. Keep lunch free for conversation.</p>
+      {!hasInterests && <p className={s.muted}><Link href="/me">Add interests for more personal suggestions</Link> · Optional; you can generate or search now.</p>}
       <label className={s.field}>
         Event day
         <select disabled={busy} value={day} onChange={(e) => setDay(e.target.value)}>
@@ -149,7 +173,22 @@ export default function Plan() {
           ))}
         </select>
       </label>
-      <section className={s.card}>
+      <div className={p.summary}>
+        <a href={mine.length?"#agenda":"#planner"}>Saved agenda · {agendaLoading ? "Loading…" : `${mine.length} ${mine.length===1?"session":"sessions"}`} ↓</a>
+        <span role="status">{success && <>{success}. <a href="#agenda">View agenda →</a></>}</span>
+      </div>
+      {error && <p role="alert" className={s.error}>{error}</p>}
+      {(agendaLoading||mine.length>0)&&<section id="agenda" className={`${s.card} ${p.anchor}`} aria-labelledby="agenda-heading">
+        <h2 id="agenda-heading">Your saved agenda <span className={s.badge}>{mine.length} {mine.length===1?"session":"sessions"}</span></h2>
+        {agendaLoading ? <p role="status">Loading your agenda…</p> : mine.length ? (
+          cards(mine, "mine")
+        ) : (
+          <p className={s.muted}>
+            Your day is open. Accept a suggestion or search below.
+          </p>
+        )}
+      </section>}
+      <section id="planner" className={s.card}>
         <h2>Make a plan</h2>
         <label className={s.field}>
           What would make today good?
@@ -164,8 +203,9 @@ export default function Plan() {
           className={s.primary}
           disabled={busy}
           onClick={async () => {
-            setBusy(true);
+            setOperation("generate");
             setError("");
+            setSuccess("");
             try {
               const v = await api<{
                 items: Session[];
@@ -179,13 +219,13 @@ export default function Plan() {
             } catch (e) {
               setError((e as Error).message);
             } finally {
-              setBusy(false);
+              setOperation(null);
             }
           }}
         >
-          {busy ? "Working…" : "Generate my plan"}
+          {operation === "generate" ? "Generating…" : "Generate my plan"}
         </button>
-        {busy && (
+        {operation === "generate" && (
           <p role="status">
             Finding sessions and checking crowd signals. This can take 10–15
             seconds…
@@ -197,30 +237,21 @@ export default function Plan() {
             disabled={busy}
             onClick={() => accept(items.map((x) => x.id))}
           >
-            Accept all
+            {operation === "save" && savingIds.length>1 ? "Adding all…" : "Add all to agenda"}
           </button>
         )}
         {cards(items, "suggest")}
-      </section>
-      <p role="alert" className={s.error}>
-        {error}
-      </p>
-      <section className={s.card}>
-        <h2>My plan</h2>
-        {mine.length ? (
-          cards(mine, "mine")
-        ) : (
-          <p className={s.muted}>
-            Your day is open. Accept a suggestion or search below.
-          </p>
-        )}
       </section>
       <section className={s.card}>
         <h2>Find a session by meaning</h2>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            setBusy(true);
+            setOperation("search");
+            setError("");
+            setSearched(false);
+            setSearchError("");
+            setResults([]);
             try {
               setResults(
                 (
@@ -229,10 +260,11 @@ export default function Plan() {
                   )
                 ).sessions,
               );
+              setSearched(true);
             } catch (e) {
-              setError((e as Error).message);
+              setSearchError((e as Error).message);
             } finally {
-              setBusy(false);
+              setOperation(null);
             }
           }}
         >
@@ -245,8 +277,10 @@ export default function Plan() {
               placeholder="Running models on Kubernetes"
             />
           </label>
-          <button disabled={busy || !q.trim()}>Search sessions</button>
+          <button disabled={busy || !q.trim()}>{operation === "search" ? "Searching…" : "Search sessions"}</button>
         </form>
+        <p role="status" className={s.muted}>{operation === "search" ? "Searching the schedule…" : searched ? (results.length ? `${results.length} sessions found` : "No sessions found. Try a broader topic or another day.") : "Search the schedule by topic or what you want to learn."}</p>
+        {searchError && <p role="alert" className={s.error}>{searchError} Try searching again.</p>}
         {cards(results, "search")}
       </section>
     </>
