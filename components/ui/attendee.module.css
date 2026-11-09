@@ -1,0 +1,250 @@
+.shell {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse at 90% 0%, #26305b55, transparent 45%);
+}
+.header {
+  max-width: 1120px;
+  margin: auto;
+  padding: 22px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  gap: 16px;
+}
+.header a {
+  text-decoration: none;
+}
+.brand {
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+}
+.brand span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.main {
+  max-width: 900px;
+  margin: auto;
+  padding: 48px 24px 120px;
+}
+.main h1 {
+  font-size: clamp(40px, 8vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 16px 0;
+}
+.main h2 {
+  font-size: 23px;
+  margin: 0 0 16px;
+}
+.main h3 {
+  margin: 8px 0;
+}
+.lead {
+  font-size: 20px;
+  max-width: 620px;
+  color: var(--muted);
+}
+.eyebrow {
+  color: var(--accent-2);
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  margin: 24px 0;
+}
+.steps {
+  display: flex;
+  gap: 32px;
+  padding-left: 24px;
+  color: var(--muted);
+  margin: 30px 0;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 18px 0;
+  font-weight: 600;
+}
+.field span,
+.muted {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 14px;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 13px;
+  min-height: 48px;
+}
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 14px;
+}
+.check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent-2);
+}
+.row,
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.row a {
+  padding: 12px 0;
+  margin-right: 16px;
+}
+.main button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+}
+.main button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.main .primary {
+  background: var(--accent-2);
+  color: #082725;
+  border-color: var(--accent-2);
+  font-weight: 700;
+}
+.main .danger {
+  color: #ffb6b6;
+  border-color: #a55060;
+}
+.chips {
+  margin: 16px 0;
+}
+.chips button,
+.badge {
+  border-radius: 24px;
+  font-size: 13px;
+}
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  background: #7c8cff20;
+  color: #c5cdff;
+  margin: 4px 6px 4px 0;
+}
+.interest {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+.interest strong {
+  flex: 1;
+}
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  background: #101425f5;
+  border-top: 1px solid var(--line);
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  z-index: 10;
+  backdrop-filter: blur(16px);
+}
+.nav a {
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  flex: 1;
+  max-width: 130px;
+  text-decoration: none;
+  color: var(--muted);
+  border-radius: 10px;
+}
+.nav a[aria-current] {
+  background: #7c8cff25;
+  color: var(--text);
+  font-weight: 700;
+}
+.skip {
+  position: fixed;
+  top: -100px;
+}
+.skip:focus {
+  top: 10px;
+  left: 10px;
+  background: var(--bg);
+  padding: 12px;
+  z-index: 30;
+}
+.error {
+  color: #ffb6b6;
+}
+.session {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+.session:first-child {
+  border-top: 0;
+}
+.session a {
+  color: var(--text);
+}
+@media (max-width: 600px) {
+  .main {
+    padding: 30px 18px 110px;
+  }
+  .header {
+    padding: 16px 18px;
+  }
+  .header > a:last-child span {
+    display: none;
+  }
+  .card {
+    padding: 20px 16px;
+  }
+  .steps {
+    display: block;
+  }
+  .steps li {
+    margin: 12px 0;
+  }
+  .interest strong {
+    flex-basis: 100%;
+  }
+}
+
+.header > a:last-child { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.session { overflow-wrap: anywhere; }
