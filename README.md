@@ -26,6 +26,8 @@ CLI jobs read exported environment variables (not Next's `.env.local`). With cre
 
 `pnpm exec tsx scripts/tag-sessions.ts` regenerates the committed AI topic snapshot; bootstrap then imports it without another AI call. See [sim/README.md](sim/README.md) for labeled synthetic backfill and live simulation.
 
+The built-in [map replay](https://affinity.mau.guru/map?mode=murmuration) supports Monday and Tuesday rehearsal data. Topic-colored check-in circles use the conference's official tracks. Monday has sporadic Hyatt lightning-talk visits; Tuesday has the fuller conference day. Use `SIM_MODE=preview` to inspect either fixture without ES, or `ES_INDEX_PREFIX=affinity-replay-qa-` for an isolated rehearsal. The separate `/demo` film is retired.
+
 ## Verify and deliver
 
 `pnpm test`, `pnpm exec next typegen && pnpm typecheck`, and `pnpm build`. The image includes the app plus bootstrap, retention, and simulator jobs.

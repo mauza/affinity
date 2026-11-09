@@ -30,6 +30,9 @@ export async function reset(day?: string) {
     INDEX.attendees,
     INDEX.tables,
   ]) {
+    // Profiles are shared between days. Replacing Monday must not remove
+    // Tuesday's people (or any other simulator's profiles).
+    if (day && index === INDEX.attendees) continue;
     const filter: any[] =
       index === INDEX.tables
         ? [{ term: { sources: "sim" } }]
@@ -78,9 +81,9 @@ async function main() {
     console.log("reset complete (sim only)");
     return;
   }
-  if (!["backfill", "live"].includes(mode)) throw new Error("invalid SIM_MODE");
+  if (!["backfill", "live", "preview"].includes(mode)) throw new Error("invalid SIM_MODE");
   const seed = integer("SIM_SEED", 42),
-    people = personas(seed, integer("SIM_PEOPLE", 600, 1));
+    people = personas(seed, integer("SIM_PEOPLE", day === "2026-11-09" ? 160 : 600, 1));
   const shards = integer("SIM_SHARDS", 1, 1);
   const suffix =
     process.env.JOB_COMPLETION_INDEX ??
@@ -90,6 +93,15 @@ async function main() {
     throw new Error("SIM_SHARD must be less than SIM_SHARDS");
   const owned =
     mode === "live" ? people.filter((_, n) => n % shards === shard) : people;
+  const schedules = owned.map((p) => {
+    const r = rng(seed + Number(p.id.split("-").at(-1)) * 7919);
+    const plans = selectPlans(p, day, r);
+    return { p, plans, stints: timeline(p, day, plans, r) };
+  });
+  if (mode === "preview") {
+    console.log(JSON.stringify({ mode, day, people: owned.length, plans: schedules.reduce((n, s) => n + s.plans.length, 0), stints: schedules.reduce((n, s) => n + s.stints.length, 0), topics: [...new Set(people.flatMap(p => p.interests))].sort() }));
+    return;
+  }
   if (mode === "backfill") await reset(day);
   const now = new Date().toISOString();
   await bulk(
@@ -110,11 +122,6 @@ async function main() {
       },
     ]),
   );
-  const schedules = owned.map((p) => {
-    const r = rng(seed + Number(p.id.split("-").at(-1)) * 7919);
-    const plans = selectPlans(p, day, r);
-    return { p, plans, stints: timeline(p, day, plans, r) };
-  });
   if (mode === "backfill") {
     for (const { p, plans, stints } of schedules)
       await bulk([
@@ -148,7 +155,9 @@ async function main() {
       "honeycomb-hub",
       ...(meal ? [meal.zone] : []),
     ];
-    for (let t = +at(day, "09:30"); t <= +at(day, "19:00"); t += 10 * 60000) {
+    // Replay rehearsals only need stints. Historical table recomputation can
+    // notify real subscribers; run it only when explicitly requested.
+    for (let t = +at(day, "09:30"); process.env.SIM_TABLES === "1" && t <= +at(day, "19:00"); t += 10 * 60000) {
       await Promise.all(
         zones.map((zone) => recomputeTables(zone, new Date(t))),
       );

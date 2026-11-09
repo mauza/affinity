@@ -145,9 +145,13 @@ Rough targets. If a phase overruns, cut from the bottom of the list below.
 - Dash0: OTel traces/logs/metrics + RUM; SLO "check-in visible on map < 20s".
 - Gitar: land features through reviewed PRs with repo rules.
 
-## Demo (5 min)
+## Demo replay
 
-1. Lobby screen on the projector: live map plus the murmuration of simulated Tuesday ("this is what Tuesday will look like").
+Use the integrated `/map?mode=murmuration` replay rather than a separate film. Colored circles represent topic check-ins in real venue rooms; room badges count distinct people. An attendee with several interests contributes several topic signals. Data comes from the same privacy-floored Elasticsearch stint aggregation as the map, with official conference track categories and explicit synthetic labeling.
+
+Tuesday is the fuller replay: 600 simulated attendees following the schedule's keynote, sessions, shared spaces, and staggered lunch. Monday is quieter: 160 simulated attendees making intermittent visits, mostly to the Hyatt Regency L4 project lightning talks, with the real coffee/lunch gaps. The animation shows room populations growing and shrinking, not measured individual travel paths. Keep existing live attendees/history intact when reseeding a day; rehearse in prefixed indices first.
+
+1. Lobby screen on the projector: live map plus the integrated Tuesday replay, explicitly labeled as a synthetic rehearsal rather than measured attendance or a forecast.
 2. Judges scan the QR code, type interests in their own words, and see chips appear. They get a crowd-aware plan for Tuesday.
 3. Judges check in "open to connect"; a pop-up table forms on the lobby screen and an alert fires on another phone.
 4. Insights: "unusually popular here" and "people like you also…".
