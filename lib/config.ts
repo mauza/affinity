@@ -16,7 +16,7 @@ export const config = {
   refineModel: env("LLM_REFINE_MODEL", "gpt-6-luna"),
   planModel: env("LLM_PLAN_MODEL", "gpt-6.1-sol"),
   inferenceId: "affinity-embed",
-  publicUrl: env("PUBLIC_URL", "https://kubecon.mau.guru"),
+  publicUrl: env("PUBLIC_URL", "https://affinity.mau.guru"),
 };
 
 /** Interest-derived counts below this show as "a few". */

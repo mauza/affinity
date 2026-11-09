@@ -57,6 +57,20 @@ export function loadSchedule(): Schedule {
   return schedule!;
 }
 
+let sessionTopics: Record<string, string[]> | undefined;
+
+/** AI-assigned topic IDs per session (scripts/tag-sessions.ts); empty if absent. */
+export function loadSessionTopics(): Record<string, string[]> {
+  if (!sessionTopics) {
+    try {
+      sessionTopics = JSON.parse(readFileSync(path.join(dataDir(), "session-topics.json"), "utf8")).topics;
+    } catch {
+      sessionTopics = {};
+    }
+  }
+  return sessionTopics!;
+}
+
 export function zoneById(id: string): Zone | undefined {
   return loadVenue().zones.find((z) => z.id === id);
 }

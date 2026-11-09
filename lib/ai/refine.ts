@@ -87,13 +87,17 @@ async function findOrCreate(label: string, description: string): Promise<(Intere
   if (!id) return null;
   const same: any = await es().get({ index: INDEX.interests, id }, { ignore: [404] });
   if (same.found) return { id, label: same._source.label, kind: same._source.kind, sessions: same._source.session_count ?? 0 };
-  const near: any = await es().search({
-    index: INDEX.interests, size: 1, _source: ["id", "label", "kind", "session_count"],
-    query: { semantic: { field: "semantic", query: label } },
+  // Similar embeddings do not establish topic identity. Match a normalized
+  // label or alias exactly; otherwise keep the AI's distinct topic.
+  const existing: any = await es().search({
+    index: INDEX.interests, size: 1000,
+    _source: ["id", "label", "aliases", "kind", "session_count"],
+    query: { match_all: {} },
   });
-  const top = near.hits.hits[0];
-  // Cosine-similarity scores from semantic_text; ~0.85+ means "same thing".
-  if (top && top._score >= 0.85) return { id: top._source.id, label: top._source.label, kind: top._source.kind, sessions: top._source.session_count ?? 0 };
+  const sameLabel = existing.hits.hits.find((h: any) =>
+    [h._source.label, ...(h._source.aliases ?? [])].some((value: string) => slug(value) === id),
+  );
+  if (sameLabel) return { id: sameLabel._source.id, label: sameLabel._source.label, kind: sameLabel._source.kind, sessions: sameLabel._source.session_count ?? 0 };
   const desc = description.replace(/\s+/g, " ").slice(0, 200);
   await es().index({
     index: INDEX.interests,

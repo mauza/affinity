@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import { config } from "@/lib/config";
 import { es, INDEX } from "@/lib/es";
 import { MAPPINGS, SETTINGS } from "@/lib/indices";
-import { loadSchedule, loadVenue } from "@/lib/data";
+import { loadSchedule, loadSessionTopics, loadVenue } from "@/lib/data";
 import { buildTaxonomy } from "@/lib/taxonomy";
 import { buildSessions } from "@/lib/sessions";
 
@@ -91,7 +91,7 @@ async function importData() {
   const schedule = loadSchedule();
   const venue = loadVenue();
   const hash = createHash("sha256")
-    .update(JSON.stringify([schedule.fetchedAt, schedule.sessions.length, venue, buildTaxonomy(schedule).length, 2]))
+    .update(JSON.stringify([schedule.fetchedAt, schedule.sessions.length, venue, buildTaxonomy(schedule).length, loadSessionTopics(), 4]))
     .digest("hex");
   const meta = await es().get({ index: INDEX.meta, id: "import" }, { ignore: [404] });
   if ((meta as any).found && (meta as any)._source?.value?.hash === hash && !process.env.FORCE_IMPORT) {

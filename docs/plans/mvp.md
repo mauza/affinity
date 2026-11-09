@@ -2,7 +2,7 @@
 
 Live interest map for KubeCon NA 2026 SLC. The name comes from Kubernetes `podAffinity`: pods with matching labels get scheduled together, and people with matching interests gather together.
 
-Status: proposed. Hackathon is **Mon 2026-11-09**, in person; kickoff 10:00, submission **17:30 MT**, presentations 17:30. No app code before kickoff (rules). KubeCon NA runs Nov 9–12 at Salt Palace + Hyatt Regency, SLC, so the app can serve real attendees Tue–Thu after submission.
+Status: implemented and integrated locally; release pending. Hackathon is **Mon 2026-11-09**, in person; kickoff 10:00, submission **17:30 MT**, presentations 17:30. KubeCon NA runs Nov 9–12 at Salt Palace + Hyatt Regency, SLC, so the app can serve real attendees Tue–Thu after submission.
 
 ## Goal
 
@@ -20,7 +20,7 @@ Live, collective map of where like-minded people gather at KubeCon NA 2026 SLC. 
 - Percolator-backed alerts, "unusually popular here", and "unexpected overlap" via significant_terms.
 - Privacy floor: interest-derived counts below 3 show as "a few". Thresholds apply after filtering.
 - Crowd simulator Job: clearly labeled synthetic attendees for the murmuration, cold start, and load.
-- Elasticsearch is the only datastore. Kubernetes hosting; public HTTPS ingress `kubecon.mau.guru`.
+- Elasticsearch is the only datastore. Kubernetes hosting; public HTTPS ingress `affinity.mau.guru`.
 - Tracks: Elasticsearch (primary), Merge Forward, Radar. Dash0 and Gitar are stretch goals.
 
 ## Data sources
@@ -118,7 +118,7 @@ Live, collective map of where like-minded people gather at KubeCon NA 2026 SLC. 
 
 - Home cluster (k3s) via GitOps in `~/Projects/home-k8s`: `apps/kubecon/` + `argo/apps/kubecon.yaml`, namespace `kubecon`. Sealed secrets for the LiteLLM master key and Elasticsearch credentials. App image is built from the public repo and pushed to the cluster registry.
 - Elasticsearch: single-node StatefulSet, internal ClusterIP, auth/TLS, 4Gi limit / 2Gi heap (no local ML), pinned image. Use a `local-path` PVC pinned to an amd64 node with headroom (waug01 or waukvm1), not NFS. Check vm.max_map_count first.
-- App: Deployment, probes, limits, internal Service. Ingress `kubecon.mau.guru` → app only, with valid TLS: Traefik `websecure` + `letsencrypt-prod` + a headers middleware (same pattern as `apps/web-games/ingress.yaml`). DNS already resolves. Elasticsearch has no ingress.
+- App: Deployment, probes, limits, internal Service. Ingress `affinity.mau.guru` → app only, with valid TLS: Traefik `websecure` + `letsencrypt-prod` + a headers middleware (same pattern as `apps/web-games/ingress.yaml`). DNS already resolves. Elasticsearch has no ingress.
 - Radar connected to the cluster/namespace from the start. Scripted investigation: scale `crowd-sim` live mode → Elasticsearch latency/heap pressure or app readiness flaps → Radar AI investigation → fix (limits, query, bulk batching) → keep the evidence for the demo.
 - Verify: HTTPS flow, app ready, Elasticsearch green/yellow as expected, bootstrap and sim Jobs complete, data survives an Elasticsearch pod restart.
 
@@ -175,6 +175,15 @@ GPS/beacons, chat, contact exchange, accounts/social login, push/email notificat
 - KubeCon NA 2026: [schedule](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule/), [venue map PDF](https://events.linuxfoundation.org/kcna26-venue-map), [expo map PDF](https://events.linuxfoundation.org/kcna26-expo-map), [venue/travel](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/attend/venue-travel/).
 - Elasticsearch: [aggregations](https://www.elastic.co/docs/explore-analyze/query-filter/aggregations), [range field types](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/range), [percolator](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/percolator), [semantic_text](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/semantic-text), [production Docker requirements](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-prod).
 
+## Implementation checkpoint (2026-11-09)
+
+- Workspace: main project checkout, branch `session-topics`. Local uncommitted integration includes map/lobby PR #2, attendee-flow PR #3, simulator PR #4, session-topic enrichment, and integration fixes. Those PRs remain unmerged; no release from this integration yet.
+- Direct A770 inference is configured. All 570 non-service sessions have saved AI topic tags; bootstrap merges original categories and enrichment deterministically.
+- Map, replay, lobby, onboarding, planner, profile/privacy controls, tables, alerts and simulator implemented. Table reads recount active presence, exclude synthetic counts in live-only mode, and floor newcomer counts.
+- Cluster backfill: 600 simulated attendees, 3,111 plans, 29,318 stints; labeled Tuesday replay available. Simulator task finished; no child jobs pending.
+- Verified: `pnpm test` (23 tests), `pnpm exec next typegen`, `pnpm typecheck`, `pnpm build`, `git diff --check`. Three-cookie API check: floor, shared table, one alert, leave/dissolution, data cleanup. Browser: interest confirmation and AI agenda, replay playback, 390/1280px map, 1920×1080 lobby. Current public `/api/health` reports ES green.
+- Preview: dev server port 3100. Next action: review/release the integrated changes, then verify the deployed image and run simulator Jobs via GitOps. Still unverified: Kubernetes simulator Job, multi-replica simulation, physical QR scanning/projector readability, and Radar investigation evidence.
+
 ## Unresolved questions
 
-- Who owns which lane? Assign infra, data/sim, map/lobby, and AI/search to named people before 11:00.
+- None blocking local MVP verification.
