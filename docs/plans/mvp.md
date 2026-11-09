@@ -106,9 +106,9 @@ Live, collective map of where like-minded people gather at KubeCon NA 2026 SLC. 
 
 ## Architecture and data
 
-- One TypeScript/Next.js app (UI + API routes); SVG map. All model calls go through the home LiteLLM gateway (`http://litellm-proxy.llm-gateway:4000`, OpenAI-compatible), server-side only.
-- Embeddings: `qwen3-embedding-0.6b` (1024 dims, cosine, max 2048 tokens/input) served by llama.cpp SYCL on the Intel Arc A770 (`home-k8s/apps/llm-gateway/embed-a770.yaml`). Chat: a LiteLLM chat route (default `gpt-6-luna` for live tag refine, `gpt-6.1-sol` for the planner), configurable by env.
-- Elasticsearch: pin the current 9.x. Start a trial license at bootstrap (`_license/start_trial`) for inference, `semantic_text`, RRF, and Agent Builder. Embeddings come through an Elasticsearch inference endpoint (`openai` service, `url` = LiteLLM `/v1/embeddings`, model `qwen3-embedding-0.6b`), so no ML node or ELSER memory is needed.
+- One TypeScript/Next.js app (UI + API routes); SVG map. Model calls are server-side only. Chat goes through the home LiteLLM gateway (`http://litellm-proxy.llm-gateway:4000`, OpenAI-compatible, master key for now).
+- Embeddings: `qwen3-embedding-0.6b` (1024 dims, cosine, max 2048 tokens/input) served by llama.cpp SYCL on the Intel Arc A770 (`home-k8s/apps/llm-gateway/embed-a770.yaml`), called **directly** at `http://embed-a770.llm-gateway:8000/v1` (no API key; ~27 ms/query, 32-input batch ~140 ms). Skipping LiteLLM saves ~65 ms per query and ~5× on bulk import; the server's own `/metrics` covers observability. Chat: a LiteLLM chat route (default `gpt-6-luna` for live tag refine, `gpt-6.1-sol` for the planner), configurable by env.
+- Elasticsearch: pin the current 9.x. Start a trial license at bootstrap (`_license/start_trial`) for inference, `semantic_text`, RRF, and Agent Builder. Embeddings come through an Elasticsearch inference endpoint (`openai` service, `url` = `http://embed-a770.llm-gateway:8000/v1/embeddings`, placeholder API key, model `qwen3-embedding-0.6b`), so no ML node or ELSER memory is needed.
   - Fallback: the app computes embeddings into `dense_vector`, and RRF fusion happens app-side.
   - Percolator, significant_terms, date_range aggregations, and cardinality all work on the basic license.
 - Indices: `interests`, `sessions` (`when` date_range + `semantic_text`), `zones`, `attendees`, `plans` (one doc per attendee-session), `stints`, `tables`, `alerts` (percolator), `notifications`. Explicit mappings; 1 shard, 0 replicas.
@@ -116,7 +116,7 @@ Live, collective map of where like-minded people gather at KubeCon NA 2026 SLC. 
 
 ## Kubernetes delivery
 
-- Home cluster (k3s) via GitOps in `~/Projects/home-k8s`: `apps/kubecon/` + `argo/apps/kubecon.yaml`, namespace `kubecon`. Sealed secrets for the LiteLLM key and Elasticsearch credentials. App image is built from the public repo and pushed to the cluster registry.
+- Home cluster (k3s) via GitOps in `~/Projects/home-k8s`: `apps/kubecon/` + `argo/apps/kubecon.yaml`, namespace `kubecon`. Sealed secrets for the LiteLLM master key and Elasticsearch credentials. App image is built from the public repo and pushed to the cluster registry.
 - Elasticsearch: single-node StatefulSet, internal ClusterIP, auth/TLS, 4Gi limit / 2Gi heap (no local ML), pinned image. Use a `local-path` PVC pinned to an amd64 node with headroom (waug01 or waukvm1), not NFS. Check vm.max_map_count first.
 - App: Deployment, probes, limits, internal Service. Ingress `kubecon.mau.guru` → app only, with valid TLS: Traefik `websecure` + `letsencrypt-prod` + a headers middleware (same pattern as `apps/web-games/ingress.yaml`). DNS already resolves. Elasticsearch has no ingress.
 - Radar connected to the cluster/namespace from the start. Scripted investigation: scale `crowd-sim` live mode → Elasticsearch latency/heap pressure or app readiness flaps → Radar AI investigation → fix (limits, query, bulk batching) → keep the evidence for the demo.
@@ -178,4 +178,3 @@ GPS/beacons, chat, contact exchange, accounts/social login, push/email notificat
 ## Unresolved questions
 
 - Who owns which lane? Assign infra, data/sim, map/lobby, and AI/search to named people before 11:00.
-- Should the app get its own LiteLLM key, or the shared master key? There's no key database today, so a dedicated key needs one.
