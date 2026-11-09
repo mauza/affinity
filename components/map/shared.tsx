@@ -31,7 +31,7 @@ export function FloorMap({ floor, zones, counts, mode, peak = 30, selected, onSe
     return () => observer.disconnect();
   }, [floor.viewBox]);
   const ordered = zones.filter(z => z.floor === floor.id).sort((a, b) => Number(!!a.parent) - Number(!!b.parent));
-  return <section className={s.floor}><h3>{floor.name}</h3><svg ref={svg} viewBox={floor.viewBox.join(" ")} aria-label={floor.name} role="group">
+  return <section className={s.floor}><h3>{floor.name}</h3><svg ref={svg} viewBox={floor.viewBox.join(" ")} aria-label={floor.name} role="group" overflow="visible">
     {floor.background?.clip && <defs><clipPath id={clipId}><polygon points={floor.background.clip}/></clipPath></defs>}
     {floor.background && <image href={floor.background.href} width={floor.background.width} height={floor.background.height} x="0" y="0" preserveAspectRatio="none" className={s.venueArtwork} clipPath={floor.background.clip?`url(#${clipId})`:undefined}/>}
     {ordered.map(z => {
@@ -39,12 +39,12 @@ export function FloorMap({ floor, zones, counts, mode, peak = 30, selected, onSe
       const short = z.name.split(" · ")[0];
       const words = short.split(" "), lines: string[] = [];
       for (const word of words) { if (!lines.length || (lines[lines.length - 1].length + word.length > Math.max(9, w / 8))) lines.push(word); else lines[lines.length - 1] += " " + word; }
-      return <g key={z.id} role={onSelect ? "button" : "img"} tabIndex={onSelect ? 0 : undefined} aria-label={`${z.name}: ${countLabel(n)} people ${mode.toLowerCase()}`} aria-pressed={onSelect ? selected === z.id : undefined} onClick={() => onSelect?.(z)} onKeyDown={e => { if (onSelect && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onSelect(z); } }} className={s.zone}>
+      return <g key={z.id} data-zone={z.id} role={onSelect ? "button" : "img"} tabIndex={onSelect ? 0 : undefined} aria-label={`${z.name}: ${countLabel(n)} people ${mode.toLowerCase()}`} aria-pressed={onSelect ? selected === z.id : undefined} onClick={() => onSelect?.(z)} onKeyDown={e => { if (onSelect && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onSelect(z); } }} className={s.zone}>
         <title>{z.name}{z.note ? " · " + z.note : ""}: {countLabel(n)} · {mode}</title>
         {floor.background ? <>
-          {n>0 && <ellipse cx={x+w/2} cy={y+h/2} rx={Math.max(17,w*.48)} ry={Math.max(17,h*.48)} fill={heat(n,peak)} opacity=".24" pointerEvents="none"/>}
-          <rect x={x} y={y} width={w} height={h} rx="3" fill="transparent" stroke={selected===z.id?"#174e3b":"transparent"} strokeWidth="3" className={s.hitArea}/>
-          {(n>0||selected===z.id)&&<g pointerEvents="none" transform={`translate(${x+w/2} ${y+h/2}) scale(${badgeScale})`}><rect x={-Math.max(19,countLabel(n).length*4.2+7)} y={-15} width={Math.max(38,countLabel(n).length*8.4+14)} height="30" rx="15" fill={n>peak*.75?"#b75d28":"#245a43"} stroke="white" strokeWidth="2"/><text x={0} y={5} textAnchor="middle" fill="white" fontSize="13" fontWeight="700">{countLabel(n)}</text></g>}
+          {/* The room itself carries the heat, translucent so the official labels stay legible; empty rooms keep a faint outline so they read as tappable. */}
+          <rect x={x} y={y} width={w} height={h} rx="2" vectorEffect="non-scaling-stroke" className={`${s.hitArea} ${selected===z.id?s.selectedZone:""}`} style={n>0?{fill:heat(n,peak),fillOpacity:.55}:undefined}/>
+          {n>0&&<g pointerEvents="none" transform={`translate(${x+w/2} ${Math.max(y,floor.viewBox[1]+16*badgeScale)}) scale(${badgeScale})`}><rect x={-Math.max(19,countLabel(n).length*4.2+7)} y={-15} width={Math.max(38,countLabel(n).length*8.4+14)} height="30" rx="15" fill={n>peak*.75?"#b75d28":"#245a43"} stroke="white" strokeWidth="2"/><text x={0} y={5} textAnchor="middle" fill="white" fontSize="13" fontWeight="700">{countLabel(n)}</text></g>}
         </> : <><rect x={x + 2} y={y + 2} width={w - 4} height={h - 4} rx="7" fill={heat(n, peak)} stroke={selected === z.id ? "#174e3b" : "#a4b99e"} strokeWidth={selected === z.id ? 4 : 1}/>
         <text x={x + w / 2} y={y + h / 2 - (Math.min(lines.length, 3) - 1) * 7 - 5} textAnchor="middle" fill="#173b32" fontSize={Math.min(14, h / 3.8)} fontWeight="600" pointerEvents="none">
           {lines.slice(0, 3).map((line, i) => <tspan key={i} x={x + w / 2} dy={i ? "1.1em" : 0}>{line}</tspan>)}
