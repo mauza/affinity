@@ -1,0 +1,622 @@
+{
+ "source": "Traced schematic of the official KubeCon NA 2026 venue map (https://events.linuxfoundation.org/kcna26-venue-map). Not to scale.",
+ "floors": [
+  {
+   "id": "sp1",
+   "name": "Salt Palace L1",
+   "venue": "Salt Palace",
+   "viewBox": [
+    0,
+    0,
+    760,
+    640
+   ]
+  },
+  {
+   "id": "sp2",
+   "name": "Salt Palace L2",
+   "venue": "Salt Palace",
+   "viewBox": [
+    0,
+    0,
+    760,
+    520
+   ]
+  },
+  {
+   "id": "hy2",
+   "name": "Hyatt L2",
+   "venue": "Hyatt Regency",
+   "viewBox": [
+    0,
+    0,
+    400,
+    260
+   ]
+  },
+  {
+   "id": "hy4",
+   "name": "Hyatt L4",
+   "venue": "Hyatt Regency",
+   "viewBox": [
+    0,
+    0,
+    400,
+    260
+   ]
+  }
+ ],
+ "zones": [
+  {
+   "id": "cosmic-canyon",
+   "name": "Cosmic Canyon · Project Pavilion",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    450,
+    20,
+    190,
+    140
+   ],
+   "roomIds": [
+    90363,
+    90682
+   ],
+   "note": "Halls 1–5"
+  },
+  {
+   "id": "halls-15",
+   "name": "Halls 1–5 · Solutions Showcase",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    450,
+    160,
+    190,
+    70
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "honeycomb-hub",
+   "name": "Honeycomb Hub",
+   "floor": "sp1",
+   "kind": "lounge",
+   "rect": [
+    490,
+    230,
+    150,
+    80
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "alpine-overlook",
+   "name": "Alpine Overlook · Demo Theater",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    490,
+    310,
+    150,
+    90
+   ],
+   "roomIds": [
+    91537,
+    92016
+   ],
+   "note": "Network Nook"
+  },
+  {
+   "id": "hall-de",
+   "name": "Hall DE · Keynote",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    40,
+    400,
+    220,
+    150
+   ],
+   "roomIds": [
+    82947
+   ]
+  },
+  {
+   "id": "halls-ac",
+   "name": "Halls A–C · Showcase & meals",
+   "floor": "sp1",
+   "kind": "meal",
+   "rect": [
+    260,
+    400,
+    230,
+    150
+   ],
+   "roomIds": [
+    87451
+   ],
+   "note": "Lunch and breaks"
+  },
+  {
+   "id": "starlight-summit",
+   "name": "Starlight Summit",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    264,
+    404,
+    90,
+    56
+   ],
+   "roomIds": [
+    92096
+   ],
+   "parent": "halls-ac"
+  },
+  {
+   "id": "main-entrance",
+   "name": "200 S Entrance · Badges",
+   "floor": "sp1",
+   "kind": "hallway",
+   "rect": [
+    0,
+    550,
+    90,
+    50
+   ],
+   "roomIds": [
+    87690
+   ]
+  },
+  {
+   "id": "lower-concourse",
+   "name": "Lower Concourse",
+   "floor": "sp1",
+   "kind": "hallway",
+   "rect": [
+    90,
+    550,
+    400,
+    26
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "gb-j",
+   "name": "Grand Ballroom J",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    150,
+    580,
+    40,
+    30
+   ],
+   "roomIds": [
+    90387
+   ]
+  },
+  {
+   "id": "gb-h",
+   "name": "Grand Ballroom H",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    190,
+    580,
+    60,
+    30
+   ],
+   "roomIds": [
+    82950
+   ]
+  },
+  {
+   "id": "gb-bdf",
+   "name": "Grand Ballroom BDF",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    250,
+    580,
+    90,
+    30
+   ],
+   "roomIds": [
+    82949
+   ]
+  },
+  {
+   "id": "gb-gi",
+   "name": "Grand Ballroom GI",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    150,
+    610,
+    80,
+    30
+   ],
+   "roomIds": [
+    82951
+   ]
+  },
+  {
+   "id": "gb-ace",
+   "name": "Grand Ballroom ACE",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    230,
+    610,
+    110,
+    30
+   ],
+   "roomIds": [
+    82948
+   ]
+  },
+  {
+   "id": "north-foyer",
+   "name": "North Foyer",
+   "floor": "sp1",
+   "kind": "hallway",
+   "rect": [
+    340,
+    580,
+    60,
+    60
+   ],
+   "roomIds": [
+    92007
+   ]
+  },
+  {
+   "id": "room-151",
+   "name": "151",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    400,
+    580,
+    90,
+    60
+   ],
+   "roomIds": [
+    82952
+   ]
+  },
+  {
+   "id": "upper-concourse",
+   "name": "Upper Concourse",
+   "floor": "sp2",
+   "kind": "hallway",
+   "rect": [
+    40,
+    380,
+    400,
+    40
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "room-250ac",
+   "name": "250 A–C",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    40,
+    420,
+    100,
+    70
+   ],
+   "roomIds": [
+    87421
+   ]
+  },
+  {
+   "id": "room-250df",
+   "name": "250 D–F",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    140,
+    420,
+    100,
+    70
+   ],
+   "roomIds": [
+    87422
+   ]
+  },
+  {
+   "id": "room-251ac",
+   "name": "251 A–C",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    240,
+    420,
+    100,
+    70
+   ],
+   "roomIds": [
+    87423
+   ]
+  },
+  {
+   "id": "room-251df",
+   "name": "251 D–F",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    340,
+    420,
+    100,
+    70
+   ],
+   "roomIds": [
+    87424
+   ]
+  },
+  {
+   "id": "room-254",
+   "name": "254",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    450,
+    300,
+    90,
+    70
+   ],
+   "roomIds": [
+    87425
+   ]
+  },
+  {
+   "id": "room-255a",
+   "name": "255 A",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    560,
+    250,
+    70,
+    60
+   ],
+   "roomIds": [
+    87426
+   ]
+  },
+  {
+   "id": "room-255bc",
+   "name": "255 BC",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    630,
+    250,
+    110,
+    60
+   ],
+   "roomIds": [
+    82953
+   ]
+  },
+  {
+   "id": "room-255d",
+   "name": "255 D",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    560,
+    160,
+    70,
+    60
+   ],
+   "roomIds": [
+    87427
+   ]
+  },
+  {
+   "id": "room-255ef",
+   "name": "255 EF",
+   "floor": "sp2",
+   "kind": "session",
+   "rect": [
+    630,
+    160,
+    110,
+    60
+   ],
+   "roomIds": [
+    82954
+   ]
+  },
+  {
+   "id": "east-registration",
+   "name": "East Registration",
+   "floor": "sp2",
+   "kind": "hallway",
+   "rect": [
+    560,
+    330,
+    180,
+    40
+   ],
+   "roomIds": [
+    87691
+   ]
+  },
+  {
+   "id": "upper-mezzanine",
+   "name": "Upper Mezzanine",
+   "floor": "sp2",
+   "kind": "hallway",
+   "rect": [
+    470,
+    20,
+    60,
+    230
+   ],
+   "roomIds": [
+    90804
+   ]
+  },
+  {
+   "id": "quiet-rooms",
+   "name": "Quiet Rooms · 260 A/B",
+   "floor": "sp2",
+   "kind": "quiet",
+   "rect": [
+    380,
+    100,
+    80,
+    60
+   ],
+   "roomIds": [],
+   "note": "Quiet rooms"
+  },
+  {
+   "id": "salt-lake-c",
+   "name": "Salt Lake Ballroom C",
+   "floor": "hy2",
+   "kind": "session",
+   "rect": [
+    150,
+    50,
+    100,
+    130
+   ],
+   "roomIds": [
+    82955
+   ]
+  },
+  {
+   "id": "salt-lake-de",
+   "name": "Salt Lake Ballroom DE",
+   "floor": "hy2",
+   "kind": "session",
+   "rect": [
+    250,
+    50,
+    110,
+    130
+   ],
+   "roomIds": [
+    82956
+   ]
+  },
+  {
+   "id": "salt-lake-foyer",
+   "name": "Salt Lake Foyer",
+   "floor": "hy2",
+   "kind": "hallway",
+   "rect": [
+    40,
+    180,
+    320,
+    40
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "regency-a",
+   "name": "Regency Ballroom A",
+   "floor": "hy4",
+   "kind": "session",
+   "rect": [
+    40,
+    50,
+    100,
+    130
+   ],
+   "roomIds": [
+    82958
+   ]
+  },
+  {
+   "id": "regency-bd",
+   "name": "Regency Ballroom B–D",
+   "floor": "hy4",
+   "kind": "session",
+   "rect": [
+    140,
+    50,
+    220,
+    130
+   ],
+   "roomIds": [
+    82957,
+    92180,
+    92181
+   ],
+   "note": "B and CD combine as B–D"
+  },
+  {
+   "id": "regency-foyer",
+   "name": "Regency Foyer",
+   "floor": "hy4",
+   "kind": "hallway",
+   "rect": [
+    40,
+    180,
+    320,
+    40
+   ],
+   "roomIds": []
+  }
+ ],
+ "facilities": [
+  {
+   "name": "Quiet rooms",
+   "where": "Salt Palace L2, 260 A/B",
+   "zone": "quiet-rooms"
+  },
+  {
+   "name": "Prayer room",
+   "where": "Hyatt L5, Zion"
+  },
+  {
+   "name": "Mother's room",
+   "where": "See the official venue map"
+  },
+  {
+   "name": "Meal pick-up",
+   "where": "Salt Palace L1, Halls A–C and Halls 1–5",
+   "zone": "halls-ac"
+  },
+  {
+   "name": "First aid",
+   "where": "Salt Palace L1, by the North Foyer"
+  }
+ ],
+ "meals": [
+  {
+   "day": "2026-11-10",
+   "start": "12:50",
+   "end": "14:50",
+   "zone": "halls-ac"
+  },
+  {
+   "day": "2026-11-11",
+   "start": "12:20",
+   "end": "14:20",
+   "zone": "halls-ac"
+  },
+  {
+   "day": "2026-11-12",
+   "start": "12:20",
+   "end": "13:50",
+   "zone": "halls-ac"
+  }
+ ],
+ "excludedRoomIds": [
+  88756,
+  88637,
+  92005,
+  92006
+ ]
+}

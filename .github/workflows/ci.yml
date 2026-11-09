@@ -1,0 +1,54 @@
+# Typecheck + tests on every PR. On main, build and push the image; pushing is
+# the deploy: Argo CD Image Updater picks the newest timestamp tag from the
+# `affinity` Harbor project and commits it to home-k8s (apps/kubecon).
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths-ignore: ["docs/**", "*.md"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+
+  release:
+    needs: [test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency: { group: release, cancel-in-progress: false }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: docker.mau.guru
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+      - id: tag
+        run: echo "tag=$(date -u +%Y%m%d-%H%M%S)" >> "$GITHUB_OUTPUT"
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          build-args: GIT_COMMIT=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            docker.mau.guru/affinity/app:${{ steps.tag.outputs.tag }}
+            docker.mau.guru/affinity/app:sha-${{ github.sha }}
+          push: true
