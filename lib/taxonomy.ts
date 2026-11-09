@@ -1,7 +1,7 @@
 // Interest taxonomy seeded from the schedule's categories: the main tracks,
 // co-located events, a few formats people seek out, and the 104 CNCF projects.
 // IDs are stable slugs so plans, stints and alerts survive re-imports.
-import type { Schedule } from "./data";
+import { loadSessionTopics, type Schedule } from "./data";
 
 export type InterestKind = "track" | "event" | "format" | "project" | "custom";
 export type Interest = {
@@ -86,10 +86,11 @@ export function buildTaxonomy(schedule: Schedule): Interest[] {
   // matching knows what "Cilium" or "Platform Engineering" means here.
   const titles = new Map<string, string[]>();
   const catToInterest = categoryIndex([...byId.values()]);
+  const aiTopics = loadSessionTopics();
   for (const s of schedule.sessions) {
-    for (const c of s.categoryItems) {
-      const id = catToInterest.get(c);
-      if (!id) continue;
+    const ids = new Set([...s.categoryItems.map((c) => catToInterest.get(c)), ...(aiTopics[s.id] ?? [])]);
+    for (const id of ids) {
+      if (!id || !byId.has(id)) continue;
       const list = titles.get(id) ?? [];
       if (list.length < 6) list.push(s.title);
       titles.set(id, list);

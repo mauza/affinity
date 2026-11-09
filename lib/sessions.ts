@@ -1,5 +1,5 @@
 // Turn the raw schedule snapshot into `sessions` docs.
-import { loadSchedule, zoneForRoom, type Schedule } from "./data";
+import { loadSchedule, loadSessionTopics, zoneForRoom, type Schedule } from "./data";
 import { categoryIndex, type Interest } from "./taxonomy";
 import { dayOf, mst } from "./time";
 
@@ -42,6 +42,8 @@ export function htmlToText(html: string): string {
 const SERVICE_CATEGORIES = new Set(["Registration", "Breaks"]);
 
 export function buildSessions(interests: Interest[], schedule: Schedule = loadSchedule()): SessionDoc[] {
+  const aiTopics = loadSessionTopics();
+  const known = new Set(interests.map((i) => i.id));
   const rooms = new Map(schedule.rooms.map((r) => [r.id, r.name]));
   const speakers = new Map(schedule.speakers.map((p) => [p.id, p.fullName]));
   const catToInterest = categoryIndex(interests);
@@ -65,7 +67,13 @@ export function buildSessions(interests: Interest[], schedule: Schedule = loadSc
       room: rooms.get(s.roomId ?? -1) ?? "",
       zone: zone?.id ?? null,
       floor: zone?.floor ?? null,
-      interests: [...new Set(s.categoryItems.map((c) => catToInterest.get(c)).filter(Boolean) as string[])],
+      // Schedule categories plus AI-assigned topics (only known taxonomy IDs).
+      interests: [
+        ...new Set([
+          ...(s.categoryItems.map((c) => catToInterest.get(c)).filter(Boolean) as string[]),
+          ...(aiTopics[s.id] ?? []).filter((t) => known.has(t)),
+        ]),
+      ],
       level: cats.find((c) => c.group === "Audience Level")?.name ?? null,
       speakers: speakerNames,
       url: `${schedule.source}?id=${s.id}`,

@@ -1,0 +1,2807 @@
+{
+ "model": "gpt-6-luna",
+ "generatedAt": "2026-11-09T18:13:23.426Z",
+ "topics": {
+  "1202489": [
+   "security",
+   "keycloak",
+   "argo",
+   "open-policy-agent-opa"
+  ],
+  "1202627": [
+   "security",
+   "in-toto",
+   "oras"
+  ],
+  "1203350": [
+   "security",
+   "kubernetes"
+  ],
+  "1204401": [
+   "ai-inference-agentic",
+   "ai-gateway",
+   "security"
+  ],
+  "1205589": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "scheduling",
+   "operations-performance"
+  ],
+  "1208416": [
+   "ai-inference-agentic",
+   "data-processing-storage",
+   "application-development-delivery"
+  ],
+  "1223002": [
+   "argo",
+   "flux",
+   "platform-engineering"
+  ],
+  "1226654": [
+   "kubeflow",
+   "contributor-experience",
+   "ai-inference-agentic"
+  ],
+  "1227395": [
+   "data-processing-storage",
+   "scheduling",
+   "kubernetes"
+  ],
+  "1228453": [
+   "scheduling",
+   "ai-inference-agentic",
+   "operations-performance",
+   "kubernetes"
+  ],
+  "1229671": [
+   "kubernetes",
+   "operations-performance",
+   "scheduling"
+  ],
+  "1229970": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1230227": [
+   "observability",
+   "security",
+   "opentelemetry"
+  ],
+  "1230488": [
+   "observability",
+   "opentelemetry",
+   "ai-inference-agentic",
+   "kubernetes"
+  ],
+  "1230983": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "opentelemetry",
+   "open-policy-agent-opa"
+  ],
+  "1233132": [
+   "inclusion-accessibility",
+   "contributor-experience"
+  ],
+  "1233585": [
+   "ai-inference-agentic",
+   "dapr",
+   "opentelemetry",
+   "application-development-delivery"
+  ],
+  "1234729": [
+   "ai-inference-agentic",
+   "security",
+   "connectivity"
+  ],
+  "1234985": [
+   "ai-inference-agentic",
+   "scheduling",
+   "kai-scheduler",
+   "operations-performance"
+  ],
+  "1236394": [
+   "scheduling",
+   "kubernetes",
+   "ai-inference-agentic"
+  ],
+  "1236746": [
+   "security",
+   "kyverno",
+   "argo",
+   "flux"
+  ],
+  "1237600": [
+   "ai-inference-agentic",
+   "operations-performance",
+   "scheduling"
+  ],
+  "1237843": [
+   "ai-inference-agentic",
+   "network",
+   "security",
+   "platform-engineering"
+  ],
+  "1238002": [
+   "cadence-workflow",
+   "ai-inference-agentic",
+   "operational-resilience"
+  ],
+  "1238395": [
+   "cluster-lifecycle",
+   "metal3io",
+   "cloud-provider",
+   "infrastructure"
+  ],
+  "1238630": [
+   "ai-inference-agentic",
+   "platform-engineering",
+   "observability",
+   "security"
+  ],
+  "1238718": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance",
+   "emerging-advanced"
+  ],
+  "1239772": [
+   "security",
+   "kubernetes"
+  ],
+  "1239786": [
+   "kubevirt-summit",
+   "kubevirt",
+   "architecture"
+  ],
+  "1239823": [
+   "observability",
+   "opentelemetry",
+   "operations-performance"
+  ],
+  "1240105": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1240796": [
+   "ai-inference-agentic",
+   "security",
+   "auth"
+  ],
+  "1240912": [
+   "ai-inference-agentic",
+   "volcano",
+   "hami",
+   "operations-performance"
+  ],
+  "1241128": [
+   "ai-inference-agentic",
+   "argo",
+   "operations-performance"
+  ],
+  "1241330": [
+   "ai-inference-agentic",
+   "opentelemetry",
+   "observability"
+  ],
+  "1241594": [
+   "network",
+   "kubernetes",
+   "security"
+  ],
+  "1241974": [
+   "ai-inference-agentic",
+   "hami",
+   "kai-scheduler",
+   "scheduling"
+  ],
+  "1242417": [
+   "network",
+   "kubernetes",
+   "cloud-native-university"
+  ],
+  "1242966": [
+   "ai-inference-agentic",
+   "security",
+   "operations-performance"
+  ],
+  "1243089": [
+   "platform-engineering",
+   "ai-inference-agentic",
+   "developer-experience"
+  ],
+  "1243199": [
+   "kubernetes",
+   "scheduling",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1243227": [
+   "operational-resilience",
+   "platform-engineering",
+   "backstage",
+   "argo"
+  ],
+  "1243292": [
+   "opentelemetry",
+   "observability",
+   "network"
+  ],
+  "1243680": [
+   "infrastructure",
+   "kubernetes",
+   "node",
+   "cluster-lifecycle"
+  ],
+  "1243723": [
+   "multicluster",
+   "kubernetes"
+  ],
+  "1243844": [
+   "api-machinery",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1243852": [
+   "opencost",
+   "llm-d",
+   "ai-inference-agentic"
+  ],
+  "1244000": [
+   "cilium",
+   "network",
+   "operations-performance"
+  ],
+  "1244501": [
+   "ai-inference-agentic",
+   "llm-d",
+   "kubernetes",
+   "network"
+  ],
+  "1244576": [
+   "observability",
+   "emerging-advanced"
+  ],
+  "1244682": [
+   "observability",
+   "ai-inference-agentic",
+   "hami",
+   "operations-performance"
+  ],
+  "1244695": [
+   "security",
+   "ai-inference-agentic",
+   "platform-engineering"
+  ],
+  "1244710": [
+   "connectivity",
+   "envoy",
+   "operations-performance"
+  ],
+  "1244941": [
+   "security",
+   "api-machinery"
+  ],
+  "1244963": [
+   "ai-inference-agentic",
+   "observability",
+   "kubernetes"
+  ],
+  "1245273": [
+   "ai-inference-agentic",
+   "developer-experience",
+   "kubernetes",
+   "kserve"
+  ],
+  "1245768": [
+   "security",
+   "kubernetes"
+  ],
+  "1245933": [
+   "ai-inference-agentic",
+   "llm-d",
+   "developer-experience"
+  ],
+  "1245937": [
+   "llm-d",
+   "ai-inference-agentic",
+   "scheduling",
+   "operations-performance"
+  ],
+  "1245965": [
+   "security",
+   "application-development-delivery",
+   "cloud-native-university"
+  ],
+  "1245970": [
+   "opentelemetry",
+   "observability"
+  ],
+  "1246033": [
+   "operational-resilience",
+   "flux",
+   "kyverno",
+   "litmus"
+  ],
+  "1246044": [
+   "ai-inference-agentic",
+   "kagent",
+   "kubernetes"
+  ],
+  "1246066": [
+   "contributor-experience",
+   "inclusion-accessibility"
+  ],
+  "1246166": [
+   "observability",
+   "opentelemetry",
+   "ai-inference-agentic"
+  ],
+  "1246170": [
+   "flux",
+   "operations-performance",
+   "cluster-lifecycle",
+   "ai-inference-agentic"
+  ],
+  "1246179": [
+   "opentelemetry",
+   "observability",
+   "operations-performance"
+  ],
+  "1246200": [
+   "platform-engineering",
+   "ai-inference-agentic"
+  ],
+  "1246259": [
+   "ai-inference-agentic",
+   "operations-performance",
+   "kubernetes"
+  ],
+  "1246342": [
+   "ai-inference-agentic",
+   "harbor",
+   "security",
+   "oras"
+  ],
+  "1246398": [
+   "docs",
+   "ai-inference-agentic",
+   "developer-experience"
+  ],
+  "1246551": [
+   "openfeature",
+   "opentelemetry",
+   "observability"
+  ],
+  "1246681": [
+   "ai-inference-agentic",
+   "security",
+   "spiffe",
+   "openfga"
+  ],
+  "1246765": [
+   "platform-engineering",
+   "infrastructure",
+   "helm"
+  ],
+  "1246812": [
+   "autoscaling",
+   "ai-inference-agentic",
+   "observability",
+   "kubernetes"
+  ],
+  "1247098": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1247100": [
+   "cadence-workflow",
+   "operational-resilience",
+   "application-development-delivery"
+  ],
+  "1247103": [
+   "autoscaling",
+   "operations-performance"
+  ],
+  "1247134": [
+   "security",
+   "kubernetes"
+  ],
+  "1247159": [
+   "security",
+   "emerging-advanced",
+   "in-toto"
+  ],
+  "1247249": [
+   "security",
+   "in-toto"
+  ],
+  "1247277": [
+   "observability",
+   "opentelemetry",
+   "cilium"
+  ],
+  "1247283": [
+   "operator-framework",
+   "operations-performance",
+   "observability"
+  ],
+  "1247294": [
+   "etcd",
+   "emerging-advanced",
+   "operational-resilience"
+  ],
+  "1247300": [
+   "kyvernocon",
+   "kyverno",
+   "security",
+   "in-toto"
+  ],
+  "1247326": [
+   "ai-inference-agentic",
+   "autoscaling",
+   "kubernetes"
+  ],
+  "1247376": [
+   "security",
+   "crossplane",
+   "operator-framework"
+  ],
+  "1247392": [
+   "kubernetes",
+   "operations-performance",
+   "developer-experience"
+  ],
+  "1247455": [
+   "tekton",
+   "flux",
+   "application-development-delivery"
+  ],
+  "1247513": [
+   "ai-inference-agentic",
+   "llm-d",
+   "kserve",
+   "observability"
+  ],
+  "1247526": [
+   "cloud-native-experience",
+   "architecture",
+   "kubernetes"
+  ],
+  "1247552": [
+   "network",
+   "kubernetes"
+  ],
+  "1247612": [
+   "kubernetes",
+   "ai-inference-agentic",
+   "operations-performance",
+   "emerging-advanced"
+  ],
+  "1247641": [
+   "node-lifecycle",
+   "security",
+   "operations-performance"
+  ],
+  "1247666": [
+   "ai-inference-agentic",
+   "security",
+   "workloads-foundation"
+  ],
+  "1247684": [
+   "openfeature",
+   "developer-experience",
+   "application-development-delivery"
+  ],
+  "1247749": [
+   "cilium",
+   "observability",
+   "opencost",
+   "network"
+  ],
+  "1247753": [
+   "kagent",
+   "ai-inference-agentic",
+   "security",
+   "kubernetes"
+  ],
+  "1247804": [
+   "security",
+   "ai-inference-agentic",
+   "workloads-foundation"
+  ],
+  "1247815": [
+   "api-machinery",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1247840": [
+   "kubernetes",
+   "operations-performance",
+   "release",
+   "flux"
+  ],
+  "1247848": [
+   "multicluster",
+   "kubernetes",
+   "developer-experience"
+  ],
+  "1247858": [
+   "observability",
+   "platform-engineering",
+   "operations-performance"
+  ],
+  "1247881": [
+   "cluster-lifecycle",
+   "infrastructure",
+   "kubernetes"
+  ],
+  "1247932": [
+   "ai-inference-agentic",
+   "operations-performance",
+   "kubernetes"
+  ],
+  "1247970": [
+   "istio",
+   "cilium",
+   "security",
+   "network"
+  ],
+  "1247981": [
+   "kubernetes",
+   "device-management",
+   "scheduling",
+   "ai-inference-agentic"
+  ],
+  "1247991": [
+   "observability",
+   "opentelemetry",
+   "operations-performance"
+  ],
+  "1248035": [
+   "ai-inference-agentic",
+   "security",
+   "spiffe",
+   "autoscaling"
+  ],
+  "1248038": [
+   "release",
+   "security",
+   "infrastructure"
+  ],
+  "1248040": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "emerging-advanced"
+  ],
+  "1248118": [
+   "kubernetes",
+   "scheduling",
+   "device-management"
+  ],
+  "1248120": [
+   "platform-engineering",
+   "kubernetes",
+   "cluster-lifecycle"
+  ],
+  "1248185": [
+   "kserve",
+   "ai-gateway",
+   "autoscaling",
+   "ai-inference-agentic"
+  ],
+  "1248216": [
+   "opentelemetry",
+   "istio",
+   "observability",
+   "operations-performance"
+  ],
+  "1248218": [
+   "ai-inference-agentic",
+   "platform-engineering",
+   "opentelemetry",
+   "security"
+  ],
+  "1248305": [
+   "platform-engineering",
+   "developer-experience",
+   "kubernetes",
+   "ai-inference-agentic"
+  ],
+  "1248310": [
+   "scheduling",
+   "kubernetes",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1248368": [
+   "kserve",
+   "ai-inference-agentic",
+   "storage"
+  ],
+  "1248422": [
+   "cohdi",
+   "ai-inference-agentic",
+   "data-processing-storage"
+  ],
+  "1248484": [
+   "cedar",
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1248779": [
+   "multicluster",
+   "network",
+   "envoy"
+  ],
+  "1248788": [
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1248888": [
+   "api-machinery",
+   "kubernetes",
+   "security"
+  ],
+  "1248924": [
+   "security",
+   "tekton",
+   "spiffe",
+   "in-toto"
+  ],
+  "1249027": [
+   "workloads-foundation",
+   "multicluster",
+   "api-machinery"
+  ],
+  "1249181": [
+   "ai-inference-agentic",
+   "observability"
+  ],
+  "1249224": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "observability"
+  ],
+  "1249351": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "platform-engineering"
+  ],
+  "1249358": [
+   "ai-inference-agentic",
+   "network",
+   "security"
+  ],
+  "1249409": [
+   "autoscaling",
+   "operations-performance",
+   "opentelemetry"
+  ],
+  "1249410": [
+   "ai-inference-agentic",
+   "autoscaling",
+   "kubernetes"
+  ],
+  "1249553": [
+   "ai-inference-agentic",
+   "security",
+   "platform-engineering"
+  ],
+  "1249601": [
+   "operations-performance",
+   "device-management",
+   "scheduling"
+  ],
+  "1249724": [
+   "cloud-provider",
+   "infrastructure",
+   "platform-engineering"
+  ],
+  "1249749": [
+   "platform-engineering",
+   "developer-experience"
+  ],
+  "1249812": [
+   "ai-inference-agentic",
+   "kubeflow",
+   "volcano",
+   "scheduling"
+  ],
+  "1249814": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "llm-d"
+  ],
+  "1249819": [
+   "platform-engineering",
+   "ai-inference-agentic",
+   "crossplane",
+   "backstage"
+  ],
+  "1249842": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "security"
+  ],
+  "1249844": [
+   "kubernetes",
+   "node-lifecycle",
+   "cloud-native-university"
+  ],
+  "1249846": [
+   "opentelemetry",
+   "observability"
+  ],
+  "1249894": [
+   "scheduling",
+   "dragonfly",
+   "multicluster",
+   "ai-inference-agentic"
+  ],
+  "1249896": [
+   "opentelemetry",
+   "observability"
+  ],
+  "1249997": [
+   "api-machinery",
+   "operations-performance",
+   "kubernetes"
+  ],
+  "1250015": [
+   "opencost",
+   "operations-performance"
+  ],
+  "1250076": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "openfeature",
+   "observability"
+  ],
+  "1250086": [
+   "spiffe",
+   "istio",
+   "security",
+   "connectivity"
+  ],
+  "1250150": [
+   "scheduling",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1250239": [
+   "scheduling",
+   "ai-inference-agentic",
+   "kubernetes",
+   "emerging-advanced"
+  ],
+  "1250275": [
+   "observability",
+   "ai-inference-agentic",
+   "opentelemetry"
+  ],
+  "1250299": [
+   "observability"
+  ],
+  "1250303": [
+   "architecture",
+   "application-development-delivery",
+   "kubernetes"
+  ],
+  "1250324": [
+   "ai-inference-agentic",
+   "scheduling",
+   "operations-performance"
+  ],
+  "1250326": [
+   "autoscaling",
+   "operations-performance",
+   "kubernetes"
+  ],
+  "1250350": [
+   "scheduling",
+   "autoscaling",
+   "operations-performance"
+  ],
+  "1250351": [
+   "data-processing-storage",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1250427": [
+   "llm-d",
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1250470": [
+   "kubernetes",
+   "security"
+  ],
+  "1250487": [
+   "autoscaling",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1250494": [
+   "observability",
+   "ai-inference-agentic",
+   "opentelemetry"
+  ],
+  "1250513": [
+   "observability",
+   "opentelemetry",
+   "application-development-delivery"
+  ],
+  "1250522": [
+   "ai-inference-agentic",
+   "emerging-advanced",
+   "api-machinery",
+   "etcd"
+  ],
+  "1250532": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "emerging-advanced"
+  ],
+  "1250559": [
+   "flux",
+   "operational-resilience",
+   "cluster-lifecycle"
+  ],
+  "1250567": [
+   "etcd",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1250627": [
+   "platform-engineering",
+   "kubernetes",
+   "helm",
+   "application-development-delivery"
+  ],
+  "1250683": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance",
+   "emerging-advanced"
+  ],
+  "1250687": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "application-development-delivery",
+   "scheduling"
+  ],
+  "1250728": [
+   "operations-performance",
+   "containerd",
+   "kubernetes"
+  ],
+  "1250736": [
+   "kubernetes",
+   "platform-engineering",
+   "cluster-lifecycle"
+  ],
+  "1250750": [
+   "data-processing-storage",
+   "kubernetes"
+  ],
+  "1250770": [
+   "ai-inference-agentic",
+   "observability",
+   "operations-performance"
+  ],
+  "1250789": [
+   "multicluster",
+   "hami",
+   "autoscaling",
+   "ai-inference-agentic"
+  ],
+  "1250838": [
+   "security",
+   "kubernetes",
+   "architecture"
+  ],
+  "1250865": [
+   "ai-inference-agentic",
+   "llm-d",
+   "kserve",
+   "ai-gateway"
+  ],
+  "1250882": [
+   "openchoreo",
+   "ai-inference-agentic",
+   "developer-experience"
+  ],
+  "1250888": [
+   "ai-gateway",
+   "ai-inference-agentic",
+   "platform-engineering",
+   "security"
+  ],
+  "1250944": [
+   "kubernetes",
+   "cluster-lifecycle",
+   "scheduling"
+  ],
+  "1250961": [
+   "kubeflow",
+   "developer-experience",
+   "application-development-delivery"
+  ],
+  "1250962": [
+   "cloud-native-novice",
+   "cloud-native-experience",
+   "ai-inference-agentic"
+  ],
+  "1250972": [
+   "security",
+   "spiffe",
+   "auth"
+  ],
+  "1250973": [
+   "ai-inference-agentic",
+   "multicluster",
+   "istio",
+   "spiffe"
+  ],
+  "1250974": [
+   "kubernetes",
+   "containerd",
+   "node"
+  ],
+  "1250975": [
+   "kubeflow",
+   "kubeflow-summit",
+   "data-processing-storage",
+   "kubernetes"
+  ],
+  "1250980": [
+   "data-processing-storage",
+   "storage",
+   "ai-inference-agentic"
+  ],
+  "1250982": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "operations-performance"
+  ],
+  "1250985": [
+   "ai-inference-agentic",
+   "kubernetes"
+  ],
+  "1251004": [
+   "security",
+   "cloud-provider",
+   "kubernetes",
+   "platform-engineering"
+  ],
+  "1251009": [
+   "ai-inference-agentic",
+   "security",
+   "kubernetes",
+   "platform-engineering"
+  ],
+  "1251031": [
+   "application-development-delivery",
+   "emerging-advanced"
+  ],
+  "1251049": [
+   "kubernetes",
+   "operations-performance",
+   "api-machinery"
+  ],
+  "1251069": [
+   "cloud-native-experience",
+   "application-development-delivery"
+  ],
+  "1251145": [
+   "ai-inference-agentic",
+   "backstage",
+   "platform-engineering",
+   "developer-experience"
+  ],
+  "1251205": [
+   "network",
+   "envoy",
+   "api-machinery",
+   "platform-engineering"
+  ],
+  "1251217": [
+   "kubernetes",
+   "cluster-lifecycle",
+   "release"
+  ],
+  "1251218": [
+   "network",
+   "cloud-native-novice",
+   "connectivity"
+  ],
+  "1251249": [
+   "kubernetes",
+   "batch",
+   "operations-performance",
+   "observability"
+  ],
+  "1251252": [
+   "developer-experience",
+   "cloud-native-experience",
+   "platform-engineering"
+  ],
+  "1289629": [
+   "operational-resilience",
+   "operations-performance",
+   "ai-inference-agentic"
+  ],
+  "1289630": [
+   "flux",
+   "ai-inference-agentic",
+   "application-development-delivery"
+  ],
+  "1289633": [
+   "ai-inference-agentic",
+   "security",
+   "metal3io"
+  ],
+  "1289634": [
+   "buildpacks",
+   "application-development-delivery",
+   "security"
+  ],
+  "1289635": [
+   "security",
+   "kubernetes",
+   "contributor-experience"
+  ],
+  "1289636": [
+   "hami",
+   "autoscaling",
+   "scheduling",
+   "ai-inference-agentic"
+  ],
+  "1289637": [
+   "emissary-ingress",
+   "connectivity",
+   "application-development-delivery"
+  ],
+  "1289638": [
+   "helm",
+   "application-development-delivery"
+  ],
+  "1289639": [
+   "contributor-experience",
+   "cloud-native-experience"
+  ],
+  "1289640": [
+   "volcano",
+   "ai-inference-agentic",
+   "scheduling"
+  ],
+  "1289641": [
+   "cortex",
+   "observability",
+   "operations-performance"
+  ],
+  "1289642": [
+   "infrastructure",
+   "ai-inference-agentic",
+   "emerging-advanced"
+  ],
+  "1289643": [
+   "dapr",
+   "security",
+   "operational-resilience",
+   "application-development-delivery"
+  ],
+  "1289644": [
+   "flatcar-container-linux",
+   "infrastructure",
+   "ai-inference-agentic"
+  ],
+  "1289645": [
+   "lima",
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1289646": [
+   "in-toto",
+   "security",
+   "release"
+  ],
+  "1289647": [
+   "kyvernocon",
+   "kyverno",
+   "security"
+  ],
+  "1289648": [
+   "kubevirt",
+   "ai-inference-agentic",
+   "emerging-advanced"
+  ],
+  "1289660": [
+   "node-lifecycle",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1289661": [
+   "metal3io",
+   "cluster-lifecycle",
+   "network"
+  ],
+  "1289663": [
+   "openkruise",
+   "ai-inference-agentic",
+   "workloads-foundation"
+  ],
+  "1289664": [
+   "kubeedge",
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1289665": [
+   "fluentd",
+   "observability",
+   "operations-performance"
+  ],
+  "1289666": [
+   "opencost",
+   "observability",
+   "operations-performance"
+  ],
+  "1289667": [
+   "crossplane",
+   "platform-engineering",
+   "multicluster"
+  ],
+  "1289668": [
+   "vitess",
+   "data-processing-storage",
+   "kubernetes"
+  ],
+  "1289670": [
+   "ai-inference-agentic",
+   "kserve",
+   "ai-gateway",
+   "autoscaling"
+  ],
+  "1289671": [
+   "kubeflow",
+   "ai-inference-agentic"
+  ],
+  "1289672": [
+   "openfga",
+   "auth",
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1289673": [
+   "node",
+   "containerd",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1289674": [
+   "cilium",
+   "network",
+   "observability",
+   "security"
+  ],
+  "1289675": [
+   "cri-o",
+   "containerd",
+   "node",
+   "operations-performance"
+  ],
+  "1289676": [
+   "operator-framework",
+   "kubernetes",
+   "application-development-delivery"
+  ],
+  "1289677": [
+   "api-machinery",
+   "security",
+   "kubernetes"
+  ],
+  "1289692": [
+   "linkerd",
+   "connectivity",
+   "operations-performance"
+  ],
+  "1289693": [
+   "etcd",
+   "data-processing-storage",
+   "contributor-experience"
+  ],
+  "1289694": [
+   "kubernetes",
+   "contributor-experience",
+   "bof"
+  ],
+  "1289695": [
+   "connectivity",
+   "api-machinery",
+   "kubernetes"
+  ],
+  "1289696": [
+   "crossplane",
+   "platform-engineering"
+  ],
+  "1289697": [
+   "harbor",
+   "security",
+   "oras"
+  ],
+  "1289698": [
+   "cli",
+   "kubernetes",
+   "kpt",
+   "contributor-experience"
+  ],
+  "1289699": [
+   "apps",
+   "batch",
+   "kubernetes"
+  ],
+  "1289700": [
+   "coredns",
+   "network",
+   "operational-resilience",
+   "security"
+  ],
+  "1289702": [
+   "karmada",
+   "multicluster",
+   "operations-performance"
+  ],
+  "1289703": [
+   "dragonfly",
+   "ai-inference-agentic",
+   "data-processing-storage"
+  ],
+  "1289704": [
+   "device-management",
+   "kubernetes",
+   "scheduling"
+  ],
+  "1289705": [
+   "api-machinery",
+   "architecture",
+   "kubernetes"
+  ],
+  "1289709": [
+   "autoscaling",
+   "kubernetes",
+   "ai-inference-agentic",
+   "scheduling"
+  ],
+  "1289710": [
+   "scheduling",
+   "api-machinery"
+  ],
+  "1289711": [
+   "spiffe",
+   "security",
+   "api-machinery"
+  ],
+  "1289712": [
+   "multicluster",
+   "kubernetes",
+   "cluster-lifecycle"
+  ],
+  "1289713": [
+   "open-policy-agent-opa",
+   "security",
+   "cloud-native-university"
+  ],
+  "1289714": [
+   "containerd",
+   "security",
+   "release"
+  ],
+  "1289715": [
+   "strimzi",
+   "security"
+  ],
+  "1289716": [
+   "ai-gateway",
+   "network",
+   "api-machinery",
+   "kubernetes"
+  ],
+  "1289717": [
+   "rook",
+   "storage",
+   "data-processing-storage"
+  ],
+  "1289718": [
+   "kubernetes",
+   "scheduling",
+   "autoscaling"
+  ],
+  "1289719": [
+   "falco",
+   "security",
+   "observability"
+  ],
+  "1289720": [
+   "kubernetes",
+   "cli",
+   "cloud-native-novice",
+   "ai-inference-agentic"
+  ],
+  "1289721": [
+   "backstage",
+   "ai-inference-agentic",
+   "platform-engineering"
+  ],
+  "1289722": [
+   "longhorn",
+   "storage",
+   "data-protection"
+  ],
+  "1289723": [
+   "workloads-foundation",
+   "batch",
+   "kubevirt",
+   "scheduling"
+  ],
+  "1289724": [
+   "batch",
+   "kubernetes",
+   "scheduling",
+   "ai-inference-agentic"
+  ],
+  "1289725": [
+   "docs",
+   "contributor-experience",
+   "inclusion-accessibility"
+  ],
+  "1289726": [
+   "data-protection",
+   "kubernetes",
+   "storage"
+  ],
+  "1289727": [
+   "storage",
+   "data-processing-storage"
+  ],
+  "1289730": [
+   "network",
+   "kubernetes",
+   "contributor-experience"
+  ],
+  "1289731": [
+   "openfeature",
+   "application-development-delivery"
+  ],
+  "1289732": [
+   "keycloak",
+   "auth",
+   "openfga"
+  ],
+  "1289733": [
+   "metal3io",
+   "infrastructure",
+   "operational-resilience"
+  ],
+  "1289734": [
+   "api-machinery",
+   "kubernetes",
+   "ai-inference-agentic"
+  ],
+  "1289735": [
+   "developer-experience",
+   "application-development-delivery",
+   "ai-inference-agentic"
+  ],
+  "1289736": [
+   "cloud-native-experience",
+   "bof"
+  ],
+  "1289738": [
+   "cloud-native-experience"
+  ],
+  "1289740": [
+   "cloud-native-experience"
+  ],
+  "1289741": [
+   "cloud-native-experience"
+  ],
+  "1289755": [
+   "argo",
+   "application-development-delivery"
+  ],
+  "1289756": [
+   "backstage",
+   "developer-experience"
+  ],
+  "1289758": [
+   "cilium",
+   "network",
+   "security",
+   "observability"
+  ],
+  "1289760": [
+   "ai-inference-agentic",
+   "kserve",
+   "kubeflow"
+  ],
+  "1289762": [
+   "flux",
+   "application-development-delivery"
+  ],
+  "1289767": [
+   "kubeedge",
+   "device-management",
+   "operations-performance"
+  ],
+  "1289769": [
+   "observability",
+   "opentelemetry"
+  ],
+  "1289771": [
+   "security",
+   "in-toto",
+   "open-policy-agent-opa"
+  ],
+  "1289773": [
+   "infrastructure",
+   "cloud-native-experience"
+  ],
+  "1289774": [
+   "platform-engineering",
+   "developer-experience",
+   "architecture"
+  ],
+  "1289780": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "emerging-advanced"
+  ],
+  "1289828": [
+   "kube-burner",
+   "operations-performance",
+   "kubernetes"
+  ],
+  "1289832": [
+   "openchoreo",
+   "platform-engineering",
+   "developer-experience",
+   "ai-inference-agentic"
+  ],
+  "1289834": [
+   "vitess",
+   "operator-framework",
+   "storage"
+  ],
+  "1289835": [
+   "flux",
+   "application-development-delivery",
+   "security"
+  ],
+  "1289836": [
+   "kserve",
+   "ai-inference-agentic",
+   "autoscaling"
+  ],
+  "1289870": [
+   "kepler",
+   "observability",
+   "operations-performance"
+  ],
+  "1289871": [
+   "oscal-compass",
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1289872": [
+   "inspektor-gadget",
+   "observability",
+   "security"
+  ],
+  "1289874": [
+   "fluentd",
+   "opentelemetry",
+   "observability"
+  ],
+  "1289875": [
+   "litmus",
+   "operational-resilience",
+   "ai-inference-agentic"
+  ],
+  "1289876": [
+   "openeverest",
+   "architecture"
+  ],
+  "1289877": [
+   "cadence-workflow",
+   "ai-inference-agentic",
+   "operational-resilience"
+  ],
+  "1289878": [
+   "cohdi",
+   "ai-inference-agentic",
+   "infrastructure"
+  ],
+  "1289881": [
+   "k8gb",
+   "network",
+   "multicluster"
+  ],
+  "1289883": [
+   "open-cluster-management",
+   "multicluster",
+   "observability"
+  ],
+  "1289885": [
+   "karmada",
+   "multicluster",
+   "cluster-lifecycle"
+  ],
+  "1289886": [
+   "k3s",
+   "cluster-lifecycle",
+   "cloud-native-experience"
+  ],
+  "1289889": [
+   "crossplane",
+   "platform-engineering",
+   "developer-experience"
+  ],
+  "1289890": [
+   "etcd",
+   "operator-framework",
+   "cluster-lifecycle"
+  ],
+  "1289891": [
+   "linkerd",
+   "istio",
+   "connectivity"
+  ],
+  "1289892": [
+   "buildpacks",
+   "application-development-delivery",
+   "developer-experience"
+  ],
+  "1289893": [
+   "envoy",
+   "envoycon",
+   "ai-gateway",
+   "connectivity"
+  ],
+  "1289896": [
+   "kitops",
+   "oras",
+   "ai-inference-agentic",
+   "data-processing-storage"
+  ],
+  "1289897": [
+   "kairos",
+   "flatcar-container-linux",
+   "k3s",
+   "infrastructure"
+  ],
+  "1289901": [
+   "kyverno",
+   "kyvernocon",
+   "security",
+   "platform-engineering"
+  ],
+  "1289902": [
+   "harbor",
+   "security",
+   "release"
+  ],
+  "1289904": [
+   "flatcar-container-linux",
+   "security",
+   "release",
+   "infrastructure"
+  ],
+  "1289905": [
+   "cedar",
+   "auth",
+   "security"
+  ],
+  "1289906": [
+   "metal3io",
+   "cluster-lifecycle"
+  ],
+  "1289907": [
+   "atlantis",
+   "infrastructure"
+  ],
+  "1289909": [
+   "longhorn",
+   "storage"
+  ],
+  "1289910": [
+   "oras",
+   "security"
+  ],
+  "1289912": [
+   "k0s",
+   "kubernetes"
+  ],
+  "1289913": [
+   "velero",
+   "data-protection",
+   "storage"
+  ],
+  "1289914": [
+   "ovn-kubernetes",
+   "network",
+   "operations-performance"
+  ],
+  "1289915": [
+   "flatcar-container-linux",
+   "node",
+   "operations-performance"
+  ],
+  "1289955": [
+   "cloud-native-experience"
+  ],
+  "1289969": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1289970": [
+   "cloud-native-novice",
+   "contributor-experience"
+  ],
+  "1289971": [
+   "cloud-native-experience"
+  ],
+  "1289972": [
+   "meshery",
+   "ai-inference-agentic",
+   "kubernetes",
+   "developer-experience"
+  ],
+  "1293369": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "architecture",
+   "security"
+  ],
+  "1293929": [
+   "cluster-lifecycle",
+   "kubernetes",
+   "infrastructure"
+  ],
+  "1294242": [
+   "ai-gateway",
+   "connectivity",
+   "envoy"
+  ],
+  "1294245": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "observability",
+   "cloud-native-experience"
+  ],
+  "1294702": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1294751": [
+   "cadence-workflow",
+   "ai-inference-agentic",
+   "application-development-delivery"
+  ],
+  "1294756": [
+   "argo",
+   "application-development-delivery",
+   "contributor-experience"
+  ],
+  "1294759": [
+   "istio",
+   "istio-day",
+   "contributor-experience"
+  ],
+  "1294760": [
+   "podman-container-tools",
+   "contributor-experience",
+   "developer-experience"
+  ],
+  "1294761": [
+   "kyverno",
+   "kyvernocon",
+   "security",
+   "contributor-experience"
+  ],
+  "1294763": [
+   "inspektor-gadget",
+   "observability",
+   "cloud-native-university"
+  ],
+  "1294764": [
+   "harbor",
+   "security",
+   "contributor-experience"
+  ],
+  "1294765": [
+   "crossplane",
+   "contributor-experience",
+   "platform-engineering"
+  ],
+  "1294766": [
+   "etcd",
+   "contributor-experience"
+  ],
+  "1294770": [
+   "backstage",
+   "contributor-experience",
+   "cloud-native-university"
+  ],
+  "1294771": [
+   "opentelemetry",
+   "observability",
+   "contributor-experience"
+  ],
+  "1294772": [
+   "contributor-experience",
+   "kubernetes",
+   "cloud-native-novice"
+  ],
+  "1294774": [
+   "helm",
+   "ai-inference-agentic",
+   "application-development-delivery"
+  ],
+  "1294775": [
+   "hami",
+   "kubernetes",
+   "scheduling",
+   "ai-inference-agentic"
+  ],
+  "1294782": [
+   "kagent",
+   "ai-inference-agentic",
+   "contributor-experience"
+  ],
+  "1295993": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "workloads-foundation"
+  ],
+  "1295999": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "operations-performance"
+  ],
+  "1301696": [
+   "kubernetes",
+   "containerd",
+   "autoscaling",
+   "ai-inference-agentic"
+  ],
+  "1301727": [
+   "architecture",
+   "api-machinery",
+   "ai-inference-agentic",
+   "emerging-advanced"
+  ],
+  "1301748": [
+   "ai-inference-agentic",
+   "operations-performance",
+   "autoscaling"
+  ],
+  "1301749": [
+   "ai-inference-agentic",
+   "security"
+  ],
+  "1302691": [
+   "platform-engineering",
+   "crossplane",
+   "application-development-delivery"
+  ],
+  "1302801": [
+   "cloud-native-experience"
+  ],
+  "1306051": [
+   "cloud-native-experience",
+   "inclusion-accessibility"
+  ],
+  "1307005": [
+   "meshery",
+   "contributor-experience",
+   "developer-experience"
+  ],
+  "1309267": [
+   "ai-inference-agentic",
+   "security",
+   "spiffe"
+  ],
+  "1309278": [
+   "application-development-delivery",
+   "developer-experience",
+   "ai-inference-agentic",
+   "security"
+  ],
+  "1309279": [
+   "kubevirt-summit",
+   "kubevirt"
+  ],
+  "1325640": [
+   "open-policy-agent-opa",
+   "security",
+   "application-development-delivery"
+  ],
+  "1328916": [
+   "data-processing-storage",
+   "storage"
+  ],
+  "1328984": [
+   "security",
+   "ai-inference-agentic",
+   "cilium",
+   "kubernetes"
+  ],
+  "1331660": [
+   "hive-commons",
+   "ai-inference-agentic",
+   "contributor-experience"
+  ],
+  "1333702": [
+   "kubeflow-summit",
+   "kubeflow"
+  ],
+  "1333705": [
+   "kubeflow-summit",
+   "kubeflow",
+   "ai-inference-agentic",
+   "platform-engineering"
+  ],
+  "1333708": [
+   "kubeflow-summit",
+   "kubeflow",
+   "batch",
+   "scheduling"
+  ],
+  "1333709": [
+   "ai-inference-agentic",
+   "kubeflow-summit",
+   "kubeflow"
+  ],
+  "1333710": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "operator-framework"
+  ],
+  "1333711": [
+   "kubeflow-summit",
+   "kubeflow",
+   "ai-inference-agentic"
+  ],
+  "1333714": [
+   "kubeflow-summit"
+  ],
+  "1333733": [
+   "cloud-native-university",
+   "cloud-native-novice"
+  ],
+  "1333734": [
+   "cloud-native-university",
+   "cloud-native-novice",
+   "kubernetes"
+  ],
+  "1333735": [
+   "operator-framework",
+   "kubernetes",
+   "cloud-native-novice"
+  ],
+  "1333738": [
+   "cloud-native-experience"
+  ],
+  "1333748": [
+   "kyvernocon"
+  ],
+  "1334785": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "scheduling",
+   "operations-performance"
+  ],
+  "1334787": [
+   "security",
+   "in-toto",
+   "falco",
+   "kyverno"
+  ],
+  "1334788": [
+   "cluster-lifecycle",
+   "kubernetes",
+   "cloud-provider"
+  ],
+  "1334791": [
+   "envoycon"
+  ],
+  "1334794": [
+   "envoycon",
+   "ai-inference-agentic",
+   "connectivity",
+   "envoy"
+  ],
+  "1334795": [
+   "envoycon",
+   "connectivity",
+   "envoy",
+   "security"
+  ],
+  "1334796": [
+   "envoycon",
+   "platform-engineering",
+   "envoy"
+  ],
+  "1334797": [
+   "envoycon",
+   "connectivity",
+   "envoy",
+   "kubernetes"
+  ],
+  "1334800": [
+   "envoycon",
+   "envoy",
+   "scheduling",
+   "operations-performance"
+  ],
+  "1334801": [
+   "cilium",
+   "envoy",
+   "network",
+   "security"
+  ],
+  "1334803": [
+   "envoycon",
+   "envoy"
+  ],
+  "1334804": [
+   "cloud-native-university"
+  ],
+  "1334816": [
+   "kyverno",
+   "security"
+  ],
+  "1334817": [
+   "ai-gateway",
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1334820": [
+   "ai-inference-agentic",
+   "kyverno",
+   "security"
+  ],
+  "1334821": [
+   "envoy",
+   "kyverno",
+   "ai-gateway",
+   "security"
+  ],
+  "1334847": [
+   "kubevirt-summit",
+   "kubevirt"
+  ],
+  "1334848": [
+   "kubevirt-summit",
+   "kubevirt",
+   "scheduling",
+   "ai-inference-agentic"
+  ],
+  "1334849": [
+   "kubevirt-summit",
+   "kubevirt",
+   "observability",
+   "storage"
+  ],
+  "1334851": [
+   "kubevirt-summit",
+   "kubevirt",
+   "storage",
+   "application-development-delivery"
+  ],
+  "1334855": [
+   "kubevirt",
+   "operations-performance",
+   "workloads-foundation"
+  ],
+  "1334856": [
+   "kubevirt-summit",
+   "kubevirt"
+  ],
+  "1334861": [
+   "llm-d"
+  ],
+  "1334864": [
+   "llm-d",
+   "ai-inference-agentic",
+   "autoscaling",
+   "operations-performance"
+  ],
+  "1334866": [
+   "llm-d",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1334868": [
+   "llm-d",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1334872": [
+   "llm-d",
+   "ai-inference-agentic"
+  ],
+  "1335605": [
+   "observability",
+   "kubernetes",
+   "contributor-experience"
+  ],
+  "1336019": [
+   "envoycon",
+   "istio",
+   "envoy",
+   "connectivity"
+  ],
+  "1336060": [
+   "llm-d",
+   "observability",
+   "opentelemetry",
+   "ai-inference-agentic"
+  ],
+  "1336061": [
+   "llm-d",
+   "apps",
+   "autoscaling",
+   "ai-inference-agentic"
+  ],
+  "1336093": [
+   "istio-day"
+  ],
+  "1336094": [
+   "istio",
+   "envoy",
+   "observability",
+   "operations-performance"
+  ],
+  "1336095": [
+   "istio",
+   "connectivity"
+  ],
+  "1336097": [
+   "ai-inference-agentic",
+   "istio",
+   "operations-performance"
+  ],
+  "1336098": [
+   "istio",
+   "application-development-delivery",
+   "operations-performance"
+  ],
+  "1336100": [
+   "ai-inference-agentic",
+   "istio",
+   "observability"
+  ],
+  "1336101": [
+   "istio",
+   "multicluster",
+   "network"
+  ],
+  "1336102": [
+   "istio",
+   "connectivity",
+   "istio-day"
+  ],
+  "1336104": [
+   "istio",
+   "spiffe",
+   "ai-inference-agentic",
+   "security"
+  ],
+  "1336105": [
+   "istio-day"
+  ],
+  "1336214": [
+   "kubernetes",
+   "platform-engineering",
+   "operations-performance"
+  ],
+  "1336486": [
+   "inclusion-accessibility"
+  ],
+  "1336495": [
+   "inclusion-accessibility",
+   "bof"
+  ],
+  "1336504": [
+   "inclusion-accessibility",
+   "cloud-native-experience"
+  ],
+  "1336509": [
+   "inclusion-accessibility"
+  ],
+  "1336562": [
+   "inclusion-accessibility",
+   "bof"
+  ],
+  "1336567": [
+   "inclusion-accessibility",
+   "cloud-native-experience"
+  ],
+  "1336586": [
+   "inclusion-accessibility",
+   "contributor-experience"
+  ],
+  "1336587": [
+   "cloud-native-experience",
+   "application-development-delivery",
+   "developer-experience"
+  ],
+  "1336610": [
+   "inclusion-accessibility",
+   "cloud-native-experience"
+  ],
+  "1337210": [
+   "cloud-native-experience",
+   "kubernetes"
+  ],
+  "1337241": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "autoscaling",
+   "scheduling"
+  ],
+  "1337450": [
+   "inclusion-accessibility"
+  ],
+  "1337454": [
+   "inclusion-accessibility",
+   "cloud-native-experience"
+  ],
+  "1339172": [
+   "inclusion-accessibility",
+   "contributor-experience"
+  ],
+  "1339180": [
+   "contributor-experience",
+   "cloud-native-experience"
+  ],
+  "1339971": [
+   "developer-experience",
+   "containerd",
+   "buildpacks"
+  ],
+  "1340051": [
+   "bof",
+   "cloud-native-experience",
+   "linkerd",
+   "security"
+  ],
+  "1340074": [
+   "cloud-native-university",
+   "inclusion-accessibility"
+  ],
+  "1341032": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1341034": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1341036": [
+   "cloud-native-experience"
+  ],
+  "1341037": [
+   "contributor-experience",
+   "cloud-native-experience"
+  ],
+  "1341038": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1341814": [
+   "kubernetes",
+   "cloud-provider",
+   "ai-inference-agentic",
+   "cloud-native-novice"
+  ],
+  "1342434": [
+   "kubernetes",
+   "contributor-experience",
+   "cloud-native-experience"
+  ],
+  "1344383": [
+   "ai-inference-agentic",
+   "security"
+  ],
+  "1345255": [
+   "ai-inference-agentic",
+   "operations-performance",
+   "contributor-experience"
+  ],
+  "1345967": [
+   "bof",
+   "kubeflow",
+   "ai-inference-agentic",
+   "autoscaling"
+  ],
+  "1345969": [
+   "contributor-experience",
+   "inclusion-accessibility"
+  ],
+  "1346926": [
+   "ai-gateway",
+   "ai-inference-agentic",
+   "connectivity"
+  ],
+  "1349401": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "emerging-advanced"
+  ],
+  "1352067": [
+   "kubeflow-summit",
+   "kubeflow",
+   "ai-inference-agentic"
+  ],
+  "1353217": [
+   "containerd",
+   "kubernetes",
+   "developer-experience"
+  ],
+  "1353351": [
+   "inclusion-accessibility",
+   "contributor-experience"
+  ],
+  "1356091": [
+   "platform-engineering",
+   "backstage",
+   "argo",
+   "crossplane"
+  ],
+  "1356273": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "security",
+   "operations-performance"
+  ],
+  "1356649": [
+   "podman-container-tools",
+   "cloud-native-experience",
+   "developer-experience",
+   "bof"
+  ],
+  "1360373": [
+   "opencost",
+   "operations-performance",
+   "ai-inference-agentic"
+  ],
+  "1360829": [
+   "argo",
+   "flux",
+   "application-development-delivery"
+  ],
+  "1360833": [
+   "platform-engineering",
+   "kubernetes",
+   "application-development-delivery"
+  ],
+  "1361484": [
+   "security",
+   "harbor",
+   "buildpacks"
+  ],
+  "1361493": [
+   "ai-inference-agentic",
+   "autoscaling",
+   "platform-engineering"
+  ],
+  "1361545": [
+   "opentelemetry",
+   "observability",
+   "kubernetes"
+  ],
+  "1362463": [
+   "ai-inference-agentic",
+   "observability"
+  ],
+  "1362466": [
+   "ai-inference-agentic",
+   "autoscaling",
+   "kagent",
+   "operations-performance"
+  ],
+  "1362469": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "batch",
+   "scheduling"
+  ],
+  "1362546": [
+   "kubevirt-summit",
+   "kubevirt",
+   "api-machinery",
+   "architecture"
+  ],
+  "1362558": [
+   "ai-inference-agentic",
+   "security",
+   "kubernetes"
+  ],
+  "1362578": [
+   "ai-inference-agentic",
+   "security",
+   "auth"
+  ],
+  "1362584": [
+   "ai-inference-agentic",
+   "security",
+   "cilium"
+  ],
+  "1362597": [
+   "application-development-delivery",
+   "security",
+   "apps"
+  ],
+  "1362599": [
+   "data-processing-storage",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1362604": [
+   "security"
+  ],
+  "1362606": [
+   "observability",
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1362609": [
+   "observability",
+   "opentelemetry",
+   "ai-inference-agentic"
+  ],
+  "1362621": [
+   "ai-inference-agentic",
+   "kubernetes",
+   "kserve"
+  ],
+  "1362623": [
+   "ai-inference-agentic",
+   "security",
+   "kubernetes",
+   "emerging-advanced"
+  ],
+  "1362628": [
+   "security",
+   "kubernetes"
+  ],
+  "1362631": [
+   "observability",
+   "opentelemetry",
+   "ai-inference-agentic"
+  ],
+  "1362633": [
+   "ai-inference-agentic",
+   "observability",
+   "operations-performance"
+  ],
+  "1362635": [
+   "network",
+   "cilium",
+   "connectivity"
+  ],
+  "1362638": [
+   "kubernetes",
+   "operations-performance",
+   "emerging-advanced"
+  ],
+  "1362642": [
+   "ai-gateway",
+   "network",
+   "observability",
+   "security"
+  ],
+  "1362649": [
+   "operations-performance",
+   "device-management",
+   "kubernetes"
+  ],
+  "1362663": [
+   "ai-inference-agentic",
+   "security",
+   "open-policy-agent-opa"
+  ],
+  "1362669": [
+   "ai-inference-agentic",
+   "security",
+   "cloud-provider"
+  ],
+  "1362673": [
+   "kubernetes",
+   "kubevirt",
+   "architecture"
+  ],
+  "1362678": [
+   "ai-inference-agentic",
+   "platform-engineering",
+   "security",
+   "observability"
+  ],
+  "1362683": [
+   "connectivity",
+   "envoy",
+   "network"
+  ],
+  "1362684": [
+   "security",
+   "containerd"
+  ],
+  "1362685": [
+   "autoscaling",
+   "operations-performance",
+   "argo"
+  ],
+  "1362689": [
+   "storage",
+   "data-processing-storage",
+   "operations-performance"
+  ],
+  "1363682": [
+   "ai-inference-agentic",
+   "emerging-advanced"
+  ],
+  "1363748": [
+   "ai-inference-agentic",
+   "security"
+  ],
+  "1363905": [
+   "cloud-native-experience"
+  ],
+  "1363966": [
+   "observability",
+   "opentelemetry"
+  ],
+  "1363972": [
+   "cloud-native-experience",
+   "emerging-advanced"
+  ],
+  "1364853": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1364856": [
+   "kubernetes",
+   "cloud-native-experience",
+   "bof"
+  ],
+  "1364870": [
+   "security",
+   "cloud-native-novice"
+  ],
+  "1364875": [
+   "security",
+   "cloud-native-experience",
+   "cloud-native-novice"
+  ],
+  "1367685": [
+   "kubernetes",
+   "operator-framework",
+   "data-processing-storage"
+  ],
+  "1367757": [
+   "ai-inference-agentic",
+   "kubernetes"
+  ],
+  "1367762": [
+   "ai-inference-agentic",
+   "security",
+   "emerging-advanced"
+  ],
+  "1367917": [
+   "cloud-native-experience",
+   "contributor-experience"
+  ],
+  "1367923": [
+   "platform-engineering",
+   "buildpacks",
+   "developer-experience",
+   "security"
+  ],
+  "1368714": [
+   "ai-inference-agentic",
+   "kubeflow",
+   "kubernetes"
+  ],
+  "1368936": [
+   "ai-inference-agentic",
+   "data-processing-storage",
+   "storage",
+   "kubernetes"
+  ],
+  "1368973": [
+   "cloud-native-experience"
+  ],
+  "1368996": [
+   "inclusion-accessibility",
+   "cloud-native-experience"
+  ],
+  "1368998": [
+   "cloud-native-experience"
+  ],
+  "1369438": [
+   "cloud-native-experience"
+  ],
+  "1369442": [
+   "cloud-native-experience"
+  ],
+  "1369445": [
+   "cloud-native-experience",
+   "inclusion-accessibility"
+  ],
+  "1369446": [
+   "bof",
+   "network"
+  ],
+  "1369612": [
+   "data-processing-storage",
+   "storage",
+   "operational-resilience"
+  ],
+  "1369668": [
+   "ai-inference-agentic",
+   "operations-performance"
+  ],
+  "1369669": [
+   "ai-inference-agentic",
+   "storage"
+  ],
+  "1369670": [
+   "security",
+   "cadence-workflow",
+   "autoscaling"
+  ],
+  "1369671": [
+   "cilium",
+   "data-protection",
+   "security"
+  ],
+  "1369672": [
+   "application-development-delivery",
+   "developer-experience"
+  ],
+  "1369673": [
+   "connectivity",
+   "security"
+  ],
+  "1369675": [
+   "observability",
+   "opentelemetry"
+  ],
+  "1369676": [
+   "argo",
+   "falco",
+   "security"
+  ],
+  "1370430": [
+   "ai-inference-agentic",
+   "security",
+   "application-development-delivery"
+  ],
+  "1370530": [
+   "tekton",
+   "security",
+   "application-development-delivery"
+  ],
+  "1370908": [
+   "ai-inference-agentic",
+   "cloud-native-experience",
+   "cloud-native-novice"
+  ],
+  "1370912": [
+   "cloud-native-experience",
+   "emerging-advanced",
+   "contributor-experience"
+  ],
+  "1370913": [
+   "cloud-native-experience",
+   "bof"
+  ],
+  "1370918": [
+   "security"
+  ],
+  "1371070": [
+   "ai-inference-agentic",
+   "kubernetes"
+  ],
+  "1371071": [
+   "data-processing-storage",
+   "kubernetes"
+  ],
+  "1371074": [
+   "cloud-native-university",
+   "cloud-native-novice",
+   "kubernetes"
+  ],
+  "1371075": [
+   "cloud-native-university",
+   "cloud-native-experience"
+  ],
+  "1371076": [
+   "ai-inference-agentic",
+   "cloud-native-experience"
+  ],
+  "1371077": [
+   "ai-inference-agentic",
+   "developer-experience",
+   "operations-performance"
+  ],
+  "1371079": [
+   "ai-inference-agentic",
+   "application-development-delivery"
+  ],
+  "1371080": [
+   "cloud-native-experience",
+   "inclusion-accessibility"
+  ],
+  "1371081": [
+   "security",
+   "ai-inference-agentic"
+  ],
+  "1371083": [
+   "cloud-native-university",
+   "network",
+   "kubernetes"
+  ],
+  "1371084": [
+   "cloud-native-university",
+   "cloud-native-experience"
+  ],
+  "1371085": [
+   "cloud-native-experience"
+  ],
+  "1371581": [
+   "platform-engineering",
+   "ai-inference-agentic"
+  ],
+  "1372841": [
+   "ai-inference-agentic"
+  ],
+  "1373663": [
+   "helm",
+   "openchoreo",
+   "kube-burner",
+   "flux"
+  ],
+  "1373665": [
+   "cloud-native-experience",
+   "apps"
+  ],
+  "1373666": [
+   "helm",
+   "flux",
+   "rook",
+   "karmada"
+  ],
+  "1373667": [
+   "cloud-native-experience",
+   "kubernetes"
+  ],
+  "1373668": [
+   "helm",
+   "flux",
+   "rook",
+   "karmada"
+  ],
+  "1373669": [
+   "cloud-native-experience",
+   "application-development-delivery"
+  ],
+  "1374035": [
+   "ai-inference-agentic",
+   "autoscaling",
+   "operations-performance"
+  ],
+  "1374040": [
+   "ai-inference-agentic",
+   "platform-engineering",
+   "backstage"
+  ],
+  "1374337": [
+   "cloud-native-experience",
+   "opentelemetry",
+   "buildpacks",
+   "karmada"
+  ],
+  "1374348": [
+   "kai-scheduler",
+   "hami",
+   "scheduling",
+   "ai-inference-agentic"
+  ],
+  "1374350": [
+   "kpt",
+   "application-development-delivery"
+  ],
+  "1374950": [
+   "bof",
+   "ai-inference-agentic",
+   "architecture"
+  ],
+  "1374958": [
+   "bof",
+   "cloud-native-experience"
+  ],
+  "1374960": [
+   "bof",
+   "cloud-native-experience"
+  ],
+  "1374982": [
+   "cloud-native-experience",
+   "kubernetes",
+   "security"
+  ],
+  "1374991": [
+   "bof",
+   "cloud-native-experience",
+   "application-development-delivery"
+  ],
+  "1375121": [
+   "platform-engineering"
+  ],
+  "1375122": [
+   "bof",
+   "platform-engineering"
+  ],
+  "1375159": [
+   "kagent",
+   "ai-inference-agentic"
+  ],
+  "1375161": [
+   "kgateway",
+   "api-machinery",
+   "envoy"
+  ],
+  "1375964": [
+   "linkerd",
+   "cloud-native-experience"
+  ],
+  "1376186": [
+   "cloud-native-experience"
+  ],
+  "1378904": [
+   "platform-engineering",
+   "kubevirt",
+   "ai-inference-agentic"
+  ],
+  "1378905": [
+   "ai-inference-agentic",
+   "application-development-delivery",
+   "developer-experience"
+  ],
+  "1378907": [
+   "ai-gateway",
+   "security"
+  ],
+  "1379082": [
+   "contributor-experience",
+   "cloud-native-experience"
+  ],
+  "1380168": [
+   "kubernetes",
+   "device-management",
+   "emerging-advanced"
+  ],
+  "1382533": [
+   "cloud-native-experience",
+   "cloud-native-novice"
+  ]
+ }
+}
