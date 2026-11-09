@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import p from "@/components/ui/planning.module.css";
 import { api, time, type Profile } from "@/components/ui/client";
 import s from "@/components/ui/attendee.module.css";
+import { Icon } from "@/components/ui/icon";
 type Session = {
   id: string;
   title: string;
@@ -17,9 +17,9 @@ type Session = {
 };
 const days = ["2026-11-10", "2026-11-11", "2026-11-12"];
 const labels: Record<string, string> = {
-  packed: "Packed with your people",
-  quiet: "Quiet, easier to ask the speaker",
-  "table-after": "Table forming after",
+  packed: "Your people",
+  quiet: "Quiet room",
+  "table-after": "Table after",
 };
 export default function Plan() {
   const [day, setDay] = useState(days[0]),
@@ -78,7 +78,7 @@ export default function Plan() {
     try {
       await api("/api/plans", "POST", { sessionIds: ids });
       await load();
-      setSuccess("Added to your agenda");
+      setSuccess(ids.length > 1 ? "Added to your day." : "Added.");
       setItems((v) => v.filter((x) => !ids.includes(x.id)));
     } catch (e) {
       setError((e as Error).message);
@@ -86,203 +86,121 @@ export default function Plan() {
       setOperation(null);
     }
   }
+  async function generate() {
+    setOperation("generate");
+    setError("");
+    setSuccess("");
+    try {
+      const v = await api<{ items: Session[]; summary: string; usedAi: boolean }>("/api/planner", "POST", { day, text });
+      setItems(v.items);
+      setSummary(v.summary + (!v.usedAi ? " · Schedule-based picks" : ""));
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setOperation(null);
+    }
+  }
+  async function search() {
+    setOperation("search");
+    setError("");
+    setSearched(false);
+    setSearchError("");
+    setResults([]);
+    try {
+      setResults((await api<{ sessions: Session[] }>("/api/sessions?day=" + day + "&q=" + encodeURIComponent(q))).sessions);
+      setSearched(true);
+    } catch (e) {
+      setSearchError((e as Error).message);
+    } finally {
+      setOperation(null);
+    }
+  }
+  async function remove(id: string) {
+    setOperation("remove");
+    setError("");
+    setSuccess("");
+    try {
+      await api("/api/plans?session=" + id, "DELETE");
+      await load();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setOperation(null);
+    }
+  }
+  const clock = (v: string) => time(v).split(" ").pop();
   function cards(list: Session[], mode: "suggest" | "mine" | "search") {
-    return list.map((item) => (
-      <article className={s.session} key={item.id}>
-        <div className={s.eyebrow}>
-          {time(item.starts_at)} – {time(item.ends_at)} MST
-        </div>
-        <h3>
-          <a href={item.url} target="_blank" rel="noreferrer">
-            {item.title} ↗
-          </a>
-        </h3>
-        <p className={s.muted}>
-          {item.room} · {item.level}
-        </p>
-        {item.crowd?.map((c) => (
-          <span className={s.badge} key={c}>
-            {labels[c] || c}
-          </span>
-        ))}
-        {item.reason && <p>{item.reason}</p>}
-        <div className={s.row}>
-          {mode === "mine" ? (
-            <button
-              disabled={busy}
-              onClick={async () => {
-                setOperation("remove");
-                setError("");
-                setSuccess("");
-                try {
-                  await api("/api/plans?session=" + item.id, "DELETE");
-                  await load();
-                } catch (e) {
-                  setError((e as Error).message);
-                } finally {
-                  setOperation(null);
-                }
-              }}
-            >
-              Remove
-            </button>
-          ) : (
-            <>
-              <button
-                disabled={busy || mine.some((x) => x.id === item.id)}
-                onClick={() => accept([item.id])}
-              >
-                {mine.some((x) => x.id === item.id)
-                  ? "In your agenda"
-                  : operation === "save" && savingIds.includes(item.id) ? "Adding…" : "Add to agenda"}
-              </button>
-              {mode === "suggest" && (
-                <button
-                  disabled={busy}
-                  onClick={() =>
-                    setItems(items.filter((x) => x.id !== item.id))
-                  }
-                >
-                  Dismiss suggestion
+    return list.map((item) => {
+      const saved = mine.some((x) => x.id === item.id);
+      return (
+        <article className={s.session} key={item.id}>
+          <div className={s.sessionTime}>{clock(item.starts_at)}<span>{clock(item.ends_at)}</span></div>
+          <div className={s.sessionBody}>
+            <h3><a href={item.url} target="_blank" rel="noreferrer">{item.title}</a></h3>
+            <p className={s.meta}>{[item.room.split(" | ").pop(), item.level].filter(Boolean).join(" · ")}</p>
+            {item.crowd?.length ? <div className={s.tags}>{item.crowd.map((c) => <span className={s.tag} key={c}>{labels[c] || c}</span>)}</div> : null}
+            {item.reason && <p className={s.reason}>{item.reason}</p>}
+          </div>
+          <div className={s.sessionActions}>
+            {mode === "mine" ? (
+              <button disabled={busy} onClick={() => void remove(item.id)}>Remove</button>
+            ) : (
+              <>
+                <button className={saved ? s.done : s.add} disabled={busy || saved} onClick={() => accept([item.id])}>
+                  {saved ? <><Icon name="check" size={14}/>Added</> : operation === "save" && savingIds.includes(item.id) ? "Adding…" : <><Icon name="plus" size={14}/>Add</>}
                 </button>
-              )}
-            </>
-          )}
-        </div>
-      </article>
-    ));
+                {mode === "suggest" && <button className={s.iconButton} aria-label="Dismiss suggestion" disabled={busy} onClick={() => setItems(items.filter((x) => x.id !== item.id))}><Icon name="close" size={14}/></button>}
+              </>
+            )}
+          </div>
+        </article>
+      );
+    });
   }
   return (
-    <>
-      <div className={s.eyebrow}>LEAVE ROOM FOR A CONVERSATION</div>
-      <h1>A day that fits you.</h1>
-      <span className={s.badge}>Crowd signals include simulated attendees</span>
-      <p className={s.muted}>Find sessions that fit. Keep lunch free for conversation.</p>
-      {!hasInterests && <p className={s.muted}><Link href="/me">Add interests for more personal suggestions</Link> · Optional; you can generate or search now.</p>}
-      <label className={s.field}>
-        Event day
-        <select disabled={busy} value={day} onChange={(e) => setDay(e.target.value)}>
-          {days.map((d, i) => (
-            <option key={d} value={d}>
-              {
-                ["Tuesday · Nov 10", "Wednesday · Nov 11", "Thursday · Nov 12"][
-                  i
-                ]
-              }
-            </option>
-          ))}
-        </select>
-      </label>
-      <div className={p.summary}>
-        <a href={mine.length?"#agenda":"#planner"}>Saved agenda · {agendaLoading ? "Loading…" : `${mine.length} ${mine.length===1?"session":"sessions"}`} ↓</a>
-        <span role="status">{success && <>{success}. <a href="#agenda">View agenda →</a></>}</span>
+    <div className={s.narrow}>
+      <header className={s.pageHead}>
+        <h1>Agenda</h1>
+        <p>AI picks sessions around your interests and keeps lunch free.</p>
+      </header>
+      <div className={s.segmented} role="group" aria-label="Event day">
+        {days.map((d, i) => <button key={d} aria-pressed={day === d} disabled={busy} onClick={() => setDay(d)}>{["Tue 10", "Wed 11", "Thu 12"][i]}</button>)}
       </div>
+      {!hasInterests && <p className={s.muted}><Link href="/">Add your interests</Link> for better picks.</p>}
+      <div aria-live="polite">{success && <p className={s.notice}>{success}</p>}</div>
       {error && <p role="alert" className={s.error}>{error}</p>}
-      {(agendaLoading||mine.length>0)&&<section id="agenda" className={`${s.card} ${p.anchor}`} aria-labelledby="agenda-heading">
-        <h2 id="agenda-heading">Your saved agenda <span className={s.badge}>{mine.length} {mine.length===1?"session":"sessions"}</span></h2>
-        {agendaLoading ? <p role="status">Loading your agenda…</p> : mine.length ? (
-          cards(mine, "mine")
-        ) : (
-          <p className={s.muted}>
-            Your day is open. Accept a suggestion or search below.
-          </p>
-        )}
-      </section>}
-      <section id="planner" className={s.card}>
-        <h2>Make a plan</h2>
-        <label className={s.field}>
-          What would make today good?
-          <textarea
-            value={text}
-            maxLength={500}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="2h after lunch, want to meet AI infra people"
-          />
-        </label>
-        <button
-          className={s.primary}
-          disabled={busy}
-          onClick={async () => {
-            setOperation("generate");
-            setError("");
-            setSuccess("");
-            try {
-              const v = await api<{
-                items: Session[];
-                summary: string;
-                usedAi: boolean;
-              }>("/api/planner", "POST", { day, text });
-              setItems(v.items);
-              setSummary(
-                v.summary + (!v.usedAi ? " · Schedule-based suggestions" : ""),
-              );
-            } catch (e) {
-              setError((e as Error).message);
-            } finally {
-              setOperation(null);
-            }
-          }}
-        >
-          {operation === "generate" ? "Generating…" : "Generate my plan"}
-        </button>
-        {operation === "generate" && (
-          <p role="status">
-            Finding sessions and checking crowd signals. This can take 10–15
-            seconds…
-          </p>
-        )}
-        <p>{summary}</p>
+      {(agendaLoading || mine.length > 0) && (
+        <section id="agenda" className={s.section} aria-labelledby="agenda-heading">
+          <h2 id="agenda-heading">Your day <span className={s.count}>{agendaLoading ? "…" : mine.length}</span></h2>
+          {agendaLoading ? <p className={s.muted} role="status">Loading…</p> : cards(mine, "mine")}
+        </section>
+      )}
+      <section className={s.section}>
+        <h2>Plan it for me</h2>
+        <form className={s.inline} onSubmit={(e) => { e.preventDefault(); void generate(); }}>
+          <input aria-label="What would make today good?" value={text} maxLength={500} onChange={(e) => setText(e.target.value)} placeholder="2h after lunch, meet AI infra people" />
+          <button className={s.primary} disabled={busy}>{operation === "generate" ? "Planning…" : "Plan my day"}</button>
+        </form>
+        {operation === "generate" && <p className={s.muted} role="status">Checking sessions and crowds, about 10 seconds…</p>}
         {items.length > 0 && (
-          <button
-            disabled={busy}
-            onClick={() => accept(items.map((x) => x.id))}
-          >
-            {operation === "save" && savingIds.length>1 ? "Adding all…" : "Add all to agenda"}
-          </button>
+          <div className={s.resultsHead}>
+            <p>{summary}</p>
+            <button disabled={busy} onClick={() => accept(items.map((x) => x.id))}>{operation === "save" && savingIds.length > 1 ? "Adding…" : "Add all"}</button>
+          </div>
         )}
         {cards(items, "suggest")}
+        {items.length > 0 && <p className={s.footnote}>Crowd signals include simulated attendees.</p>}
       </section>
-      <section className={s.card}>
-        <h2>Find a session by meaning</h2>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setOperation("search");
-            setError("");
-            setSearched(false);
-            setSearchError("");
-            setResults([]);
-            try {
-              setResults(
-                (
-                  await api<{ sessions: Session[] }>(
-                    "/api/sessions?day=" + day + "&q=" + encodeURIComponent(q),
-                  )
-                ).sessions,
-              );
-              setSearched(true);
-            } catch (e) {
-              setSearchError((e as Error).message);
-            } finally {
-              setOperation(null);
-            }
-          }}
-        >
-          <label className={s.field}>
-            What do you want to learn?
-            <input
-              value={q}
-              maxLength={300}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Running models on Kubernetes"
-            />
-          </label>
-          <button disabled={busy || !q.trim()}>{operation === "search" ? "Searching…" : "Search sessions"}</button>
+      <section className={s.section}>
+        <h2>Search sessions</h2>
+        <form className={s.inline} onSubmit={(e) => { e.preventDefault(); void search(); }}>
+          <input aria-label="Search sessions" value={q} maxLength={300} onChange={(e) => setQ(e.target.value)} placeholder="Running models on Kubernetes" />
+          <button disabled={busy || !q.trim()}><Icon name="search" size={15}/>{operation === "search" ? "Searching…" : "Search"}</button>
         </form>
-        <p role="status" className={s.muted}>{operation === "search" ? "Searching the schedule…" : searched ? (results.length ? `${results.length} sessions found` : "No sessions found. Try a broader topic or another day.") : "Search the schedule by topic or what you want to learn."}</p>
-        {searchError && <p role="alert" className={s.error}>{searchError} Try searching again.</p>}
+        {searched && !results.length && <p className={s.muted} role="status">No sessions found. Try a broader topic or another day.</p>}
+        {searchError && <p role="alert" className={s.error}>{searchError}</p>}
         {cards(results, "search")}
       </section>
-    </>
+    </div>
   );
 }

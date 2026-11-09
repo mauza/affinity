@@ -21,9 +21,9 @@ export default function Lobby({ qr }: { qr: string }) {
   useEffect(() => {
     if (paused) return;
     const cycle=setInterval(()=>setSlide(v=>(v+1)%slides.length),18000);
-    const floors=setInterval(()=>setFloorIndex(v=>(v+1)%4),36000);
+    const floors=setInterval(()=>setFloorIndex(v=>(v+1)%(meta?.floors.length||1)),36000);
     return()=>{clearInterval(cycle);clearInterval(floors);};
-  },[paused]);
+  },[paused,meta]);
   useEffect(() => {
     if (!meta) return;
     const c = new AbortController();
