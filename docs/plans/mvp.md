@@ -104,8 +104,9 @@ Live, collective map of where like-minded people gather at KubeCon NA 2026 SLC. 
 
 ## Architecture and data
 
-- One TypeScript/Next.js app (UI + API routes); SVG map. Hosted LLM and embeddings server-side only, configurable.
-- Elasticsearch: pin the current 9.x. Start a trial license at bootstrap (`_license/start_trial`) for inference, `semantic_text`, RRF, and Agent Builder. Embeddings come through an inference endpoint backed by a hosted embedding API, so no ML node or ELSER memory is needed.
+- One TypeScript/Next.js app (UI + API routes); SVG map. All model calls go through the home LiteLLM gateway (`http://litellm-proxy.llm-gateway:4000`, OpenAI-compatible), server-side only.
+- Embeddings: `qwen3-embedding-0.6b` (1024 dims, cosine, max 2048 tokens/input) served by llama.cpp SYCL on the Intel Arc A770 (`home-k8s/apps/llm-gateway/embed-a770.yaml`). Chat: a LiteLLM chat route (default `gpt-6-luna` for live tag refine, `gpt-6.1-sol` for the planner), configurable by env.
+- Elasticsearch: pin the current 9.x. Start a trial license at bootstrap (`_license/start_trial`) for inference, `semantic_text`, RRF, and Agent Builder. Embeddings come through an Elasticsearch inference endpoint (`openai` service, `url` = LiteLLM `/v1/embeddings`, model `qwen3-embedding-0.6b`), so no ML node or ELSER memory is needed.
   - Fallback: the app computes embeddings into `dense_vector`, and RRF fusion happens app-side.
   - Percolator, significant_terms, date_range aggregations, and cardinality all work on the basic license.
 - Indices: `interests`, `sessions` (`when` date_range + `semantic_text`), `zones`, `attendees`, `plans` (one doc per attendee-session), `stints`, `tables`, `alerts` (percolator), `notifications`. Explicit mappings; 1 shard, 0 replicas.
@@ -113,9 +114,9 @@ Live, collective map of where like-minded people gather at KubeCon NA 2026 SLC. 
 
 ## Kubernetes delivery
 
-- Dedicated namespace via existing GitOps (`~/Projects/home-k8s` if home cluster); sealed secrets for LLM/embedding keys and Elasticsearch credentials.
-- Elasticsearch: single-node StatefulSet, PVC, internal ClusterIP, auth/TLS, 4Gi limit / 2Gi heap (no local ML), pinned image. Check vm.max_map_count, storage class, and allocatable memory first.
-- App: Deployment, probes, limits, internal Service. Ingress `kubecon.mau.guru` → app only, with valid TLS. Elasticsearch has no ingress.
+- Home cluster (k3s) via GitOps in `~/Projects/home-k8s`: `apps/kubecon/` + `argo/apps/kubecon.yaml`, namespace `kubecon`. Sealed secrets for the LiteLLM key and Elasticsearch credentials. App image is built from the public repo and pushed to the cluster registry.
+- Elasticsearch: single-node StatefulSet, internal ClusterIP, auth/TLS, 4Gi limit / 2Gi heap (no local ML), pinned image. Use a `local-path` PVC pinned to an amd64 node with headroom (waug01 or waukvm1), not NFS. Check vm.max_map_count first.
+- App: Deployment, probes, limits, internal Service. Ingress `kubecon.mau.guru` → app only, with valid TLS: Traefik `websecure` + `letsencrypt-prod` + a headers middleware (same pattern as `apps/web-games/ingress.yaml`). DNS already resolves. Elasticsearch has no ingress.
 - Radar connected to the cluster/namespace from the start. Scripted investigation: scale `crowd-sim` live mode → Elasticsearch latency/heap pressure or app readiness flaps → Radar AI investigation → fix (limits, query, bulk batching) → keep the evidence for the demo.
 - Verify: HTTPS flow, app ready, Elasticsearch green/yellow as expected, bootstrap and sim Jobs complete, data survives an Elasticsearch pod restart.
 
@@ -132,8 +133,8 @@ Rough targets. If a phase overruns, cut from the bottom of the list below.
 
 **Cut order if behind:** Agent Builder → Dash0/Gitar → Hyatt floors → alerts/percolator → planned mode → unexpected overlap. Never cut: live map, replay, lobby, privacy floor, sim labeling.
 
-**Parallel lanes** (separate worktrees, disjoint dirs; one integrator):
-- infra (`deploy/`)
+**Parallel lanes** (one person each, feature branches + PRs to `main` on github.com/mauza/cloud-native-hackathon; one integrator merges and deploys):
+- infra (`Dockerfile`, image build; manifests in `home-k8s/apps/kubecon/`)
 - data/import + sim (`data/`, `sim/`)
 - map/lobby UI (`app/map`, `app/lobby`)
 - AI/search (`lib/ai`, `lib/search`)
@@ -174,7 +175,6 @@ GPS/beacons, chat, contact exchange, accounts/social login, push/email notificat
 
 ## Unresolved questions
 
-- Which cluster/ingress class/storage class/cert tooling: home-k8s, or the hackathon-provided cluster (Radar can connect to either)?
-- Which LLM and embedding provider and keys? Is the Elastic trial (`ela.st/hack-kubecon`) worth taking as a fallback if the cluster is short on memory?
-- Solo or team? This decides whether the parallel lanes are realistic in ~7h.
-- OK to commit the public schedule JSON snapshot to the public repo (attributed, no photos)?
+- Who owns which lane? Assign infra, data/sim, map/lobby, and AI/search to named people before 11:00.
+- Should the app get its own LiteLLM key, or the shared master key? There's no key database today, so a dedicated key needs one.
+- Final product name (the repo is `cloud-native-hackathon` for now).
