@@ -12,10 +12,13 @@ const paths = {
   shield: 'm12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z m-4 9 3 3 5-6',
   close: 'm6 6 12 12 M6 18 18 6',
   play: 'm8 4 12 8-12 8z',
+  pause: 'M9 5v14 M15 5v14',
+  search: 'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z m10 3-5-5',
+  plus: 'M12 5v14 M5 12h14',
 } as const;
 export function Icon({ name, size = 20 }: { name: keyof typeof paths; size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]} /></svg>;
 }
 export function PodMark() {
-  return <svg width="34" height="34" viewBox="0 0 34 34" fill="currentColor" aria-hidden="true"><circle cx="10" cy="10" r="5"/><circle cx="24" cy="10" r="5"/><circle cx="10" cy="24" r="5"/><circle cx="24" cy="24" r="5"/><circle cx="17" cy="17" r="3" opacity=".5"/></svg>;
+  return <svg width="26" height="26" viewBox="0 0 34 34" fill="currentColor" aria-hidden="true"><circle cx="10" cy="10" r="5"/><circle cx="24" cy="10" r="5"/><circle cx="10" cy="24" r="5"/><circle cx="24" cy="24" r="5"/><circle cx="17" cy="17" r="3" opacity=".5"/></svg>;
 }

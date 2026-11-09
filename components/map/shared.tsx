@@ -16,7 +16,7 @@ export async function get<T>(url: string, signal?: AbortSignal): Promise<T> {
   if (!r.ok) { const body = await r.json().catch(() => ({})); throw new Error(body.error || `Request failed (${r.status})`); }
   return r.json();
 }
-export const colors = ["#edf0e7", "#a5c797", "#699e69", "#317858", "#cf773d"];
+export const colors = ["#1f2733", "#0f766e", "#2dd4bf", "#a7f3d0", "#fb923c"];
 export function heat(n: number, peak = 30) { return colors[n <= 0 ? 0 : Math.min(4, Math.max(1, Math.ceil(n / Math.max(3, peak) * 4)))]; }
 export function FloorMap({ floor, zones, counts, mode, peak = 30, selected, onSelect }: { floor: Floor; zones: Zone[]; counts: Record<string, number>; mode: string; peak?: number; selected?: string; onSelect?: (z: Zone) => void }) {
   const clipId = useId(), svg = useRef<SVGSVGElement>(null);
@@ -43,8 +43,8 @@ export function FloorMap({ floor, zones, counts, mode, peak = 30, selected, onSe
         <title>{z.name}{z.note ? " · " + z.note : ""}: {countLabel(n)} · {mode}</title>
         {floor.background ? <>
           {/* The room itself carries the heat, translucent so the official labels stay legible; empty rooms keep a faint outline so they read as tappable. */}
-          <rect x={x} y={y} width={w} height={h} rx="2" vectorEffect="non-scaling-stroke" className={`${s.hitArea} ${selected===z.id?s.selectedZone:""}`} style={n>0?{fill:heat(n,peak),fillOpacity:.55}:undefined}/>
-          {n>0&&<g pointerEvents="none" transform={`translate(${x+w/2} ${Math.max(y,floor.viewBox[1]+16*badgeScale)}) scale(${badgeScale})`}><rect x={-Math.max(19,countLabel(n).length*4.2+7)} y={-15} width={Math.max(38,countLabel(n).length*8.4+14)} height="30" rx="15" fill={n>peak*.75?"#b75d28":"#245a43"} stroke="white" strokeWidth="2"/><text x={0} y={5} textAnchor="middle" fill="white" fontSize="13" fontWeight="700">{countLabel(n)}</text></g>}
+          <rect x={x} y={y} width={w} height={h} rx="2" vectorEffect="non-scaling-stroke" className={`${s.hitArea} ${selected===z.id?s.selectedZone:""}`} style={n>0?{fill:heat(n,peak),fillOpacity:.6}:undefined}/>
+          {n>0&&<g pointerEvents="none" transform={`translate(${x+w/2} ${Math.max(y,floor.viewBox[1]+16*badgeScale)}) scale(${badgeScale})`}><rect x={-Math.max(19,countLabel(n).length*4.2+7)} y={-15} width={Math.max(38,countLabel(n).length*8.4+14)} height="30" rx="15" fill={n>peak*.75?"#fb923c":"#5eead4"} stroke="#07090d" strokeWidth="2"/><text x={0} y={5} textAnchor="middle" fill="#03201b" fontSize="13" fontWeight="700">{countLabel(n)}</text></g>}
         </> : <><rect x={x + 2} y={y + 2} width={w - 4} height={h - 4} rx="7" fill={heat(n, peak)} stroke={selected === z.id ? "#174e3b" : "#a4b99e"} strokeWidth={selected === z.id ? 4 : 1}/>
         <text x={x + w / 2} y={y + h / 2 - (Math.min(lines.length, 3) - 1) * 7 - 5} textAnchor="middle" fill="#173b32" fontSize={Math.min(14, h / 3.8)} fontWeight="600" pointerEvents="none">
           {lines.slice(0, 3).map((line, i) => <tspan key={i} x={x + w / 2} dy={i ? "1.1em" : 0}>{line}</tspan>)}

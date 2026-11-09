@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api, count, type Interest, type Profile } from "./client";
 import s from "./attendee.module.css";
-import p from "./planning.module.css";
+import { Icon } from "./icon";
 type Alert = {
   id: string;
   topic: string;
@@ -24,13 +24,7 @@ type Notification = {
   read: boolean;
   message: { topic: string; zone: string; count: number; hint: string };
 };
-export default function Tables({
-  alertsOnly = false,
-  profileRevision = 0,
-}: {
-  alertsOnly?: boolean;
-  profileRevision?: number;
-}) {
+export default function Tables() {
   const [tables, setTables] = useState<Table[]>([]),
     [alerts, setAlerts] = useState<Alert[]>([]),
     [notifications, setNotifications] = useState<Notification[]>([]),
@@ -69,9 +63,8 @@ export default function Tables({
       })
       .catch((e) => setError(e.message));
     refresh().catch((e) => setError(e.message));
-  }, [profileRevision]);
+  }, []);
   useEffect(() => {
-    if (alertsOnly) return;
     let active = true;
     const poll = () =>
       api<{ tables: Table[] }>("/api/tables" + (live ? "?live=1" : ""))
@@ -90,7 +83,7 @@ export default function Tables({
       active = false;
       clearInterval(timer);
     };
-  }, [live, alertsOnly]);
+  }, [live]);
   const label = (id: string) => interests.find((i) => i.id === id)?.label || id;
   const place = (id: string) => zones.find((z) => z.id === id)?.name || id;
   async function action(fn: () => Promise<unknown>, message: string) {
@@ -110,202 +103,83 @@ export default function Tables({
   const visibleTables = tables
     .filter((t) => !filter || t.topic === filter)
     .sort((a, b) => Number(own.includes(b.topic)) - Number(own.includes(a.topic)) || (small ? a.count - b.count : 0));
-  const alertPanel = (
-    <details className={`${s.card} ${p.alertEntry}`} open={alertsOnly || undefined}>
-        <summary>Gathering alerts · {alerts.length} saved <span className={p.summaryHint}>Create or manage an alert</span></summary>
-        <p className={s.muted}>
-          We’ll notify you here when people open to your topic gather.
-        </p>
+  const unread = notifications.filter((n) => !n.read).length;
+  return (
+    <div className={s.narrow}>
+      <header className={s.pageHead}>
+        <h1>Tables</h1>
+        <p>Pop-up conversations. Nobody owns a table; everyone is welcome.</p>
+      </header>
+      <div className={s.filters}>
+        <select aria-label="Topic" value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="">All topics</option>
+          {interests.map((i) => <option key={i.id} value={i.id}>{i.label}</option>)}
+        </select>
+        <label className={s.toggle}><input type="checkbox" checked={small} onChange={(e) => setSmall(e.target.checked)} />Smaller first</label>
+        <label className={s.toggle}><input type="checkbox" checked={live} onChange={(e) => setLive(e.target.checked)} />Live only</label>
+      </div>
+      <div aria-live="polite">{success && <p className={s.notice} role="status">{success}</p>}</div>
+      {error && <p role="alert" className={s.error}>{error}</p>}
+      {!loaded && <p className={s.muted} role="status">Loading tables…</p>}
+      {loaded && !visibleTables.length && (
+        <div className={s.empty}>
+          <p>{filter ? "No tables on this topic yet." : "No tables right now."}</p>
+          <Link className={s.ghost} href="/map">Open a topic on the map<Icon name="arrow" size={15}/></Link>
+        </div>
+      )}
+      <div className={s.grid}>
+        {visibleTables.map((t) => (
+          <article className={s.tableCard} key={t.id}>
+            <div className={s.tableTop}><h3>{label(t.topic)}</h3><span className={s.bigCount}>{count(t.count)}</span></div>
+            <p className={s.meta}>{place(t.zone)}</p>
+            {t.hint && <p className={s.reason}>{t.hint}</p>}
+            <div className={s.tags}>
+              {own.includes(t.topic) && <span className={`${s.tag} ${s.tagAccent}`}>Your topic</span>}
+              {t.newcomer_count > 0 && <span className={s.tag}>Newcomers welcome</span>}
+              {t.source === "sim" && <span className={s.tag}>Simulated</span>}
+            </div>
+            <Link className={s.cardLink} href={"/map?zone=" + encodeURIComponent(t.zone)}>Find it<Icon name="arrow" size={14}/></Link>
+          </article>
+        ))}
+      </div>
+      {loaded && <p className={s.footnote}>{visibleTables.length} open · {live ? "live attendees only" : "includes simulated attendees"} · updates every 30s</p>}
+
+      <section className={s.section}>
+        <h2>Alerts <span className={s.count}>{alerts.length}</span></h2>
         {alerts.map((a) => (
-          <div className={s.interest} key={a.id}>
-            <span>
-              {a.min_count}+ people · {label(a.topic)} ·{" "}
-              {a.zone ? place(a.zone) : "any zone"}
-            </span>
-            <button
-              disabled={busy}
-              onClick={() =>
-                action(() =>
-                  api("/api/alerts?id=" + encodeURIComponent(a.id), "DELETE"),
-                  "Alert deleted.",
-                )
-              }
-            >
-              Delete alert
-            </button>
+          <div className={s.listRow} key={a.id}>
+            <span>{a.min_count}+ people · {label(a.topic)} · {a.zone ? place(a.zone) : "anywhere"}</span>
+            <button className={s.iconButton} aria-label="Delete alert" disabled={busy} onClick={() => action(() => api("/api/alerts?id=" + encodeURIComponent(a.id), "DELETE"), "Alert deleted.")}><Icon name="close" size={14}/></button>
           </div>
         ))}
-        {!alerts.length && <p>No alerts yet.</p>}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            void action(() =>
-              api("/api/alerts", "POST", {
-                topic,
-                zone: zone || null,
-                minCount: min,
-              }),
-              "Alert created. Notifications will appear here when it matches.",
-            );
-          }}
-        >
-          <label className={s.field}>
-            Tell me when this many people gather
-            <input
-              type="number"
-              min={3}
-              max={50}
-              required
-              value={min}
-              onChange={(e) => setMin(Number(e.target.value))}
-            />
-          </label>
-          <label className={s.field}>
-            Open to my interest
-            <select
-              required
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-            >
-              <option value="">Choose an interest</option>
-              {interests
-                .filter((i) => own.includes(i.id))
-                .map((i) => (
-                  <option key={i.id} value={i.id}>
-                    {i.label}
-                  </option>
-                ))}
+        {own.length ? (
+          <form className={s.sentence} onSubmit={(e) => { e.preventDefault(); void action(() => api("/api/alerts", "POST", { topic, zone: zone || null, minCount: min }), "Alert saved."); }}>
+            Notify me when
+            <input aria-label="Minimum people" type="number" min={3} max={50} required value={min} onChange={(e) => setMin(Number(e.target.value))} />
+            people open to
+            <select aria-label="Topic" required value={topic} onChange={(e) => setTopic(e.target.value)}>
+              {interests.filter((i) => own.includes(i.id)).map((i) => <option key={i.id} value={i.id}>{i.label}</option>)}
             </select>
-          </label>
-          {!own.length && (
-            <p>
-              <Link href="/me">Save your interests first →</Link>
-            </p>
-          )}
-          <label className={s.field}>
-            Where?
-            <select value={zone} onChange={(e) => setZone(e.target.value)}>
-              <option value="">Any zone</option>
-              {zones.map((z) => (
-                <option key={z.id} value={z.id}>
-                  {z.name}
-                </option>
-              ))}
+            gather
+            <select aria-label="Where" value={zone} onChange={(e) => setZone(e.target.value)}>
+              <option value="">anywhere</option>
+              {zones.map((z) => <option key={z.id} value={z.id}>in {z.name}</option>)}
             </select>
-          </label>
-          <button className={s.primary} disabled={busy || !topic}>
-            {busy ? "Saving…" : "Create alert"}
-          </button>
-        </form>
-      </details>
-  );
-  return (
-    <>
-      {alertsOnly && alertPanel}
-      <div aria-live="polite">{busy ? <p role="status">Saving changes…</p> : success && <p className={p.success} role="status">{success}</p>}</div>
-      {error && <p role="alert" className={s.error}>{error}</p>}
-      {!alertsOnly && (
-        <>
-          <div className={s.eyebrow}>A SHARED INTEREST. AN OPEN SEAT.</div>
-          <h1>Pull up a chair.</h1>
-          <p className={s.lead}>
-            Shared areas for people open to connect. Everyone is welcome; tables are not reserved or claimed.
-          </p>
-          <details className={p.tableFilters}><summary>Filter gatherings · {filter ? label(filter) : "All topics"}{live ? " · live only" : ""}</summary>
-          <label className={s.field}>
-            Filter by topic
-            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-              <option value="">All topics</option>
-              {interests.map((i) => <option key={i.id} value={i.id}>{i.label}</option>)}
-            </select>
-          </label>
-          <label className={s.check}>
-            <input
-              type="checkbox"
-              checked={small}
-              onChange={(e) => setSmall(e.target.checked)}
-            />{" "}
-            Find a smaller gathering
-          </label>
-          <label className={s.check}>
-            <input
-              type="checkbox"
-              checked={live}
-              onChange={(e) => setLive(e.target.checked)}
-            />{" "}
-            Live attendees only
-          </label>
-          </details>
-          <p className={s.muted}>
-            {live
-              ? "Live attendees only"
-              : "Includes simulated attendees · demo data"}{" "}
-            · Refreshes every 30 seconds
-          </p>
-          {loaded && <p role="status" className={s.muted}>{visibleTables.length} {visibleTables.length === 1 ? "gathering" : "gatherings"}{filter ? ` for ${label(filter)}` : ""} · Your interests appear first</p>}
-          {!loaded && <p role="status">Loading tables…</p>}
-          {loaded && !visibleTables.length && (
-            <section className={s.card}>
-              <h2>{filter ? "No gatherings for this topic yet" : "No tables just yet"}</h2>
-              <p>
-                Check in on the map and open a topic, or create a gathering alert below.
-              </p>
-              <Link href="/map">Explore the map →</Link>
-            </section>
-          )}
-          {visibleTables.map((t) => (
-              <article className={s.card} key={t.id}>
-                <h2>{label(t.topic)}</h2>
-                {own.includes(t.topic) && <span className={p.match}>Matches you</span>}
-                <p>
-                  {count(t.count)} people · {place(t.zone)}
-                </p>
-                {t.newcomer_count > 0 && (
-                  <span className={s.badge}>Newcomers welcome</span>
-                )}
-                {t.source === "sim" && (
-                  <span className={s.badge}>Simulated</span>
-                )}
-                <p>{t.hint || "Look for others open to connect."}</p>
-                <Link href={"/map?zone=" + encodeURIComponent(t.zone)}>
-                  Find this zone →
-                </Link>
-              </article>
-            ))}
-          {alertPanel}
-        </>
-      )}
-      {!alertsOnly && (
-        <section id="notifications" className={s.card}>
-          <h2>Notifications</h2>
-          <button
-            disabled={busy || !notifications.some((n) => !n.read)}
-            onClick={() => action(() => api("/api/notifications", "POST"), "Notifications marked as read.")}
-          >
-            Mark all read
-          </button>
-          {!notifications.length && (
-            <p className={s.muted}>
-              Your gathering notifications will appear here.
-            </p>
-          )}
-          {notifications.map((n) => (
-            <article className={s.session} key={n.id}>
-              <h3>
-                {!n.read && "New · "}
-                {label(n.message.topic)}
-              </h3>
-              <p>
-                {count(n.message.count)} people · {place(n.message.zone)}
-              </p>
-              <p>{n.message.hint}</p>
-              <Link href={"/map?zone=" + encodeURIComponent(n.message.zone)}>
-                Find the gathering →
-              </Link>
-            </article>
-          ))}
-        </section>
-      )}
-    </>
+            <button className={s.primary} disabled={busy || !topic}>{busy ? "Saving…" : "Save alert"}</button>
+          </form>
+        ) : <p className={s.muted}><Link href="/">Add your interests</Link> to set alerts.</p>}
+      </section>
+
+      <section id="notifications" className={s.section}>
+        <h2>Notifications <span className={s.count}>{unread}</span>{unread > 0 && <button className={s.textButton} disabled={busy} onClick={() => action(() => api("/api/notifications", "POST"), "Marked as read.")}>Mark all read</button>}</h2>
+        {!notifications.length && <p className={s.muted}>Nothing yet. Alerts show up here.</p>}
+        {notifications.map((n) => (
+          <Link className={`${s.listRow} ${n.read ? "" : s.unread}`} key={n.id} href={"/map?zone=" + encodeURIComponent(n.message.zone)}>
+            <span><strong>{label(n.message.topic)}</strong> · {count(n.message.count)} people · {place(n.message.zone)}{n.message.hint ? ` · ${n.message.hint}` : ""}</span>
+            <Icon name="arrow" size={14}/>
+          </Link>
+        ))}
+      </section>
+    </div>
   );
 }
