@@ -177,7 +177,7 @@ export function timeline(
           : "lower-concourse"
         : (appointment?.zone ??
           (r() < 0.025
-            ? "quiet-rooms"
+            ? "quiet-260a"
             : halls[Math.floor(r() * halls.length)]));
     const social = !appointment || zone === "halls-ac";
     const open =

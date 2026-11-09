@@ -1,5 +1,5 @@
 {
- "source": "Official KubeCon + CloudNativeCon NA 2026 venue artwork, \u00a9 The Linux Foundation (https://events.linuxfoundation.org/kcna26-venue-map). Activity touchpoints calibrated to the PDF; shared areas are approximate.",
+ "source": "Official KubeCon + CloudNativeCon NA 2026 venue artwork, © The Linux Foundation (https://events.linuxfoundation.org/kcna26-venue-map). Activity touchpoints calibrated to the PDF; shared areas are approximate.",
  "floors": [
   {
    "id": "sp1",
@@ -15,7 +15,7 @@
     "href": "/maps/kubecon-na-2026.svg",
     "width": 1418,
     "height": 1152,
-    "clip": "440,430 790,430 790,165 1090,165 1090,620 950,620 950,815 440,815"
+    "clip": "440,430 790,430 790,165 1090,165 1090,495 1165,495 1165,590 1090,590 1090,620 950,620 950,815 440,815"
    }
   },
   {
@@ -36,6 +36,23 @@
    }
   },
   {
+   "id": "sp3",
+   "name": "Salt Palace L3",
+   "venue": "Salt Palace",
+   "viewBox": [
+    1294,
+    268,
+    102,
+    98
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "1298,272 1392,272 1392,364 1298,364"
+   }
+  },
+  {
    "id": "hy2",
    "name": "Hyatt L2",
    "venue": "Hyatt Regency",
@@ -50,6 +67,23 @@
     "width": 1418,
     "height": 1152,
     "clip": "140,709 305,709 305,868 230,868 205,886 170,886 160,868 95,868 72,850 72,831 95,820 114,820 114,741 140,741"
+   }
+  },
+  {
+   "id": "hy3",
+   "name": "Hyatt L3",
+   "venue": "Hyatt Regency",
+   "viewBox": [
+    72,
+    584,
+    240,
+    120
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "117,586 309,586 309,701 117,701 117,684 98,684 77,676 77,640 98,632 117,632"
    }
   },
   {
@@ -68,12 +102,29 @@
     "height": 1152,
     "clip": "143,401 308,401 308,557 105,557 77,546 77,518 96,511 117,511 117,433 143,433"
    }
+  },
+  {
+   "id": "hy5",
+   "name": "Hyatt L5",
+   "venue": "Hyatt Regency",
+   "viewBox": [
+    72,
+    322,
+    242,
+    46
+   ],
+   "background": {
+    "href": "/maps/kubecon-na-2026.svg",
+    "width": 1418,
+    "height": 1152,
+    "clip": "98,325 312,325 312,364 98,364 80,357 75,345 80,332"
+   }
   }
  ],
  "zones": [
   {
    "id": "cosmic-canyon",
-   "name": "Cosmic Canyon \u00b7 Project Pavilion",
+   "name": "Cosmic Canyon · Project Pavilion",
    "floor": "sp1",
    "kind": "expo",
    "rect": [
@@ -82,15 +133,73 @@
     190,
     158
    ],
+   "roomIds": [],
+   "note": "Halls 1–5 · meal pick-up"
+  },
+  {
+   "id": "cloud-native-theater",
+   "name": "Cloud Native Theater",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    983,
+    187,
+    41,
+    24
+   ],
    "roomIds": [
-    90363,
+    90363
+   ],
+   "parent": "cosmic-canyon",
+   "note": "Also hosts Istio Day, EnvoyCon and Cloud Native University talks"
+  },
+  {
+   "id": "corner-store",
+   "name": "Corner Store · T-shirt pick-up",
+   "floor": "sp1",
+   "kind": "facility",
+   "rect": [
+    921,
+    187,
+    47,
+    33
+   ],
+   "roomIds": [],
+   "parent": "cosmic-canyon"
+  },
+  {
+   "id": "project-pavilion",
+   "name": "Project Pavilion",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    984,
+    224,
+    36,
+    82
+   ],
+   "roomIds": [
     90682
    ],
-   "note": "Halls 1\u20135"
+   "parent": "cosmic-canyon"
+  },
+  {
+   "id": "poster-pavilion",
+   "name": "Poster Pavilion",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    944,
+    324,
+    59,
+    14
+   ],
+   "roomIds": [],
+   "parent": "cosmic-canyon"
   },
   {
    "id": "halls-15",
-   "name": "Halls 1\u20135 \u00b7 Solutions Showcase",
+   "name": "Halls 1–5 · Solutions Showcase",
    "floor": "sp1",
    "kind": "expo",
    "rect": [
@@ -101,6 +210,20 @@
    ],
    "roomIds": [],
    "note": "Approximate shared area on the official map; check venue signage."
+  },
+  {
+   "id": "amber-hive",
+   "name": "Amber Hive",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    1034,
+    382,
+    32,
+    20
+   ],
+   "roomIds": [],
+   "parent": "halls-15"
   },
   {
    "id": "honeycomb-hub",
@@ -116,8 +239,22 @@
    "roomIds": []
   },
   {
+   "id": "lower-mezzanine",
+   "name": "Lower Mezzanine",
+   "floor": "sp1",
+   "kind": "hallway",
+   "rect": [
+    1012,
+    407,
+    56,
+    90
+   ],
+   "roomIds": [],
+   "note": "First aid"
+  },
+  {
    "id": "alpine-overlook",
-   "name": "Alpine Overlook \u00b7 Demo Theater",
+   "name": "Alpine Overlook · Demo Theater",
    "floor": "sp1",
    "kind": "expo",
    "rect": [
@@ -126,15 +263,127 @@
     145,
     86
    ],
+   "roomIds": []
+  },
+  {
+   "id": "network-nook",
+   "name": "Network Nook",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    1030,
+    500,
+    24,
+    20
+   ],
    "roomIds": [
-    91537,
     92016
    ],
-   "note": "Network Nook"
+   "parent": "alpine-overlook"
+  },
+  {
+   "id": "demo-theater",
+   "name": "Demo Theater",
+   "floor": "sp1",
+   "kind": "session",
+   "rect": [
+    1032,
+    544,
+    18,
+    30
+   ],
+   "roomIds": [
+    91537
+   ],
+   "parent": "alpine-overlook"
+  },
+  {
+   "id": "room-155c",
+   "name": "155 C",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    1138,
+    548,
+    22,
+    36
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-155b",
+   "name": "155 B",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    1114,
+    548,
+    22,
+    36
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-155a",
+   "name": "155 A",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    1092,
+    556,
+    22,
+    29
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-155f",
+   "name": "155 F",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    1138,
+    498,
+    22,
+    34
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-155e",
+   "name": "155 E",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    1114,
+    498,
+    22,
+    34
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-155d",
+   "name": "155 D",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    1092,
+    498,
+    22,
+    28
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
   },
   {
    "id": "hall-de",
-   "name": "Hall DE \u00b7 Keynote",
+   "name": "Hall DE · Keynote",
    "floor": "sp1",
    "kind": "session",
    "rect": [
@@ -149,7 +398,7 @@
   },
   {
    "id": "halls-ac",
-   "name": "Halls A\u2013C \u00b7 Showcase & meals",
+   "name": "Halls A–C · Showcase & meals",
    "floor": "sp1",
    "kind": "meal",
    "rect": [
@@ -181,8 +430,22 @@
    "note": "Approximate shared area on the official map; check venue signage."
   },
   {
+   "id": "astral-peak",
+   "name": "Astral Peak",
+   "floor": "sp1",
+   "kind": "expo",
+   "rect": [
+    870,
+    616,
+    52,
+    32
+   ],
+   "roomIds": [],
+   "parent": "halls-ac"
+  },
+  {
    "id": "main-entrance",
-   "name": "200 S Entrance \u00b7 Badges",
+   "name": "200 S Entrance · Badges",
    "floor": "sp1",
    "kind": "hallway",
    "rect": [
@@ -195,6 +458,22 @@
     87690
    ],
    "note": "Approximate shared area on the official map; check venue signage."
+  },
+  {
+   "id": "hyatt-lobby",
+   "name": "Hyatt Regency Lobby",
+   "floor": "sp1",
+   "kind": "hallway",
+   "rect": [
+    482,
+    700,
+    135,
+    102
+   ],
+   "roomIds": [
+    92005
+   ],
+   "note": "Walkway to the Hyatt; elevators to levels 2–5"
   },
   {
    "id": "lower-concourse",
@@ -223,7 +502,8 @@
    ],
    "roomIds": [
     90387
-   ]
+   ],
+   "note": "Community Hub"
   },
   {
    "id": "gb-h",
@@ -302,6 +582,90 @@
    "note": "Approximate shared area on the official map; check venue signage."
   },
   {
+   "id": "room-150f",
+   "name": "150 F",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    852,
+    718,
+    14,
+    12
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-150e",
+   "name": "150 E",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    852,
+    708,
+    14,
+    10
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-150d",
+   "name": "150 D",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    852,
+    695,
+    14,
+    12
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-150c",
+   "name": "150 C",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    818,
+    718,
+    14,
+    12
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-150b",
+   "name": "150 B",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    818,
+    708,
+    14,
+    10
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-150a",
+   "name": "150 A",
+   "floor": "sp1",
+   "kind": "meeting",
+   "rect": [
+    818,
+    695,
+    14,
+    12
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
    "id": "room-151",
    "name": "151",
    "floor": "sp1",
@@ -331,8 +695,21 @@
    "note": "Approximate shared area on the official map; check venue signage."
   },
   {
+   "id": "north-foyer-l2",
+   "name": "North Foyer (Level 2)",
+   "floor": "sp2",
+   "kind": "hallway",
+   "rect": [
+    1026,
+    692,
+    52,
+    72
+   ],
+   "roomIds": []
+  },
+  {
    "id": "room-250ac",
-   "name": "250 A\u2013C",
+   "name": "250 A–C",
    "floor": "sp2",
    "kind": "session",
    "rect": [
@@ -347,7 +724,7 @@
   },
   {
    "id": "room-250df",
-   "name": "250 D\u2013F",
+   "name": "250 D–F",
    "floor": "sp2",
    "kind": "session",
    "rect": [
@@ -362,7 +739,7 @@
   },
   {
    "id": "room-251ac",
-   "name": "251 A\u2013C",
+   "name": "251 A–C",
    "floor": "sp2",
    "kind": "session",
    "rect": [
@@ -377,7 +754,7 @@
   },
   {
    "id": "room-251df",
-   "name": "251 D\u2013F",
+   "name": "251 D–F",
    "floor": "sp2",
    "kind": "session",
    "rect": [
@@ -389,6 +766,45 @@
    "roomIds": [
     87424
    ]
+  },
+  {
+   "id": "room-252a",
+   "name": "252 A · Speaker Ready Room",
+   "floor": "sp2",
+   "kind": "lounge",
+   "rect": [
+    1212,
+    696,
+    8,
+    14
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "room-252b",
+   "name": "252 B",
+   "floor": "sp2",
+   "kind": "meeting",
+   "rect": [
+    1221,
+    696,
+    8,
+    14
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "room-253",
+   "name": "253 · Speaker Lounge",
+   "floor": "sp2",
+   "kind": "lounge",
+   "rect": [
+    1212,
+    710,
+    17,
+    28
+   ],
+   "roomIds": []
   },
   {
    "id": "room-254",
@@ -468,7 +884,7 @@
   },
   {
    "id": "east-registration",
-   "name": "East re-entry \u00b7 check signage",
+   "name": "East re-entry · check signage",
    "floor": "sp2",
    "kind": "hallway",
    "rect": [
@@ -499,18 +915,86 @@
    "note": "Approximate shared area on the official map; check venue signage."
   },
   {
-   "id": "quiet-rooms",
-   "name": "Quiet Rooms \u00b7 260 A/B",
+   "id": "quiet-260b",
+   "name": "260 B · Quiet Room",
    "floor": "sp2",
    "kind": "quiet",
    "rect": [
-    1231,
+    1232,
     408,
-    29,
+    14,
+    12
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "quiet-260a",
+   "name": "260 A · Quiet Room",
+   "floor": "sp2",
+   "kind": "quiet",
+   "rect": [
+    1246,
+    408,
+    14,
+    12
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "room-257a",
+   "name": "257 A",
+   "floor": "sp2",
+   "kind": "meeting",
+   "rect": [
+    1246,
+    480,
+    14,
     12
    ],
    "roomIds": [],
-   "note": "Quiet rooms"
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-257b",
+   "name": "257 B",
+   "floor": "sp2",
+   "kind": "meeting",
+   "rect": [
+    1232,
+    480,
+    14,
+    12
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-258",
+   "name": "258",
+   "floor": "sp2",
+   "kind": "meeting",
+   "rect": [
+    1232,
+    450,
+    16,
+    24
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-259",
+   "name": "259",
+   "floor": "sp2",
+   "kind": "meeting",
+   "rect": [
+    1232,
+    426,
+    16,
+    24
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
   },
   {
    "id": "salt-lake-c",
@@ -544,7 +1028,7 @@
   },
   {
    "id": "salt-lake-foyer",
-   "name": "Salt Lake Foyer",
+   "name": "Salt Lake Foyer West",
    "floor": "hy2",
    "kind": "hallway",
    "rect": [
@@ -557,37 +1041,161 @@
    "note": "Approximate shared area on the official map; check venue signage."
   },
   {
+   "id": "salt-lake-b",
+   "name": "Salt Lake Ballroom B",
+   "floor": "hy2",
+   "kind": "meeting",
+   "rect": [
+    140,
+    739,
+    44,
+    32
+   ],
+   "roomIds": [],
+   "note": "Not on the KubeCon schedule"
+  },
+  {
+   "id": "salt-lake-a",
+   "name": "Salt Lake Ballroom A",
+   "floor": "hy2",
+   "kind": "meeting",
+   "rect": [
+    140,
+    771,
+    45,
+    33
+   ],
+   "roomIds": [],
+   "note": "Not on the KubeCon schedule"
+  },
+  {
+   "id": "salt-lake-foyer-south",
+   "name": "Salt Lake Foyer South",
+   "floor": "hy2",
+   "kind": "hallway",
+   "rect": [
+    114,
+    741,
+    26,
+    79
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "the-nest",
+   "name": "The Nest",
+   "floor": "hy2",
+   "kind": "lounge",
+   "rect": [
+    173,
+    818,
+    31,
+    24
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "aspen",
+   "name": "Aspen",
+   "floor": "hy2",
+   "kind": "meeting",
+   "rect": [
+    72,
+    820,
+    22,
+    47
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "cottonwood",
+   "name": "Cottonwood",
+   "floor": "hy2",
+   "kind": "meeting",
+   "rect": [
+    282,
+    854,
+    22,
+    14
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "juniper",
+   "name": "Juniper",
+   "floor": "hy2",
+   "kind": "meeting",
+   "rect": [
+    282,
+    836,
+    22,
+    17
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "blue-spruce",
+   "name": "Blue Spruce",
+   "floor": "hy2",
+   "kind": "meeting",
+   "rect": [
+    241,
+    852,
+    28,
+    16
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
    "id": "regency-a",
    "name": "Regency Ballroom A",
    "floor": "hy4",
    "kind": "session",
    "rect": [
     117,
-    432,
+    429,
     53,
-    81
+    84
    ],
    "roomIds": [
     82958
    ]
   },
   {
-   "id": "regency-bd",
-   "name": "Regency Ballroom B\u2013D",
+   "id": "regency-b",
+   "name": "Regency Ballroom B",
    "floor": "hy4",
    "kind": "session",
    "rect": [
     171,
     429,
-    98,
+    49,
     84
    ],
    "roomIds": [
-    82957,
-    92180,
-    92181
+    92180
    ],
-   "note": "B and CD combine as B\u2013D"
+   "note": "Combined with CD as Regency B–D on Monday"
+  },
+  {
+   "id": "regency-cd",
+   "name": "Regency Ballroom CD",
+   "floor": "hy4",
+   "kind": "session",
+   "rect": [
+    220,
+    429,
+    50,
+    84
+   ],
+   "roomIds": [
+    92181,
+    82957
+   ],
+   "note": "Combined with B as Regency B–D on Monday"
   },
   {
    "id": "regency-foyer",
@@ -602,17 +1210,334 @@
    ],
    "roomIds": [],
    "note": "Approximate shared area on the official map; check venue signage."
+  },
+  {
+   "id": "traverse",
+   "name": "Traverse",
+   "floor": "hy4",
+   "kind": "meeting",
+   "rect": [
+    76,
+    511,
+    22,
+    46
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "wasatch",
+   "name": "Wasatch",
+   "floor": "hy4",
+   "kind": "meeting",
+   "rect": [
+    243,
+    542,
+    28,
+    16
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "broadcast-lounge",
+   "name": "Broadcast Lounge · Ambassador, Kubestronaut + Maintainer Lounge",
+   "floor": "hy4",
+   "kind": "lounge",
+   "rect": [
+    284,
+    515,
+    24,
+    43
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "room-355d",
+   "name": "355 D · Media Lounge",
+   "floor": "sp3",
+   "kind": "lounge",
+   "rect": [
+    1320,
+    276,
+    22,
+    29
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "room-355e",
+   "name": "355 E",
+   "floor": "sp3",
+   "kind": "meeting",
+   "rect": [
+    1344,
+    276,
+    22,
+    35
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-355f",
+   "name": "355 F",
+   "floor": "sp3",
+   "kind": "meeting",
+   "rect": [
+    1366,
+    276,
+    22,
+    35
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-355a",
+   "name": "355 A",
+   "floor": "sp3",
+   "kind": "meeting",
+   "rect": [
+    1320,
+    333,
+    22,
+    28
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-355b",
+   "name": "355 B",
+   "floor": "sp3",
+   "kind": "meeting",
+   "rect": [
+    1344,
+    326,
+    22,
+    35
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "room-355c",
+   "name": "355 C",
+   "floor": "sp3",
+   "kind": "meeting",
+   "rect": [
+    1366,
+    326,
+    22,
+    35
+   ],
+   "roomIds": [],
+   "note": "Meeting room"
+  },
+  {
+   "id": "park-city",
+   "name": "Park City",
+   "floor": "hy3",
+   "kind": "session",
+   "rect": [
+    78,
+    635,
+    22,
+    46
+   ],
+   "roomIds": [
+    92006
+   ]
+  },
+  {
+   "id": "alta",
+   "name": "Alta",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    162,
+    616,
+    18,
+    31
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "snowbird",
+   "name": "Snowbird",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    180,
+    616,
+    18,
+    31
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "solitude",
+   "name": "Solitude",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    199,
+    616,
+    18,
+    31
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "brighton",
+   "name": "Brighton",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    218,
+    616,
+    18,
+    31
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "powder-mountain",
+   "name": "Powder Mountain",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    245,
+    616,
+    28,
+    16
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "snowbasin",
+   "name": "Snowbasin",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    284,
+    650,
+    23,
+    17
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "woodward",
+   "name": "Woodward",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    244,
+    665,
+    28,
+    16
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "deer-valley",
+   "name": "Deer Valley",
+   "floor": "hy3",
+   "kind": "meeting",
+   "rect": [
+    284,
+    668,
+    22,
+    13
+   ],
+   "roomIds": [],
+   "note": "Sponsor meeting room"
+  },
+  {
+   "id": "zion",
+   "name": "Zion · Prayer Room",
+   "floor": "hy5",
+   "kind": "quiet",
+   "rect": [
+    148,
+    332,
+    13,
+    14
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "bryce",
+   "name": "Bryce",
+   "floor": "hy5",
+   "kind": "meeting",
+   "rect": [
+    162,
+    332,
+    18,
+    14
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "canyonlands",
+   "name": "Canyonlands",
+   "floor": "hy5",
+   "kind": "meeting",
+   "rect": [
+    180,
+    332,
+    11,
+    29
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "arches",
+   "name": "Arches",
+   "floor": "hy5",
+   "kind": "meeting",
+   "rect": [
+    191,
+    332,
+    28,
+    29
+   ],
+   "roomIds": []
+  },
+  {
+   "id": "capitol-reef",
+   "name": "Capitol Reef",
+   "floor": "hy5",
+   "kind": "session",
+   "rect": [
+    220,
+    332,
+    19,
+    27
+   ],
+   "roomIds": [
+    88637
+   ]
   }
  ],
  "facilities": [
   {
    "name": "Quiet rooms",
    "where": "Salt Palace L2, 260 A/B",
-   "zone": "quiet-rooms"
+   "zone": "quiet-260a"
   },
   {
    "name": "Prayer room",
-   "where": "Hyatt L5, Zion"
+   "where": "Hyatt L5, Zion",
+   "zone": "zion"
   },
   {
    "name": "Mother's room",
@@ -620,12 +1545,33 @@
   },
   {
    "name": "Meal pick-up",
-   "where": "Salt Palace L1, Halls A\u2013C and Halls 1\u20135",
+   "where": "Salt Palace L1, Halls A–C and Halls 1–5",
    "zone": "halls-ac"
   },
   {
    "name": "First aid",
-   "where": "Salt Palace L1, by the North Foyer"
+   "where": "Salt Palace L1, Lower Mezzanine and by the North Foyer",
+   "zone": "lower-mezzanine"
+  },
+  {
+   "name": "Community Hub",
+   "where": "Salt Palace L1, Grand Ballroom J",
+   "zone": "gb-j"
+  },
+  {
+   "name": "Ambassador, Kubestronaut + Maintainer Lounge",
+   "where": "Hyatt L4, Broadcast Lounge",
+   "zone": "broadcast-lounge"
+  },
+  {
+   "name": "Speaker lounge",
+   "where": "Salt Palace L2, 253",
+   "zone": "room-253"
+  },
+  {
+   "name": "Media lounge",
+   "where": "Salt Palace L3, 355 D",
+   "zone": "room-355d"
   }
  ],
  "meals": [
@@ -649,10 +1595,7 @@
   }
  ],
  "excludedRoomIds": [
-  87503,
   88756,
-  88637,
-  92005,
-  92006
+  87503
  ]
 }
